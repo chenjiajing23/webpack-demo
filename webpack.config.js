@@ -1,14 +1,18 @@
 const path = require('path');
-console.log(path.resolve(__dirname, 'dist'))
-console.log(path.resolve(__dirname, '../../net'))
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: {
+    app: './src/index.js',
+    print: './src/print.js'
+  },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
+
   module: {
     rules: [
       {
@@ -37,5 +41,15 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      title: 'Output Management-3333',
+      template: path.resolve(__dirname, './src/templates/index.ejs'),
+      favicon: path.resolve(__dirname, './src/favicon/favicon.ico'),
+      inject: true
+    })
+  ],
 }
