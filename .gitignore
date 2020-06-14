@@ -1,0 +1,9 @@
+node_modules/*
+server/node_modules/*
+dist/*
+.idea/
+.cache/
+.vscode/
+package-lock.json
+.DS_Store
+*/.DS_Store
