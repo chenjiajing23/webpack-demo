@@ -1,5 +1,6 @@
 import './index.css'
-
+// @ts-ignore
+import Data from './data.xml';
 // @ts-ignore
 import icon from './assets/good.png'
 
@@ -11,6 +12,7 @@ function component() {
   let myIcon = new Image()
   myIcon.src = icon
   element.appendChild(myIcon);
+  console.log(Data)
 
   return element;
 }
