@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -35,6 +36,7 @@ module.exports = merge(common, {
   },
 
   plugins: [
+    new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
@@ -45,7 +47,9 @@ module.exports = merge(common, {
   ],
   optimization: {
     minimize: true,
-    minimizer: [new TerserJSPlugin({ sourceMap: true }), new OptimizeCSSAssetsPlugin({})],
+    minimizer: [new TerserJSPlugin({ sourceMap: true }),
+    new OptimizeCSSAssetsPlugin({})
+    ],
     splitChunks: {
       cacheGroups: {
         styles: {

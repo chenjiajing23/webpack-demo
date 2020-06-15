@@ -1,8 +1,7 @@
 const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const utils = require('./build/utils')
+const utils = require('./utils')
 
 module.exports = {
   entry: {
@@ -12,7 +11,7 @@ module.exports = {
   output: {
     filename: utils.assetsPath('js/[name].[hash]p.js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash]p.js'),
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '../dist'),
     publicPath: '',
   },
 
@@ -21,7 +20,7 @@ module.exports = {
       {
         test: /\.tsx?$/,
         use: 'ts-loader',
-        include: path.resolve(__dirname, "src"),
+        include: path.resolve(__dirname, "../src"),
         exclude: /node_modules/,
       },
       {
@@ -43,11 +42,10 @@ module.exports = {
   },
 
   plugins: [
-    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'production',
-      template: path.resolve(__dirname, './src/templates/index.ejs'),
-      favicon: path.resolve(__dirname, './src/favicon/favicon.ico'),
+      template: path.resolve(__dirname, '../src/templates/index.ejs'),
+      favicon: path.resolve(__dirname, '../src/favicon/favicon.ico'),
       inject: true
     })
   ],
