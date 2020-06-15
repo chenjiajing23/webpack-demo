@@ -1,11 +1,15 @@
+const os = require('os');
 const path = require('path');
+const HappyPack = require('happypack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length - 1 })
 
 const utils = require('./utils')
 
 module.exports = {
   entry: {
-    app: './src/index.ts'
+    app: './src/main/index.tsx'
   },
 
   output: {
@@ -15,13 +19,30 @@ module.exports = {
     publicPath: '',
   },
 
+  resolve: {
+    extensions: ['.js', '.ts', '.tsx', '.json'],
+    alias: {
+      '@': utils.resolve('src'),
+      '@store': utils.resolve('src/store'),
+      '@library': utils.resolve('src/library'),
+      '@modules': utils.resolve('src/modules'),
+      '@style': utils.resolve('src/style'),
+      '@components': utils.resolve('src/components')
+    }
+  },
+
   module: {
     rules: [
       {
+        test: /\.js$/,
+        use: ['happypack/loader?id=babel'],
+        exclude: /node_modules/
+      },
+      {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: 'happypack/loader?id=tsx',
         include: path.resolve(__dirname, "../src"),
-        exclude: /node_modules/,
+        exclude: /node_modules/
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
@@ -37,11 +58,29 @@ module.exports = {
       }
     ]
   },
-  resolve: {
-    extensions: ['.tsx', '.ts', '.js']
-  },
 
   plugins: [
+    new HappyPack({
+      id: 'tsx',
+      threadPool: happyThreadPool,
+      loaders: [
+        { loader: 'babel-loader' },
+        {
+          loader: 'ts-loader',
+          options: { transpileOnly: true, happyPackMode: true }
+        }
+      ]
+    }),
+    new HappyPack({
+      id: 'babel',
+      threadPool: happyThreadPool,
+      loaders: [
+        {
+          loader: 'babel-loader?cacheDirectory'
+        }
+      ]
+    }),
+    new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'production',
       template: path.resolve(__dirname, '../src/templates/index.ejs'),
