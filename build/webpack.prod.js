@@ -4,6 +4,7 @@ const common = require('./webpack.common.js');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+var CompressionWebpackPlugin = require('compression-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const utils = require('./utils')
@@ -41,13 +42,19 @@ module.exports = merge(common, {
         }
       }
     }),
-    new OptimizeCSSAssetsPlugin({})
+    new OptimizeCSSAssetsPlugin({}),
+    new CompressionWebpackPlugin({
+      compressionOptions: {
+        level: 9,
+      },
+      algorithm: 'gzip'
+    }),
     ],
     splitChunks: {
       cacheGroups: {
         styles: {
           name: 'styles',
-           test: /\.(c)ss$/,
+          test: /\.(c)ss$/,
           chunks: 'all',
           enforce: true,
         },
