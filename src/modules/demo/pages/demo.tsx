@@ -10,9 +10,10 @@ interface IProps {
 
 
 const Demo: FC<IProps> = (props: IProps) => (
-  <div className="demo" style={{ background: 'red' }}>
+  <div className="demo" style={{ background: 'gray' }}>
     <Button type="primary">{props.text}</Button>
     <img src={demeImage} alt="" />
+    <div className="cover" />
   </div>
 );
 
