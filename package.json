@@ -33,6 +33,7 @@
     "css-loader": "^3.6.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.21.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.20.0",
@@ -41,6 +42,7 @@
     "fork-ts-checker-webpack-plugin": "^5.0.0",
     "html-webpack-plugin": "^4.3.0",
     "http-server": "^0.12.3",
+    "less": "^3.11.3",
     "less-loader": "^6.1.1",
     "mini-css-extract-plugin": "^0.9.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
@@ -59,7 +61,6 @@
   },
   "dependencies": {
     "antd": "^4.3.4",
-    "less": "^3.11.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
@@ -70,7 +71,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "sh ./blockfieldlint.sh && npm run  eslint  && lint-staged",
+      "pre-commit": "sh ./blockfieldlint.sh && npm run eslint  && lint-staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
