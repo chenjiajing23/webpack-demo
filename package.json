@@ -19,21 +19,24 @@
   "devDependencies": {
     "@types/react": "^16.9.36",
     "@types/react-dom": "^16.9.8",
+    "antd-dayjs-webpack-plugin": "^1.0.0",
     "babel-loader": "^8.1.0",
+    "babel-plugin-import": "^1.13.0",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.6.0",
     "express": "^4.17.1",
-    "file-loader": "^6.0.0",
     "fork-ts-checker-webpack-plugin": "^5.0.0",
     "html-webpack-plugin": "^4.3.0",
     "http-server": "^0.12.3",
     "less-loader": "^6.1.1",
     "mini-css-extract-plugin": "^0.9.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "postcss-loader": "^3.0.0",
     "style-loader": "^1.2.1",
     "terser-webpack-plugin": "^3.0.4",
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.5",
+    "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-middleware": "^3.7.2",
@@ -41,6 +44,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "antd": "^4.3.4",
     "less": "^3.11.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"

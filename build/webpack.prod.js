@@ -1,13 +1,12 @@
-const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-
+const utils = require('./utils')
 
 module.exports = merge(common, {
   mode: 'production',
@@ -15,36 +14,21 @@ module.exports = merge(common, {
   devtool: 'source-map',
 
   output: {
-    publicPath: "http://cdn.example.com/"
+    publicPath: ""
   },
 
   module: {
-    rules: [
-      {
-        test: /\.(le|c)ss$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: '.',
-              hmr: false,
-            },
-          },
-          'css-loader',
-          'less-loader'
-        ],
-      },
-    ]
+    rules: [...utils.styleLoaders(true)]
   },
 
   plugins: [
     new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: utils.assetsPath('css/[name].[hash]p.css'),
+      chunkFilename: utils.assetsPath('css/[id].[chunkhash]p.css')
+    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
-    }),
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].[hash].css',
-      chunkFilename: 'css/[id].[hash].css',
     })
   ],
   optimization: {

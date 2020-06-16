@@ -1,7 +1,9 @@
-const os = require('os');
+
 const merge = require('webpack-merge');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const common = require('./webpack.common.js');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
+const utils = require('./utils');
 
 module.exports = merge(common, {
   mode: 'development',
@@ -10,20 +12,7 @@ module.exports = merge(common, {
 
   module: {
     rules: [
-      {
-        test: /\.(le|c)ss$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: '.',
-              hmr: true,
-            },
-          },
-          'css-loader',
-          'less-loader'
-        ],
-      },
+      ...utils.styleLoaders(false)
     ]
   },
 
@@ -35,8 +24,8 @@ module.exports = merge(common, {
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
-      chunkFilename: 'css/[id].css',
-    })
+      filename: utils.assetsPath('css/[name].[hash]p.css'),
+      chunkFilename: utils.assetsPath('css/[id].[chunkhash]p.css')
+    }),
   ]
 });

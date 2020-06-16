@@ -1,9 +1,11 @@
 const os = require('os');
 const path = require('path');
 const HappyPack = require('happypack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length - 1 })
+const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin')
 
 const utils = require('./utils')
 
@@ -45,15 +47,35 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
+        test: /\.(png|svg|jpe?g|gif)$/,
         use: [
-          'file-loader'
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 5000,
+              name: utils.assetsPath('img/[name].[contenthash].[ext]')
+            },
+          }
         ],
+      },
+      {
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 5000,
+          name: utils.assetsPath('media/[name].[contenthash].[ext]')
+        }
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         use: [
-          'file-loader'
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 5000,
+              name: utils.assetsPath('fonts/[name].[contenthash].[ext]')
+            },
+          }
         ]
       }
     ]
@@ -80,6 +102,7 @@ module.exports = {
         }
       ]
     }),
+    new AntdDayjsWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'production',
@@ -88,6 +111,7 @@ module.exports = {
       inject: true
     })
   ],
+
   optimization: {
     splitChunks: {
       chunks: "async",
