@@ -11,34 +11,32 @@ exports.assetsPath = function (pathname) {
 }
 
 exports.styleLoaders = function (isProd) {
-  var output = [
+  const output = [
     {
       test: /\.css$/,
       include: /node_modules/,
       use: [
-        {
+        isProd ? {
           loader: MiniCssExtractPlugin.loader,
           options: {
-            // 如果打包后，background属性中的图片显示不出来，请检查publicPath的配置是否有误
             publicPath: '../',
             hmr: isProd ? false : true
           },
-        },
+        } : 'style-loader',
         { loader: 'css-loader' }
       ]
     },
     {
-      test: /\.(le|c)ss$/,
+      test: /\.(css|less)$/,
       exclude: /node_modules/,
       use: [
-        { loader: 'style-loader' },
-        {
+        isProd ? {
           loader: MiniCssExtractPlugin.loader,
           options: {
             publicPath: '../',
             hmr: isProd ? false : true
           },
-        },
+        } : 'style-loader',
         {
           loader: 'css-loader',
           options: {
@@ -50,7 +48,7 @@ exports.styleLoaders = function (isProd) {
         { loader: 'postcss-loader' },
         { loader: 'less-loader' }
       ]
-    }
+    },
   ]
 
   return output

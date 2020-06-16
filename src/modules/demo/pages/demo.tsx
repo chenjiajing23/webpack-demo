@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { Button } from 'antd'
 
-import '../style/demo.less'
+import  '../style/demo.less'
 import demeImage from '../assets/good.png'
 
 interface IProps {

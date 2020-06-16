@@ -12,15 +12,15 @@
   ],
   "scripts": {
     "dev": "webpack-dev-server --config ./build/webpack.dev.js --progress",
-    "server": "node server.js",
     "build": "webpack --config build/webpack.prod.js --progress",
-    "start": "http-server dist -p 8080",
+    "server": "http-server dist -p 8080",
     "gc": "git-cz",
     "eslint": "eslint --ext .tsx,.ts --color --fix ./"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
+    "@types/classnames": "^2.2.10",
     "@types/react": "^16.9.36",
     "@types/react-dom": "^16.9.8",
     "@typescript-eslint/eslint-plugin": "^3.3.0",
@@ -39,7 +39,7 @@
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.4",
     "express": "^4.17.1",
-    "fork-ts-checker-webpack-plugin": "^5.0.0",
+    "fork-ts-checker-webpack-plugin": "^5.0.1",
     "html-webpack-plugin": "^4.3.0",
     "http-server": "^0.12.3",
     "husky": "^4.2.5",
@@ -53,7 +53,7 @@
     "style-loader": "^1.2.1",
     "stylelint": "^13.6.0",
     "stylelint-config-recommended": "^3.0.0",
-    "terser-webpack-plugin": "^3.0.4",
+    "terser-webpack-plugin": "^3.0.5",
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.5",
     "url-loader": "^4.1.0",
@@ -66,6 +66,7 @@
   "dependencies": {
     "antd": "^4.3.4",
     "babel-plugin-react-css-modules": "^5.2.6",
+    "classnames": "^2.2.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
