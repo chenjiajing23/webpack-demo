@@ -1,7 +1,6 @@
 const os = require('os');
 const path = require('path');
 const HappyPack = require('happypack');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length - 1 })

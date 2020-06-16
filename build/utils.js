@@ -31,6 +31,7 @@ exports.styleLoaders = function (isProd) {
       test: /\.(le|c)ss$/,
       exclude: /node_modules/,
       use: [
+        { loader: 'style-loader' },
         {
           loader: MiniCssExtractPlugin.loader,
           options: {
@@ -38,7 +39,15 @@ exports.styleLoaders = function (isProd) {
             hmr: isProd ? false : true
           },
         },
-        { loader: 'css-loader', },
+        {
+          loader: 'css-loader',
+          options: {
+            modules: {
+              localIdentName: '[path][name]__[local]--[hash:base64:5]',
+            },
+          }
+        },
+        { loader: 'postcss-loader' },
         { loader: 'less-loader' }
       ]
     }

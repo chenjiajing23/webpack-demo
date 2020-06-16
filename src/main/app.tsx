@@ -2,7 +2,7 @@ import React from "react";
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 
-import './../style/reset.less'
+import './../style/reset.css'
 import Demo from '@/modules/demo/pages/demo'
 
 interface IProps {
