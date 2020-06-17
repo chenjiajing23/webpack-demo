@@ -10,6 +10,7 @@
       {
         "generateScopedName": "[path]-[local]-[hash:base64:5]",
         "exclude": "node_modules",
+        "attributeNames":{"styleName": "className"},
         "handleMissingStyleName": "warn",
         "webpackHotModuleReloading": true,
         "filetypes": {
