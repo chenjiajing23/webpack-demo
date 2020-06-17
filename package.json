@@ -18,6 +18,8 @@
     "eslint": "eslint --ext .tsx,.ts --color --fix ./"
   },
   "devDependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.10.1",
+    "@babel/plugin-transform-runtime": "^7.10.1",
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
     "@types/classnames": "^2.2.10",

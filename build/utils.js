@@ -41,7 +41,7 @@ exports.styleLoaders = function (isProd) {
           loader: 'css-loader',
           options: {
             modules: {
-              localIdentName: '[path][name]__[local]--[hash:base64:5]',
+              localIdentName: '[path]___[name]__[local]___[hash:base64:5]',
             },
           }
         },

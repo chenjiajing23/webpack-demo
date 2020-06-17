@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "strict": true,
     "module": "esnext",
     "typeRoots": ["./src/types"],
@@ -9,7 +9,7 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "preserveConstEnums": true,
-    "jsx": "react",
+    "jsx": "preserve",
     "lib": ["dom", "es6"],
     "baseUrl": "./",
     "paths": {
