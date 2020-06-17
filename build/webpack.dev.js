@@ -1,3 +1,4 @@
+const path = require('path')
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 
@@ -15,9 +16,22 @@ module.exports = merge(common, {
   },
 
   devServer: {
-    contentBase: '../dist',
+    contentBase: path.resolve(__dirname, '../dist'),
     port: 8080,
     hot: true,
+    host:'0.0.0.0',
+    quiet: true,
+    compress: true,
+    noInfo: true,
+    historyApiFallback: true,
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:8080',
+    //     pathRewrite: { '^/api': '' },
+    //     secure: false,
+    //     changeOrigin: true
+    //   }
+    // }
   },
 
   plugins: []

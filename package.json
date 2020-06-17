@@ -11,7 +11,7 @@
     "*.less"
   ],
   "scripts": {
-    "dev": "webpack-dev-server --config ./build/webpack.dev.js --progress",
+    "dev": "webpack-dev-server --config ./build/webpack.dev.js",
     "build": "node ./build/prod-build.js",
     "server": "http-server dist -p 8080",
     "gc": "git-cz",

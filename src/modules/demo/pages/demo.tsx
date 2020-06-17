@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { Button } from 'antd'
 
-import  '../style/demo.less'
+import '../style/demo.less'
 import demeImage from '../assets/good.png'
 
 interface IProps {
@@ -10,7 +10,7 @@ interface IProps {
 
 
 const Demo: FC<IProps> = (props: IProps) => (
-  <div styleName="demo" style={{ background: 'gray' }}>
+  <div styleName="demo">
     <Button type="primary">{props.text}</Button>
     <img src={demeImage} alt="" />
     <div styleName="cover" />
