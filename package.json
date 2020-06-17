@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "dev": "webpack-dev-server --config ./build/webpack.dev.js --progress",
-    "build": "webpack --config build/webpack.prod.js --progress",
+    "build": "node ./build/prod-build.js",
     "server": "http-server dist -p 8080",
     "gc": "git-cz",
     "eslint": "eslint --ext .tsx,.ts --color --fix ./"
@@ -53,6 +53,7 @@
     "postcss-less": "^3.1.4",
     "postcss-loader": "^3.0.0",
     "prettier": "^2.0.5",
+    "progress-bar-webpack-plugin": "^2.1.0",
     "style-loader": "^1.2.1",
     "stylelint": "^13.6.0",
     "stylelint-config-recommended": "^3.0.0",

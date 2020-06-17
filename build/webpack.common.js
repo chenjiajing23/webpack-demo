@@ -2,6 +2,7 @@ const os = require('os');
 const path = require('path');
 const HappyPack = require('happypack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+var ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length - 1 })
 const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin')
@@ -81,6 +82,7 @@ module.exports = {
   },
 
   plugins: [
+    new ProgressBarPlugin(),
     new HappyPack({
       id: 'tsx',
       threadPool: happyThreadPool,
