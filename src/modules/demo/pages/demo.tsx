@@ -11,7 +11,7 @@ interface IProps {
 
 const Demo: FC<IProps> = (props: IProps) => (
   <div styleName="demo">
-    <Button type="primary">{props.text}</Button>
+    <Button type="primary">{props.text}我是你爸爸</Button>
     <img src={demeImage} alt="" />
     <div styleName="cover" />
   </div>

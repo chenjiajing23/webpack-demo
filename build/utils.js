@@ -47,7 +47,6 @@ exports.styleLoaders = function (isProd) {
           }
         },
         { loader: 'postcss-loader' },
-        // { loader: "thread-loader" },
         { loader: 'less-loader' }
       ]
     },
