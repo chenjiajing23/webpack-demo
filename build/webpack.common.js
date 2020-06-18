@@ -1,10 +1,8 @@
 const os = require('os');
 const path = require('path');
-const HappyPack = require('happypack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length - 1 })
 const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin')
 
 const utils = require('./utils')
@@ -37,42 +35,60 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: ['happypack/loader?id=babel'],
+        use: [
+          { loader: "thread-loader" },
+          {
+            loader: 'babel-loader?cacheDirectory'
+          }],
         exclude: /node_modules/
       },
       {
         test: /\.tsx?$/,
-        use: 'happypack/loader?id=tsx',
+        use: [
+          { loader: "thread-loader" },
+          {
+            loader: 'babel-loader'
+          },
+          {
+            loader: 'ts-loader',
+            options: { transpileOnly: true, happyPackMode: true }
+          }],
         include: path.resolve(__dirname, "../src"),
         exclude: /node_modules/
       },
       {
         test: /\.(png|svg|jpe?g|gif)$/,
         use: [
+          { loader: "thread-loader" },
           {
             loader: 'url-loader',
             options: {
-              limit: 5000,
+              limit: true,
               name: utils.assetsPath('img/[name].[contenthash].[ext]')
             },
           }
         ],
+        include: path.resolve(__dirname, "../src"),
+        exclude: /node_modules/
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-        loader: 'url-loader',
-        options: {
-          limit: 5000,
-          name: utils.assetsPath('media/[name].[contenthash].[ext]')
-        }
+        use: [
+          { loader: "thread-loader" },
+          {
+            loader: 'url-loader',
+            options: {
+              name: utils.assetsPath('media/[name].[contenthash].[ext]')
+            }
+          }],
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         use: [
+          { loader: "thread-loader" },
           {
             loader: 'url-loader',
             options: {
-              limit: 5000,
               name: utils.assetsPath('fonts/[name].[contenthash].[ext]')
             },
           }
@@ -83,26 +99,6 @@ module.exports = {
 
   plugins: [
     new ProgressBarPlugin(),
-    new HappyPack({
-      id: 'tsx',
-      threadPool: happyThreadPool,
-      loaders: [
-        { loader: 'babel-loader' },
-        {
-          loader: 'ts-loader',
-          options: { transpileOnly: true, happyPackMode: true }
-        }
-      ]
-    }),
-    new HappyPack({
-      id: 'babel',
-      threadPool: happyThreadPool,
-      loaders: [
-        {
-          loader: 'babel-loader?cacheDirectory'
-        }
-      ]
-    }),
     new AntdDayjsWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({

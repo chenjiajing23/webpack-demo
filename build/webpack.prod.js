@@ -35,6 +35,7 @@ module.exports = merge(common, {
   optimization: {
     minimize: true,
     minimizer: [new TerserJSPlugin({
+      parallel: true,
       sourceMap: true,
       terserOptions: {
         compress: {
@@ -54,7 +55,7 @@ module.exports = merge(common, {
       cacheGroups: {
         styles: {
           name: 'styles',
-          test: /\.(c)ss$/,
+          test: /\.(le|c)ss$/,
           chunks: 'all',
           enforce: true,
         },

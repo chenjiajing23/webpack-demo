@@ -23,6 +23,7 @@ exports.styleLoaders = function (isProd) {
             hmr: isProd ? false : true
           },
         } : 'style-loader',
+        { loader: "thread-loader" },
         { loader: 'css-loader' }
       ]
     },
@@ -46,6 +47,7 @@ exports.styleLoaders = function (isProd) {
           }
         },
         { loader: 'postcss-loader' },
+        // { loader: "thread-loader" },
         { loader: 'less-loader' }
       ]
     },
