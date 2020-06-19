@@ -1,6 +1,5 @@
-const os = require('os');
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 var ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin')
@@ -16,7 +15,7 @@ module.exports = {
     filename: utils.assetsPath('js/[name].[hash]p.js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash]p.js'),
     path: path.resolve(__dirname, '../dist'),
-    publicPath: '',
+    publicPath: ''
   },
 
   resolve: {
@@ -36,61 +35,64 @@ module.exports = {
       {
         test: /\.js$/,
         use: [
-          { loader: "thread-loader" },
+          { loader: 'thread-loader' },
           {
             loader: 'babel-loader?cacheDirectory'
-          }],
+          }
+        ],
         exclude: /node_modules/
       },
       {
         test: /\.tsx?$/,
         use: [
-          { loader: "thread-loader" },
+          { loader: 'thread-loader' },
           {
             loader: 'babel-loader'
           },
           {
             loader: 'ts-loader',
             options: { transpileOnly: true, happyPackMode: true }
-          }],
-        include: path.resolve(__dirname, "../src"),
+          }
+        ],
+        include: path.resolve(__dirname, '../src'),
         exclude: /node_modules/
       },
       {
         test: /\.(png|svg|jpe?g|gif)$/,
         use: [
-          { loader: "thread-loader" },
+          { loader: 'thread-loader' },
           {
             loader: 'url-loader',
             options: {
               limit: true,
               name: utils.assetsPath('img/[name].[contenthash].[ext]')
-            },
+            }
           }
         ],
-        include: path.resolve(__dirname, "../src"),
+        include: path.resolve(__dirname, '../src'),
         exclude: /node_modules/
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
         use: [
-          { loader: "thread-loader" },
+          { loader: 'thread-loader' },
           {
             loader: 'url-loader',
             options: {
               name: utils.assetsPath('media/[name].[contenthash].[ext]')
             }
-          }],
+          }
+        ]
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         use: [
-          { loader: "thread-loader" },
+          { loader: 'thread-loader' },
           {
             loader: 'url-loader',
             options: {
               name: utils.assetsPath('fonts/[name].[contenthash].[ext]')
-            },
+            }
           }
         ]
       }
@@ -102,7 +104,7 @@ module.exports = {
     new AntdDayjsWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'production',
+      title: 'webpack-demo',
       template: path.resolve(__dirname, '../src/templates/index.ejs'),
       favicon: path.resolve(__dirname, '../src/favicon/favicon.ico'),
       inject: true
@@ -111,7 +113,7 @@ module.exports = {
 
   optimization: {
     splitChunks: {
-      chunks: "async",
+      chunks: 'async',
       minSize: 30000,
       minChunks: 1,
       maxAsyncRequests: 5,
@@ -131,4 +133,4 @@ module.exports = {
       }
     }
   }
-};
+}
