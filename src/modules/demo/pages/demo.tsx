@@ -33,16 +33,19 @@ const Demo: FC<IProps> = (props: IProps) => {
 
   return (
     <div styleName="demo" className={classnames({ chenjiajing: isShow })}>
-      <h1>{count}</h1>
-      <Button type="primary" onClick={increment}>
-        +
-      </Button>
-      &nbsp; &nbsp; &nbsp;
-      <Button type="primary" onClick={decrement}>
-        -
-      </Button>
+      <div styleName="content">
+        <h1>{count}</h1>
+        <Button type="primary" onClick={increment}>
+          +
+        </Button>
+        &nbsp; &nbsp; &nbsp;
+        <Button type="primary" onClick={decrement}>
+          -
+        </Button>
+      </div>
       <img src={demeImage} alt="" />
       <div styleName="cover" />
+      <h3>good9999999</h3>
     </div>
   )
 }

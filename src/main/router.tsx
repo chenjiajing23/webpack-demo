@@ -1,6 +1,5 @@
 import React, { useEffect, useCallback, PropsWithChildren } from 'react'
 import { HashRouter, Redirect, Route, Switch, withRouter } from 'react-router-dom'
-import { hot } from 'react-hot-loader/root'
 
 import PageLoading from '@/components/page-loading'
 
@@ -62,4 +61,4 @@ const RouterComponent = () => (
   </HashRouter>
 )
 
-export default hot(RouterComponent)
+export default RouterComponent
