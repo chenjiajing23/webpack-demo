@@ -9,7 +9,6 @@ import { IDemoState } from '@/store/demo/type'
 import demeImage from '../assets/good.png'
 
 interface IProps {
-  text: string
   count: number
   setCommon: (payload: any) => void
 }

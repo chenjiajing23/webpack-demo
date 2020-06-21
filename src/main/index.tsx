@@ -1,6 +1,9 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { createHashHistory } from 'history'
 
-import App from "./app";
+window.router = createHashHistory()
 
-ReactDOM.render(<App />, document.getElementById("app"));
+import App from './app'
+
+ReactDOM.render(<App />, document.getElementById('app'))

@@ -5,7 +5,7 @@
     "module": "esnext",
     "typeRoots": ["./src/types"],
     "moduleResolution": "node",
-    "types": ["node"],
+    "types": ["node", "webpack-env"],
     "sourceMap": true,
     "noImplicitAny": true,
     "preserveConstEnums": true,

@@ -1,9 +1,11 @@
 {
   "presets": [["@babel/preset-env", { "targets": { "node": "current" } }]],
   "plugins": [
+    // "react-hot-loader/babel",
     "@babel/plugin-transform-react-jsx",
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-transform-runtime",
+    "@babel/plugin-proposal-optional-chaining",
     [
       "import",
       { "libraryName": "antd", "libraryDirectory": "lib", "style": "css" },

@@ -6,31 +6,20 @@ import { createStore, applyMiddleware } from 'redux'
 import promise from 'redux-promise-middleware'
 import thunk from 'redux-thunk'
 import zhCN from 'antd/es/locale/zh_CN'
+import { hot } from 'react-hot-loader/root'
 
 import './../style/reset.css'
-import Demo from '@/modules/demo/pages/demo'
 import reducers from '../store/reducers'
+import RouterComponent from './router'
 
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk, promise)))
 
-interface IProps {
-  [key: string]: any
-}
+const App = () => (
+  <ConfigProvider locale={zhCN}>
+    <Provider store={store}>
+      <RouterComponent />
+    </Provider>
+  </ConfigProvider>
+)
 
-interface IState {
-  [key: string]: any
-}
-
-export default class App extends React.Component<IProps, IState> {
-  render() {
-    return (
-      <ConfigProvider locale={zhCN}>
-        <Provider store={store}>
-          <section style={{ width: '100vw', height: '100vh' }}>
-            <Demo text="我是你大爷" />
-          </section>
-        </Provider>
-      </ConfigProvider>
-    )
-  }
-}
+export default hot(App)

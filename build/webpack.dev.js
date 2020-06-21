@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const merge = require('webpack-merge')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 const common = require('./webpack.common.js')
@@ -7,6 +8,16 @@ const utils = require('./utils')
 
 module.exports = merge(common, {
   mode: 'development',
+
+  entry: {
+    app: ['react-hot-loader/patch', './src/main/index.tsx']
+  },
+
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
+  },
 
   devtool: 'cheap-module-eval-source-map',
 
@@ -19,7 +30,10 @@ module.exports = merge(common, {
     port: 8080,
     hot: true,
     host: '0.0.0.0',
-    // quiet: true,
+    quiet: false,
+    overlay: {
+      errors: true
+    },
     compress: true,
     noInfo: true,
     historyApiFallback: true
@@ -34,6 +48,7 @@ module.exports = merge(common, {
   },
 
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new BundleAnalyzerPlugin.BundleAnalyzerPlugin({
       openAnalyzer: false,
       analyzerPort: 'auto'
