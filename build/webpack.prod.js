@@ -28,7 +28,38 @@ module.exports = merge(common, {
   },
 
   module: {
-    rules: [...utils.styleLoaders(true)]
+    rules: [
+      ...utils.styleLoaders(true)
+      // {
+      //   test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+      //   use: [
+      //     {
+      //       loader: 'image-webpack-loader',
+      //       options: {
+      //         mozjpeg: {
+      //           progressive: true,
+      //           quality: 65
+      //         },
+      //         optipng: {
+      //           enabled: false
+      //         },
+      //         pngquant: {
+      //           quality: [0.65, 0.9],
+      //           speed: 4
+      //         },
+      //         gifsicle: {
+      //           interlaced: false
+      //         },
+      //         webp: {
+      //           quality: 75
+      //         }
+      //       }
+      //     }
+      //   ],
+      //   include: path.resolve(__dirname, '../src'),
+      //   exclude: /node_modules/
+      // }
+    ]
   },
 
   plugins: [
@@ -36,8 +67,10 @@ module.exports = merge(common, {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
-    // new HardSourceWebpackPlugin(),
-    // new HardSourceWebpackPlugin.ExcludeModulePlugin([{ test: /mini-css-extract-plugin[\\/]dist[\\/]loader/, }]),
+    new HardSourceWebpackPlugin(),
+    new HardSourceWebpackPlugin.ExcludeModulePlugin([
+      { test: /mini-css-extract-plugin[\\/]dist[\\/]loader/ }
+    ]),
     new MiniCssExtractPlugin({
       filename: utils.assetsPath('css/[name].[hash]p.css'),
       chunkFilename: utils.assetsPath('css/[id].[chunkhash]p.css')
