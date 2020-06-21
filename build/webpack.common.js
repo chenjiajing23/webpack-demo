@@ -19,7 +19,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.js', '.ts', '.tsx', '.json'],
+    extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {
       '@': utils.resolve('src'),
       '@store': utils.resolve('src/store'),
@@ -37,10 +37,14 @@ module.exports = {
         use: [
           { loader: 'thread-loader' },
           {
-            loader: 'babel-loader?cacheDirectory'
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true
+            }
           }
         ],
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        include: path.resolve(__dirname, '../src')
       },
       {
         test: /\.tsx?$/,
@@ -58,14 +62,35 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|svg|jpe?g|gif)$/,
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         use: [
-          { loader: 'thread-loader' },
           {
             loader: 'url-loader',
             options: {
-              limit: true,
+              limit: 10000,
               name: utils.assetsPath('img/[name].[contenthash].[ext]')
+            }
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                progressive: true,
+                quality: 65
+              },
+              optipng: {
+                enabled: false
+              },
+              pngquant: {
+                quality: [0.65, 0.9],
+                speed: 4
+              },
+              gifsicle: {
+                interlaced: false
+              },
+              webp: {
+                quality: 75
+              }
             }
           }
         ],
@@ -82,7 +107,9 @@ module.exports = {
               name: utils.assetsPath('media/[name].[contenthash].[ext]')
             }
           }
-        ]
+        ],
+        include: path.resolve(__dirname, '../src'),
+        exclude: /node_modules/
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
@@ -94,7 +121,9 @@ module.exports = {
               name: utils.assetsPath('fonts/[name].[contenthash].[ext]')
             }
           }
-        ]
+        ],
+        include: path.resolve(__dirname, '../src'),
+        exclude: /node_modules/
       }
     ]
   },

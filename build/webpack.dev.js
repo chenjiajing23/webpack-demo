@@ -1,9 +1,9 @@
 const path = require('path')
-const merge = require('webpack-merge');
+const merge = require('webpack-merge')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-const common = require('./webpack.common.js');
+const common = require('./webpack.common.js')
 
-const utils = require('./utils');
+const utils = require('./utils')
 
 module.exports = merge(common, {
   mode: 'development',
@@ -11,9 +11,7 @@ module.exports = merge(common, {
   devtool: 'cheap-module-eval-source-map',
 
   module: {
-    rules: [
-      ...utils.styleLoaders(false)
-    ]
+    rules: [...utils.styleLoaders(false)]
   },
 
   devServer: {
@@ -21,10 +19,10 @@ module.exports = merge(common, {
     port: 8080,
     hot: true,
     host: '0.0.0.0',
-    quiet: true,
+    // quiet: true,
     compress: true,
     noInfo: true,
-    historyApiFallback: true,
+    historyApiFallback: true
     // proxy: {
     //   '/api': {
     //     target: 'http://localhost:8080',
@@ -41,4 +39,4 @@ module.exports = merge(common, {
       analyzerPort: 'auto'
     })
   ]
-});
+})

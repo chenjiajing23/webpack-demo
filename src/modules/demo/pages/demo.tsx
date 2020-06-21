@@ -1,6 +1,7 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { connect } from 'react-redux'
 import { Button } from 'antd'
+import classnames from 'classnames'
 
 import '../style/demo.less'
 import { setCommon } from '@/store/demo/action'
@@ -15,20 +16,24 @@ interface IProps {
 
 const Demo: FC<IProps> = (props: IProps) => {
   const { count, setCommon } = props
+  const [isShow, setShow] = useState(false)
+
   const increment = () => {
     setCommon({
       count: count + 1
     })
+    setShow(!isShow)
   }
 
   const decrement = () => {
     setCommon({
       count: count - 1
     })
+    setShow(!isShow)
   }
 
   return (
-    <div styleName="demo">
+    <div styleName="demo" className={classnames({ chenjiajing: isShow })}>
       <h1>{count}</h1>
       <Button type="primary" onClick={increment}>
         +

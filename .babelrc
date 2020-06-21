@@ -1,6 +1,8 @@
 {
+  "presets": [["@babel/preset-env", { "targets": { "node": "current" } }]],
   "plugins": [
     "@babel/plugin-transform-react-jsx",
+    "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-transform-runtime",
     [
       "import",
@@ -12,7 +14,7 @@
       {
         "generateScopedName": "[path]___[name]__[local]___[hash:base64:5]",
         "exclude": "node_modules",
-        "attributeNames":{"styleName": "className"},
+        "attributeNames": { "styleName": "className" },
         "handleMissingStyleName": "warn",
         "webpackHotModuleReloading": true,
         "filetypes": {
@@ -22,5 +24,6 @@
         }
       }
     ]
-  ]
+  ],
+  "ignore": ["node_modules/**"]
 }
