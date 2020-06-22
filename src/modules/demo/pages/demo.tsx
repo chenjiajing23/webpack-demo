@@ -21,7 +21,7 @@ const Demo: FC<IProps> = (props: IProps) => {
     setCommon({
       count: count + 1
     })
-    setShow(!isShow)
+    // setShow(!isShow)
   }
 
   const decrement = () => {
@@ -29,6 +29,9 @@ const Demo: FC<IProps> = (props: IProps) => {
       count: count - 1
     })
     setShow(!isShow)
+  }
+  if (count === 5) {
+    throw new Error('测试错误边界！')
   }
 
   return (

@@ -2,6 +2,7 @@ import React, { useEffect, useCallback, PropsWithChildren } from 'react'
 import { HashRouter, Redirect, Route, Switch, withRouter } from 'react-router-dom'
 
 import PageLoading from '@/components/page-loading'
+import ErrorBoundary from '@/components/error-boundary/ErrorBoundary'
 
 let routes: any[] = []
 
@@ -33,23 +34,25 @@ const SwitchRouterComponent = (props: PropsWithChildren<{ [key: string]: any }>)
   }, [onHandleRoute])
 
   return (
-    <React.Suspense fallback={<PageLoading />}>
-      <Switch>
-        {routes.map((route, index) =>
-          route.redirect ? (
-            <Redirect exact key={index} from={route.path} to={route.redirect} />
-          ) : (
-            <Route
-              key={index}
-              path={route.path}
-              exact={route.exact}
-              component={route.component}
-            />
-          )
-        )}
-        {/* <Redirect from="/" to="/" /> */}
-      </Switch>
-    </React.Suspense>
+    <ErrorBoundary>
+      <React.Suspense fallback={<PageLoading />}>
+        <Switch>
+          {routes.map((route, index) =>
+            route.redirect ? (
+              <Redirect exact key={index} from={route.path} to={route.redirect} />
+            ) : (
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                component={route.component}
+              />
+            )
+          )}
+          {/* <Redirect from="/" to="/" /> */}
+        </Switch>
+      </React.Suspense>
+    </ErrorBoundary>
   )
 }
 
