@@ -4,7 +4,14 @@ import { HashRouter, Redirect, Route, Switch, withRouter } from 'react-router-do
 import PageLoading from '@/components/page-loading'
 import ErrorBoundary from '@/components/error-boundary/ErrorBoundary'
 
-let routes: any[] = []
+export interface IRouteInfo {
+  exact?: boolean
+  path: string
+  redirect?: string
+  component?: () => JSX.Element
+}
+
+let routes: IRouteInfo[] = []
 
 try {
   const context = require.context(`../modules`, true, /.*\/routes\.tsx?$/)

@@ -1,6 +1,6 @@
-import { IState } from './type'
+import { IDemoState } from './type'
 
-const initialState: IState = {
+const initialState: IDemoState = {
   count: 0
 }
 

@@ -1,8 +1,8 @@
 // 所有数据
-export interface IState {
+export interface IDemoState {
   count: number
 }
 
-export interface IDemoState {
-  demo: IState
+export interface IWrapDemoState {
+  demo: IDemoState
 }

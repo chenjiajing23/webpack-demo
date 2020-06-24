@@ -29,14 +29,14 @@ module.exports = merge(common, {
     contentBase: path.resolve(__dirname, '../dist'),
     port: 8080,
     hot: true,
-    host: '0.0.0.0',
+    host: 'localhost',
     // public: 'local.test.baidu.com:8080', // 需要带上端口
     // writeToDisk: true, // 文件形式输出 dev-server 代码
     compress: true, // 一切服务都启用gzip 压缩
     disableHostCheck: true, // true：不进行host检查
-    quiet: false,
+    quiet: true,
+    // 设置控制台的提示信息
     stats: {
-      // 设置控制台的提示信息
       chunks: false,
       children: false,
       modules: false,
@@ -50,7 +50,7 @@ module.exports = merge(common, {
     overlay: {
       errors: true
     },
-    noInfo: true,
+    noInfo: false,
     historyApiFallback: true
     // 接口代理（这段配置更推荐：写到package.json，再引入到这里）
     // proxy: {

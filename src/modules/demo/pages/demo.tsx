@@ -5,12 +5,12 @@ import classnames from 'classnames'
 
 import '../style/demo.less'
 import { setCommon } from '@/store/demo/action'
-import { IDemoState } from '@/store/demo/type'
+import { IWrapDemoState, IDemoState } from '@/store/demo/type'
 import demeImage from '../assets/good.png'
 
 interface IProps {
   count: number
-  setCommon: (payload: any) => void
+  setCommon: (payload: Partial<IDemoState>) => void
 }
 
 const Demo: FC<IProps> = (props: IProps) => {
@@ -18,10 +18,8 @@ const Demo: FC<IProps> = (props: IProps) => {
   const [isShow, setShow] = useState(false)
 
   const increment = () => {
-    setCommon({
-      count: count + 1
-    })
-    // setShow(!isShow)
+    setCommon({ count: count + 1 })
+    setShow(!isShow)
   }
 
   const decrement = () => {
@@ -53,12 +51,12 @@ const Demo: FC<IProps> = (props: IProps) => {
   )
 }
 
-const mapStateToProps = (state: IDemoState) => ({
+const mapStateToProps = (state: IWrapDemoState) => ({
   count: state.demo.count
 })
 
 const mapDispatchToProps = (dispatch: any) => ({
-  setCommon: (payload: any) => dispatch(setCommon(payload))
+  setCommon: (payload: Partial<IDemoState>) => dispatch(setCommon(payload))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Demo)
