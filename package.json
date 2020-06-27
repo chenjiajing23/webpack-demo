@@ -13,9 +13,9 @@
   "scripts": {
     "dev": "webpack-dev-server  --config ./build/webpack.dev.js",
     "build": "node ./build/prod-build.js",
-    "server": "http-server dist -p 8080",
-    "gc": "git-cz",
-    "eslint": "eslint src --ext .tsx,.ts --color --fix"
+    "server": "node ./server/bin/index.js",
+    "eslint": "eslint src --ext .tsx,.ts --color --fix",
+    "gc": "git-cz"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
@@ -28,7 +28,7 @@
     "@commitlint/config-conventional": "^9.0.1",
     "@hot-loader/react-dom": "^16.13.0",
     "@types/classnames": "^2.2.10",
-    "@types/react": "^16.9.39",
+    "@types/react": "^16.9.41",
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
@@ -45,13 +45,12 @@
     "eslint": "^7.3.1",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.4",
-    "fork-ts-checker-webpack-plugin": "^5.0.4",
+    "fork-ts-checker-webpack-plugin": "^5.0.5",
     "hard-source-webpack-plugin": "^0.13.1",
     "html-webpack-plugin": "^4.3.0",
-    "http-server": "^0.12.3",
     "husky": "^4.2.5",
     "less": "^3.11.3",
     "less-loader": "^6.1.2",

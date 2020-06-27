@@ -1,4 +1,5 @@
 import React, { Component, ErrorInfo } from 'react'
+import { Button } from 'antd'
 
 import './error-boundary.less'
 
@@ -12,7 +13,13 @@ interface IState {
 }
 
 class ErrorBoundary extends Component<IProps, IState> {
-  state = { error: null, errorInfo: null }
+  constructor(props: IProps) {
+    super(props)
+    this.state = {
+      error: null,
+      errorInfo: null
+    }
+  }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({
@@ -22,16 +29,25 @@ class ErrorBoundary extends Component<IProps, IState> {
     console.error(error, errorInfo)
   }
 
+  onReload = () => {
+    window.location.reload()
+  }
+
   render() {
     const { error, errorInfo } = this.state
 
     return errorInfo ? (
       <section styleName="component-error-boundary">
-        <h2 styleName="title">Something went wrong ~~~ ^··^</h2>
+        <div styleName="info">
+          <h2 styleName="title">Something went wrong ~~~ ^··^</h2>
+          <Button type="primary" danger onClick={this.onReload}>
+            重新加载
+          </Button>
+        </div>
         <details styleName="detail">
-          {error && ((error as unknown) as Error).toString()}
+          {error && error.toString()}
           <br />
-          {errorInfo && ((errorInfo as unknown) as ErrorInfo).componentStack}
+          {errorInfo && errorInfo.componentStack}
         </details>
       </section>
     ) : (

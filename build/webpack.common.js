@@ -111,7 +111,7 @@ module.exports = {
     new AntdDayjsWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'webpack-demo',
+      title: 'react-template-pc',
       template: path.resolve(__dirname, '../src/templates/index.ejs'),
       favicon: path.resolve(__dirname, '../src/favicon/favicon.ico'),
       inject: true

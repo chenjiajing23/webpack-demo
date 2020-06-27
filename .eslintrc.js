@@ -180,7 +180,7 @@ module.exports = {
         checkAliases: true
       }
     ],
-    'react/state-in-constructor': ['error', 'never'],
+    'react/state-in-constructor': 'off',
     'react/jsx-uses-vars': 'error',
     'react/jsx-pascal-case': 'error',
     'react/jsx-no-useless-fragment': 'error',
