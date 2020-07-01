@@ -1,0 +1,37 @@
+sudo: false
+
+language: node_js
+
+node_js:
+  - "stable"
+
+branches:
+  only:
+    - master
+
+cache:
+  directories:
+    - node_modules
+
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s
+  - export PATH="$HOME/.yarn/bin:$PATH"
+
+install:
+  yarn install
+
+script:
+  - yarn run build
+
+# after_script:
+#   - git clone https://${GH_REF} .temp
+#   - cd .temp
+#   - git checkout gh-pages
+#   - cd ../
+#   - mv .temp/.git dist
+#   - cd dist
+#   - git config user.name "${U_NAME}"
+#   - git config user.email "${U_EMAIL}"
+#   - git add .
+#   - git commit -m ":construction_worker:- Build & Deploy by Travis CI"
+#   - git push --force --quiet "https://${travis_token}"
