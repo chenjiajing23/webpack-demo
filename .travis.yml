@@ -29,19 +29,6 @@ deploy:
   local_dir: dist
   github_token: $travis_token
   keep_history: true
-  # repo: https://chenjiajing23.github.io/react-template-pc
   target_branch: gh-pages
   on:
     branch: master
-# after_script:
-#   - git clone https://${GH_REF} .temp
-#   - cd .temp
-#   - git checkout gh-pages
-#   - cd ../
-#   - mv .temp/.git dist
-#   - cd dist
-#   - git config user.name "${U_NAME}"
-#   - git config user.email "${U_EMAIL}"
-#   - git add .
-#   - git commit -m ":construction_worker:- Build & Deploy by Travis CI"
-#   - git push --force --quiet "https://${travis_token}"
