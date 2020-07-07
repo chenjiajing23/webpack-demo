@@ -20,8 +20,19 @@ before_install:
 install:
   - yarn install
 
-script:
-  - yarn  deploy
+# script:
+#   - yarn  deploy
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local-dir : dist
+  github_token: $travis_token
+  keep_history: true
+  repo: https://chenjiajing23.github.io/react-template-pc
+  target_branch: gh-pages
+  on:
+    branch: master
 # after_script:
 #   - git clone https://${GH_REF} .temp
 #   - cd .temp
