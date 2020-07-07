@@ -18,7 +18,7 @@
     "eslint": "eslint src --ext .tsx,.ts --color --fix",
     "gc": "git-cz",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",
