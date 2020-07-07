@@ -1,0 +1,27 @@
+@color-loader: #ce4233;
+
+.component-error-boundary {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 200px 50px 50px 50px;
+
+  .info {
+    display: flex;
+    align-items: center;
+
+    .title {
+      font-size: 30px;
+      font-weight: 500;
+      color: @color-loader;
+      margin-right: 10px;
+    }
+  }
+
+  .detail {
+    width: 400px;
+    white-space: 'pre-wrap';
+  }
+}
