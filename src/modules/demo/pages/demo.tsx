@@ -47,7 +47,7 @@ const Demo: FC<IProps> = (props: IProps) => {
       <img src={demeImage} alt="" />
       <div styleName="cover" />
       <hr />
-      <h3>a good day - goodnight</h3>
+      <h3>TEST-WEBHOOKS</h3>
     </div>
   )
 }
