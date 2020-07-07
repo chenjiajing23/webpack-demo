@@ -26,7 +26,7 @@ script:
 deploy:
   provider: pages
   skip_cleanup: true
-  local_dir: dist
+  # local_dir: dist
   github_token: $travis_token
   keep_history: true
   # target_branch: gh-pages
