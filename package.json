@@ -50,9 +50,9 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-react": "^7.20.3",
-    "eslint-plugin-react-hooks": "^4.0.5",
+    "eslint-plugin-react-hooks": "^4.0.6",
     "file-loader": "^6.0.0",
-    "fork-ts-checker-webpack-plugin": "^5.0.6",
+    "fork-ts-checker-webpack-plugin": "^5.0.7",
     "hard-source-webpack-plugin": "^0.13.1",
     "html-webpack-plugin": "^4.3.0",
     "husky": "^4.2.5",
@@ -80,7 +80,7 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-middleware": "^3.7.2",
     "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^5.0.7"
+    "webpack-merge": "^5.0.8"
   },
   "dependencies": {
     "@types/webpack-env": "^1.15.2",
