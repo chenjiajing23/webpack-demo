@@ -1,7 +1,7 @@
 {
-  "name": "webpack-demo",
+  "name": "react-template-pc",
   "version": "1.0.0",
-  "description": "a webpack-demo project",
+  "description": "a react-template-pc project",
   "homepage": "https://chenjiajing23.github.io/react-template-pc",
   "private": true,
   "keywords": [],
