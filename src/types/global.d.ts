@@ -1,7 +1,7 @@
-import { HashHistory, State } from 'history'
+import { History } from 'history'
 
 declare global {
   interface Window {
-    router: HashHistory<State>
+    router: History<History.PoorMansUnknown>
   }
 }
