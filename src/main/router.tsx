@@ -44,12 +44,17 @@ const SwitchRouterComponent = (props: PropsWithChildren<{ [key: string]: any }>)
     <ErrorBoundary>
       <React.Suspense fallback={<PageLoading />}>
         <Switch>
-          {routes.map((route, index) =>
+          {routes.map(route =>
             route.redirect ? (
-              <Redirect exact key={index} from={route.path} to={route.redirect} />
+              <Redirect
+                exact={route.exact}
+                key={route.redirect}
+                from={route.path}
+                to={route.redirect}
+              />
             ) : (
               <Route
-                key={index}
+                key={route.path}
                 path={route.path}
                 exact={route.exact}
                 component={route.component}

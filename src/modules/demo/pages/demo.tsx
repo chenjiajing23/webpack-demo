@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { PropsWithChildren, useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Button } from 'antd'
 import classnames from 'classnames'
@@ -7,15 +7,20 @@ import '../style/demo.less'
 import { setCommon } from '@/store/demo/action'
 import { IWrapDemoState, IDemoState } from '@/store/demo/type'
 import demeImage from '../assets/good.png'
+import { RouteComponentProps } from 'react-router-dom'
 
 interface IProps {
   count: number
   setCommon: (payload: Partial<IDemoState>) => void
 }
 
-const Demo: FC<IProps> = (props: IProps) => {
+const Demo = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   const { count, setCommon } = props
   const [isShow, setShow] = useState(false)
+
+  useEffect(() => {
+    console.log('demo:', window.router.location)
+  }, [])
 
   const increment = () => {
     setCommon({ count: count + 1 })
@@ -30,6 +35,13 @@ const Demo: FC<IProps> = (props: IProps) => {
   }
   if (count === 5) {
     throw new Error('测试错误边界！')
+  }
+
+  const onNextPage = () => {
+    window.router.push({
+      pathname: '/demo-2',
+      state: { name: window.router.location.pathname }
+    })
   }
 
   return (
@@ -47,7 +59,9 @@ const Demo: FC<IProps> = (props: IProps) => {
       <img src={demeImage} alt="" />
       <div styleName="cover" />
       <hr />
-      <h3>TEST-WEBHOOKS</h3>
+      <Button type="primary" onClick={onNextPage}>
+        到DEMO-2
+      </Button>
     </div>
   )
 }
