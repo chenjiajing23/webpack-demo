@@ -2,13 +2,13 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { IRouteInfo } from '@/main/router'
 
-const Demo = withRouter(React.lazy(() => import('./pages/Demo')))
+const Demo1 = withRouter(React.lazy(() => import('./pages/Demo-1')))
 
 const routeList: IRouteInfo[] = [
   {
     path: '/demo',
     exact: false,
-    component: () => <Demo />
+    component: () => <Demo1 />
   }
 ]
 

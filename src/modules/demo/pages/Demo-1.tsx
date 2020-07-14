@@ -14,7 +14,7 @@ interface IProps {
   setCommon: (payload: Partial<IDemoState>) => void
 }
 
-const Demo = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
+const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   const { count, setCommon } = props
   const [isShow, setShow] = useState(false)
 
@@ -74,4 +74,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   setCommon: (payload: Partial<IDemoState>) => dispatch(setCommon(payload))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Demo)
+export default connect(mapStateToProps, mapDispatchToProps)(Demo1)
