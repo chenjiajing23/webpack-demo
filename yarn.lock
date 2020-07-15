@@ -4569,10 +4569,10 @@ gonzales-pe@^4.3.0:
   dependencies:
     minimist "^1.2.5"
 
-good-mock@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.npm.taobao.org/good-mock/download/good-mock-0.0.3.tgz#11454b3dda0f1c8e366b77f72de908c878059291"
-  integrity sha1-EUVLPdoPHI42a3f3LekIyHgFkpE=
+good-mock@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.npm.taobao.org/good-mock/download/good-mock-0.0.4.tgz?cache=0&sync_timestamp=1594827961694&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fgood-mock%2Fdownload%2Fgood-mock-0.0.4.tgz#071397a9313a6ebaf9a64790eb0b08f6b84263eb"
+  integrity sha1-BxOXqTE6brr5pkeQ6wsI9rhCY+s=
   dependencies:
     express "^4.17.1"
     get-port "^5.1.1"

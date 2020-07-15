@@ -54,7 +54,7 @@
     "eslint-plugin-react-hooks": "^4.0.8",
     "file-loader": "^6.0.0",
     "fork-ts-checker-webpack-plugin": "^5.0.7",
-    "good-mock": "^0.0.3",
+    "good-mock": "^0.0.4",
     "hard-source-webpack-plugin": "^0.13.1",
     "html-webpack-plugin": "^4.3.0",
     "husky": "^4.2.5",
