@@ -14,6 +14,7 @@
   "scripts": {
     "dev": "webpack-dev-server  --config ./build/webpack.dev.js",
     "build": "node ./build/prod-build.js",
+    "mock": "node ./mock/index.js",
     "server": "node ./server/bin/index.js",
     "eslint": "eslint src --ext .tsx,.ts --color --fix",
     "gc": "git-cz",
@@ -53,6 +54,7 @@
     "eslint-plugin-react-hooks": "^4.0.8",
     "file-loader": "^6.0.0",
     "fork-ts-checker-webpack-plugin": "^5.0.7",
+    "good-mock": "^0.0.3",
     "hard-source-webpack-plugin": "^0.13.1",
     "html-webpack-plugin": "^4.3.0",
     "husky": "^4.2.5",
@@ -85,6 +87,7 @@
   "dependencies": {
     "@types/webpack-env": "^1.15.2",
     "antd": "^4.4.2",
+    "axios": "^0.19.2",
     "babel-plugin-react-css-modules": "^5.2.6",
     "classnames": "^2.2.6",
     "gh-pages": "^3.1.0",

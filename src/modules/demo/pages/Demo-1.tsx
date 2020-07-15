@@ -4,9 +4,10 @@ import { Button } from 'antd'
 import classnames from 'classnames'
 
 import '../style/demo.less'
+import { getUserInfo } from '../apis'
+import demeImage from '../assets/good.png'
 import { setCommon } from '@/store/demo/action'
 import { IWrapDemoState, IDemoState } from '@/store/demo/type'
-import demeImage from '../assets/good.png'
 import { RouteComponentProps } from 'react-router-dom'
 
 interface IProps {
@@ -19,7 +20,9 @@ const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   const [isShow, setShow] = useState(false)
 
   useEffect(() => {
-    console.log('demo:', window.router.location)
+    void getUserInfo().then(res => {
+      console.log(res)
+    })
   }, [])
 
   const increment = () => {
