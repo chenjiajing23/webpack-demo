@@ -22,5 +22,5 @@ npm run dev
 - [x] less 模块化支持
 - [x] webpack 缓存功能
 - [ ] apis 多 api 功能
-- [ ] mock 数据
+- [x] mock 数据
 - [ ] upload 上传到 cdn 功能
