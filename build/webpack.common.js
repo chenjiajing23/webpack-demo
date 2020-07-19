@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 var ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin')
+const WebpackBuildNotifierPlugin = require('webpack-build-notifier')
 
 const utils = require('./utils')
 
@@ -115,6 +116,11 @@ module.exports = {
       template: path.resolve(__dirname, '../src/templates/index.ejs'),
       favicon: path.resolve(__dirname, '../src/favicon/favicon.ico'),
       inject: true
+    }),
+    new WebpackBuildNotifierPlugin({
+      title: 'My Project Webpack Build',
+      logo: path.resolve(__dirname, '../src/favicon/favicon.ico'),
+      suppressSuccess: true
     })
   ],
 
