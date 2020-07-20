@@ -31,7 +31,7 @@
     insert-css "^2.0.0"
     rc-util "^5.0.1"
 
-"@ant-design/react-slick@~0.26.1":
+"@ant-design/react-slick@~0.26.3":
   version "0.26.3"
   resolved "https://registry.npm.taobao.org/@ant-design/react-slick/download/@ant-design/react-slick-0.26.3.tgz?cache=0&sync_timestamp=1594620740008&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40ant-design%2Freact-slick%2Fdownload%2F%40ant-design%2Freact-slick-0.26.3.tgz#5ebdd0cc327ed1a92c0c69e4599efa00834a6ca8"
   integrity sha1-Xr3QzDJ+0aksDGnkWZ76AINKbKg=
@@ -1684,14 +1684,14 @@ antd-dayjs-webpack-plugin@^1.0.0:
   dependencies:
     dayjs "*"
 
-antd@^4.4.2:
-  version "4.4.2"
-  resolved "https://registry.npm.taobao.org/antd/download/antd-4.4.2.tgz?cache=0&sync_timestamp=1594457394307&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fantd%2Fdownload%2Fantd-4.4.2.tgz#0b55c0ecf1eec3ffc03c4351e787add3be2de664"
-  integrity sha1-C1XA7PHuw//APENR54et074t5mQ=
+antd@^4.4.3:
+  version "4.4.3"
+  resolved "https://registry.npm.taobao.org/antd/download/antd-4.4.3.tgz?cache=0&sync_timestamp=1595240072977&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fantd%2Fdownload%2Fantd-4.4.3.tgz#338f724df733f5a9debb6f63ddfef2e2360d916c"
+  integrity sha1-M49yTfcz9aneu29j3f7y4jYNkWw=
   dependencies:
     "@ant-design/css-animation" "^1.7.2"
     "@ant-design/icons" "^4.2.1"
-    "@ant-design/react-slick" "~0.26.1"
+    "@ant-design/react-slick" "~0.26.3"
     "@babel/runtime" "^7.10.4"
     array-tree-filter "^2.1.0"
     classnames "^2.2.6"
@@ -1708,7 +1708,7 @@ antd@^4.4.2:
     rc-drawer "~4.1.0"
     rc-dropdown "~3.1.2"
     rc-field-form "~1.5.0"
-    rc-input-number "~5.1.0"
+    rc-input-number "~5.1.1"
     rc-mentions "~1.4.0"
     rc-menu "~8.5.0"
     rc-notification "~4.4.0"
@@ -8995,10 +8995,10 @@ rc-field-form@~1.5.0:
     async-validator "^3.0.3"
     rc-util "^5.0.0"
 
-rc-input-number@~5.1.0:
-  version "5.1.0"
-  resolved "https://registry.npm.taobao.org/rc-input-number/download/rc-input-number-5.1.0.tgz#64da7d8c24ad0c5603d32faba22fd25733d6f96a"
-  integrity sha1-ZNp9jCStDFYD0y+roi/SVzPW+Wo=
+rc-input-number@~5.1.1:
+  version "5.1.1"
+  resolved "https://registry.npm.taobao.org/rc-input-number/download/rc-input-number-5.1.1.tgz?cache=0&sync_timestamp=1595226756342&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frc-input-number%2Fdownload%2Frc-input-number-5.1.1.tgz#0f767ce132ede2454059240dc66bf55e52d921ea"
+  integrity sha1-D3Z84TLt4kVAWSQNxmv1XlLZIeo=
   dependencies:
     classnames "^2.2.0"
     rc-util "^5.0.1"
