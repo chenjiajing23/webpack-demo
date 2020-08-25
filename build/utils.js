@@ -13,25 +13,7 @@ exports.assetsPath = function (pathname) {
 exports.styleLoaders = function (isProd) {
   const output = [
     {
-      test: /\.css$/,
-      include: /node_modules/,
-      use: [
-        isProd
-          ? {
-              loader: MiniCssExtractPlugin.loader,
-              options: {
-                publicPath: '../',
-                hmr: isProd ? false : true
-              }
-            }
-          : 'style-loader',
-        { loader: 'thread-loader' },
-        { loader: 'css-loader' }
-      ]
-    },
-    {
       test: /\.(css|less)$/,
-      exclude: /node_modules/,
       include: path.resolve(__dirname, '../src'),
       use: [
         isProd
@@ -53,6 +35,26 @@ exports.styleLoaders = function (isProd) {
         },
         { loader: 'postcss-loader' },
         { loader: 'less-loader' }
+      ]
+    },
+    {
+      test: /\.(css|less)$/,
+      include: /node_modules/,
+      use: [
+        isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+        { loader: 'css-loader' },
+        {
+          loader: 'less-loader',
+          options: {
+            lessOptions: {
+              modifyVars: {
+                'primary-color': '#13C2C2',
+                'link-color': '#13C2C2'
+              },
+              javascriptEnabled: true
+            }
+          }
+        }
       ]
     }
   ]

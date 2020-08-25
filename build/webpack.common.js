@@ -2,7 +2,6 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 var ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin')
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier')
 
 const utils = require('./utils')
@@ -109,7 +108,6 @@ module.exports = {
 
   plugins: [
     new ProgressBarPlugin(),
-    new AntdDayjsWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'react-template-pc',
