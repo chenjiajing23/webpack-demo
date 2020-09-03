@@ -39,7 +39,7 @@ exports.styleLoaders = function (isProd) {
     },
     {
       test: /\.(css|less)$/,
-      include: /node_modules/,
+      include: path.resolve(__dirname, '../node_modules/antd'),
       use: [
         isProd ? MiniCssExtractPlugin.loader : 'style-loader',
         { loader: 'css-loader' },
