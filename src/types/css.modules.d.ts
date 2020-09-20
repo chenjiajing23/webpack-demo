@@ -27,10 +27,10 @@ declare let CSSModules: CSSModules
 export = CSSModules
 
 declare module 'react' {
-  interface HTMLAttributes<T> {
-    styleName?: string
+  interface HTMLAttributes<T = string> {
+    styleName?: T
   }
-  interface SVGAttributes<T> {
-    styleName?: string
+  interface SVGAttributes<T = string> {
+    styleName?: T
   }
 }

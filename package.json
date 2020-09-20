@@ -16,7 +16,7 @@
     "build": "node ./build/prod-build.js",
     "mock": "nodemon --watch mock ./node_modules/.bin/good-mock",
     "server": "node ./server/bin/index.js",
-    "eslint": "eslint src --ext .tsx,.ts --color --fix",
+    "fix": "eslint src --ext .tsx,.ts --color --fix",
     "gc": "git-cz",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
@@ -37,8 +37,8 @@
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
     "@types/redux-actions": "^2.6.1",
-    "@typescript-eslint/eslint-plugin": "^4.0.1",
-    "@typescript-eslint/parser": "^4.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.1.1",
+    "@typescript-eslint/parser": "^4.1.1",
     "babel-loader": "^8.1.0",
     "babel-plugin-import": "^1.13.0",
     "clean-webpack-plugin": "^3.0.0",
@@ -108,7 +108,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run eslint  && lint-staged",
+      "pre-commit": "npm run fix  && lint-staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
