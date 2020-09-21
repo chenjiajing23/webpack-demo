@@ -28,9 +28,9 @@ export = CSSModules
 
 declare module 'react' {
   interface HTMLAttributes<T = string> {
-    styleName?: T
+    styleName?: T | string
   }
   interface SVGAttributes<T = string> {
-    styleName?: T
+    styleName?: T | string
   }
 }
