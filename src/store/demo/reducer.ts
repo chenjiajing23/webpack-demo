@@ -1,6 +1,6 @@
-import { handleActions } from 'redux-actions'
-import * as types from './actionTypes'
-import initialState from './store'
+import { handleActions } from 'redux-actions';
+import * as types from './actionTypes';
+import initialState from './store';
 
 export default handleActions(
   {
@@ -10,4 +10,4 @@ export default handleActions(
     })
   },
   initialState
-)
+);

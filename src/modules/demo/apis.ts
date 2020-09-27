@@ -1,1 +1,1 @@
-export const getUserInfo = () => window.apis.get('/api/user/1')
+export const getUserInfo = () => window.apis.get('/api/user/1');

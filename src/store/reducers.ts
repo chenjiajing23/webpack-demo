@@ -1,9 +1,9 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
 
-import demo from './demo/reducer'
+import demo from './demo/reducer';
 
 const reducers = combineReducers({
   demo
-})
+});
 
-export default reducers
+export default reducers;

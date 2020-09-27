@@ -1,8 +1,8 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { IRouteInfo } from '@/main/router'
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { IRouteInfo } from '@/main/router';
 
-const Demo2 = withRouter(React.lazy(() => import('./pages/Demo2')))
+const Demo2 = withRouter(React.lazy(() => import('./pages/Demo2')));
 
 const routeList: IRouteInfo[] = [
   {
@@ -10,6 +10,6 @@ const routeList: IRouteInfo[] = [
     exact: false,
     component: () => <Demo2 />
   }
-]
+];
 
-export default routeList
+export default routeList;

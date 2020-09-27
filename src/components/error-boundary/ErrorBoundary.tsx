@@ -1,40 +1,40 @@
-import React, { Component, ErrorInfo } from 'react'
-import { Button } from 'antd'
+import React, { Component, ErrorInfo } from 'react';
+import { Button } from 'antd';
 
-import './error-boundary.less'
+import './error-boundary.less';
 
 interface IProps {
-  [key: string]: any
+  [key: string]: any;
 }
 
 interface IState {
-  error: Error | null
-  errorInfo: ErrorInfo | null
+  error: Error | null;
+  errorInfo: ErrorInfo | null;
 }
 
 class ErrorBoundary extends Component<IProps, IState> {
   constructor(props: IProps) {
-    super(props)
+    super(props);
     this.state = {
       error: null,
       errorInfo: null
-    }
+    };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({
       error,
       errorInfo
-    })
-    console.error(error, errorInfo)
+    });
+    console.error(error, errorInfo);
   }
 
   onReload = () => {
-    window.location.reload()
-  }
+    window.location.reload();
+  };
 
   render() {
-    const { error, errorInfo } = this.state
+    const { error, errorInfo } = this.state;
 
     return errorInfo ? (
       <section styleName="component-error-boundary">
@@ -52,8 +52,8 @@ class ErrorBoundary extends Component<IProps, IState> {
       </section>
     ) : (
       this.props.children
-    )
+    );
   }
 }
 
-export default ErrorBoundary
+export default ErrorBoundary;

@@ -1,25 +1,25 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react';
 
 const useSetInterval = (callback: Function) => {
-  const ref = useRef<Function>()
+  const ref = useRef<Function>();
 
   useEffect(() => {
-    ref.current = callback
-    console.log('good')
-  })
+    ref.current = callback;
+    console.log('good');
+  });
 
   useEffect(() => {
     const cb = () => {
-      ref.current?.()
-    }
-    const timer = setInterval(cb, 1000)
+      ref.current?.();
+    };
+    const timer = setInterval(cb, 1000);
 
     return () => {
-      clearInterval(timer)
-    }
-  }, [])
-}
+      clearInterval(timer);
+    };
+  }, []);
+};
 
-export default useSetInterval
+export default useSetInterval;
 
 // 定时器

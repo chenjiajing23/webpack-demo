@@ -1,59 +1,59 @@
-import React, { PropsWithChildren, useEffect, useReducer } from 'react'
-import { Button } from 'antd'
-import { RouteComponentProps } from 'react-router-dom'
-import { useImmer } from 'use-immer'
+import React, { PropsWithChildren, useEffect, useReducer } from 'react';
+import { Button } from 'antd';
+import { RouteComponentProps } from 'react-router-dom';
+import { useImmer } from 'use-immer';
 
-import '../style/deme-2.less'
+import '../style/deme-2.less';
 
 interface IProps {
-  [key: string]: any
+  [key: string]: any;
 }
 
 function reducer(state: { count: number }) {
-  return { count: state.count + 1 }
+  return { count: state.count + 1 };
 }
 
 const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
-  const {} = props
+  const {} = props;
 
-  const [state, dispatch] = useReducer(reducer, { count: 0 })
+  const [state, dispatch] = useReducer(reducer, { count: 0 });
 
   useEffect(() => {
     const timer = setInterval(() => {
-      dispatch()
-    }, 1000)
+      dispatch();
+    }, 1000);
     return () => {
-      clearInterval(timer)
-    }
-  }, [])
+      clearInterval(timer);
+    };
+  }, []);
 
   const [person, updatePerson] = useImmer({
     name: 'Michel',
     age: 33
-  })
+  });
 
   const updateName = (name: string) => {
     updatePerson(draft => {
-      draft.name = name
-    })
-  }
+      draft.name = name;
+    });
+  };
 
   const becomeOlder = () => {
     updatePerson(draft => {
-      draft.age++
-    })
-  }
+      draft.age++;
+    });
+  };
 
   useEffect(() => {
-    console.log('demo-2：', window.router.location)
-  }, [])
+    console.log('demo-2：', window.router.location);
+  }, []);
 
   const onNextPage = () => {
     window.router.push({
       pathname: '/demo',
       state: { name: window.router.location.pathname }
-    })
-  }
+    });
+  };
 
   return (
     <section styleName="deme-2">
@@ -66,7 +66,7 @@ const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
         </h1>
         <input
           onChange={e => {
-            updateName(e.target.value)
+            updateName(e.target.value);
           }}
           value={person.name}
         />
@@ -77,7 +77,7 @@ const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
         <span>计时开始：{state.count}</span>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Demo2
+export default Demo2;
