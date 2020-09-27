@@ -45,7 +45,7 @@ const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   }
 
   useEffect(() => {
-    console.log('demo-2:', window.router.location)
+    console.log('demo-2：', window.router.location)
   }, [])
 
   const onNextPage = () => {
