@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect } from 'react'
+import React, { PropsWithChildren, useEffect, useReducer } from 'react'
 import { Button } from 'antd'
 import { RouteComponentProps } from 'react-router-dom'
 import { useImmer } from 'use-immer'
@@ -9,8 +9,23 @@ interface IProps {
   [key: string]: any
 }
 
+function reducer(state: { count: number }) {
+  return { count: state.count + 1 }
+}
+
 const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   const {} = props
+
+  const [state, dispatch] = useReducer(reducer, { count: 0 })
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      dispatch()
+    }, 1000)
+    return () => {
+      clearInterval(timer)
+    }
+  }, [])
 
   const [person, updatePerson] = useImmer({
     name: 'Michel',
@@ -57,6 +72,9 @@ const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
         />
         <br />
         <button onClick={becomeOlder}>Older</button>
+      </div>
+      <div>
+        <span>计时开始：{state.count}</span>
       </div>
     </section>
   )
