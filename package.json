@@ -1,6 +1,6 @@
 {
   "name": "react-template-pc",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "a react-template-pc project",
   "homepage": "https://chenjiajing23.github.io/react-template-pc",
   "private": true,
@@ -19,7 +19,10 @@
     "fix": "eslint src --ext .tsx,.ts --color --fix",
     "gc": "git-cz",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "release": "standard-version",
+    "release:alpha": "standard-version --prerelease alpha",
+    "release:rc": "standard-version --prerelease rc"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
@@ -48,7 +51,7 @@
     "eslint": "^7.10.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.12.0",
-    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-react": "^7.21.2",
     "eslint-plugin-react-hooks": "^4.1.2",
     "file-loader": "^6.1.0",
@@ -68,6 +71,7 @@
     "progress-bar-webpack-plugin": "^2.1.0",
     "purgecss-webpack-plugin": "^3.0.0",
     "redux-devtools-extension": "^2.13.8",
+    "standard-version": "^9.0.0",
     "style-loader": "^1.2.1",
     "stylelint": "^13.7.2",
     "stylelint-config-recommended": "^3.0.0",
@@ -86,7 +90,7 @@
   },
   "dependencies": {
     "@types/webpack-env": "^1.15.3",
-    "antd": "^4.6.5",
+    "antd": "^4.6.6",
     "axios": "^0.20.0",
     "babel-plugin-react-css-modules": "^5.2.6",
     "classnames": "^2.2.6",
