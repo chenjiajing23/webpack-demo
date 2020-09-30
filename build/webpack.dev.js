@@ -1,10 +1,10 @@
-const path = require('path')
-const webpack = require('webpack')
-const { merge } = require('webpack-merge')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-const common = require('./webpack.common.js')
+const path = require('path');
+const webpack = require('webpack');
+const { merge } = require('webpack-merge');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer');
+const common = require('./webpack.common.js');
 
-const utils = require('./utils')
+const utils = require('./utils');
 
 module.exports = merge(common, {
   mode: 'development',
@@ -69,7 +69,7 @@ module.exports = merge(common, {
     new webpack.HotModuleReplacementPlugin(),
     new BundleAnalyzerPlugin.BundleAnalyzerPlugin({
       openAnalyzer: false,
-      analyzerPort: 'auto'
+      analyzerPort: 8888
     })
   ]
-})
+});

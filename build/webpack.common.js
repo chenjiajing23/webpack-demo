@@ -44,7 +44,6 @@ module.exports = {
             }
           }
         ],
-        exclude: /node_modules/,
         include: path.resolve(__dirname, '../src')
       },
       {
@@ -59,8 +58,7 @@ module.exports = {
             options: { transpileOnly: true, happyPackMode: true }
           }
         ],
-        include: path.resolve(__dirname, '../src'),
-        exclude: /node_modules/
+        include: path.resolve(__dirname, '../src')
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -73,8 +71,7 @@ module.exports = {
             }
           }
         ],
-        include: path.resolve(__dirname, '../src'),
-        exclude: /node_modules/
+        include: path.resolve(__dirname, '../src')
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
@@ -87,8 +84,7 @@ module.exports = {
             }
           }
         ],
-        include: path.resolve(__dirname, '../src'),
-        exclude: /node_modules/
+        include: path.resolve(__dirname, '../src')
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
@@ -101,8 +97,7 @@ module.exports = {
             }
           }
         ],
-        include: path.resolve(__dirname, '../src'),
-        exclude: /node_modules/
+        include: path.resolve(__dirname, '../src')
       }
     ]
   },
