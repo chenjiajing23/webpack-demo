@@ -1,22 +1,23 @@
-const path = require('path')
-const os = require('os')
-const glob = require('glob')
-const webpack = require('webpack')
-const { merge } = require('webpack-merge')
-const common = require('./webpack.common.js')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const TerserJSPlugin = require('terser-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+// const path = require('path')
+const os = require('os');
+// const glob = require('glob')
+const webpack = require('webpack');
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common.js');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
-const CompressionWebpackPlugin = require('compression-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const PurgecssPlugin = require('purgecss-webpack-plugin')
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+// const PurgecssPlugin = require('purgecss-webpack-plugin')
 
-const PATHS = {
-  src: path.join(__dirname, '../src')
-}
+// const PATHS = {
+//   src: path.join(__dirname, '../src')
+// }
 
-const utils = require('./utils')
+const utils = require('./utils');
+const config = require('../config');
 
 module.exports = merge(common, {
   mode: 'production',
@@ -24,7 +25,7 @@ module.exports = merge(common, {
   devtool: 'source-map',
 
   output: {
-    publicPath: ''
+    publicPath: config.prod.assetsPublicPath
   },
 
   module: {
@@ -74,11 +75,11 @@ module.exports = merge(common, {
     new MiniCssExtractPlugin({
       filename: utils.assetsPath('css/[name].[hash]p.css'),
       chunkFilename: utils.assetsPath('css/[id].[chunkhash]p.css')
-    }),
-    new PurgecssPlugin({
-      paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
-      whitelistPatternsChildren: [/^ant/, /^src-modules/, /^src-components/]
     })
+    // new PurgecssPlugin({
+    //   paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
+    //   whitelistPatternsChildren: [/^ant/, /^src-modules/, /^src-components/]
+    // })
   ],
   optimization: {
     minimize: true,
@@ -112,4 +113,4 @@ module.exports = merge(common, {
       }
     }
   }
-})
+});

@@ -9,16 +9,16 @@
     [
       "import",
       {
-         "libraryName": "antd",
-         "libraryDirectory": "es",
-         "style": true
+        "libraryName": "antd",
+        "libraryDirectory": "es",
+        "style": true
       },
       "antd"
     ],
     [
-      "react-css-modules",
+      "babel-plugin-react-css-modules",
       {
-        "generateScopedName": "[path]___[name]__[local]___[hash:base64:5]",
+        "generateScopedName": "[path]_[name]_[local]_[hash:base64:5]",
         "exclude": "node_modules",
         "attributeNames": { "styleName": "className" },
         "handleMissingStyleName": "warn",

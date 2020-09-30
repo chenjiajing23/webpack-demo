@@ -1,10 +1,11 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-var ProgressBarPlugin = require('progress-bar-webpack-plugin')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const WebpackBuildNotifierPlugin = require('webpack-build-notifier')
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+var ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 
-const utils = require('./utils')
+const utils = require('./utils');
+const config = require('../config');
 
 module.exports = {
   entry: {
@@ -14,8 +15,8 @@ module.exports = {
   output: {
     filename: utils.assetsPath('js/[name].[hash]p.js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash]p.js'),
-    path: path.resolve(__dirname, '../dist'),
-    publicPath: ''
+    path: config.base.assetsRoot,
+    publicPath: config.base.assetsPublicPath
   },
 
   resolve: {
@@ -110,13 +111,13 @@ module.exports = {
     new ProgressBarPlugin(),
     new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'react-template-pc',
+      title: config.base.title,
       template: path.resolve(__dirname, '../src/templates/index.ejs'),
       favicon: path.resolve(__dirname, '../src/favicon/favicon.ico'),
       inject: true
     }),
     new WebpackBuildNotifierPlugin({
-      title: 'My Project Webpack Build',
+      title: config.base.title,
       logo: path.resolve(__dirname, '../src/favicon/favicon.ico'),
       suppressSuccess: true
     })
@@ -144,4 +145,4 @@ module.exports = {
       }
     }
   }
-}
+};

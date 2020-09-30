@@ -5,7 +5,7 @@
     "at-rule-name-case": "lower",
     "block-no-empty": true,
     "selector-pseudo-class-no-unknown": [true, {
-      ignorePseudoClasses: ["global"]
+      ignorePseudoClasses: ["global","local"]
     }]
   }
 }

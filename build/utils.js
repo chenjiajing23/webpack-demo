@@ -1,14 +1,28 @@
-const path = require('path')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const path = require('path');
+const genericNames = require('generic-names');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const config = require('../config');
 
 exports.resolve = function (dir) {
-  return path.join(__dirname, '..', dir)
-}
+  return path.join(__dirname, '..', dir);
+};
 
-exports.assetsPath = function (pathname) {
-  const assetsSubDirectory = ''
-  return path.posix.join(assetsSubDirectory, pathname)
-}
+exports.assetsPath = function (_path) {
+  const assetsSubDirectory = config.base.assetsSubDirectory;
+  return path.posix.join(assetsSubDirectory, _path);
+};
+
+/**
+ * @description 自定义css-loader的hash值（解决css-modules的hash不一致问题）
+ * @license https://github.com/gajus/babel-plugin-react-css-modules/issues/279
+ */
+const generate = genericNames('[path]_[name]_[local]_[hash:base64:5]', {
+  context: process.cwd()
+});
+const generateScopedName = (localName, filePath) => {
+  const relativePath = path.relative(process.cwd(), filePath);
+  return generate(localName, relativePath);
+};
 
 exports.styleLoaders = function (isProd) {
   const output = [
@@ -18,18 +32,22 @@ exports.styleLoaders = function (isProd) {
       use: [
         isProd
           ? {
-              loader: MiniCssExtractPlugin.loader,
-              options: {
-                publicPath: '../',
-                hmr: isProd ? false : true
-              }
+              loader: MiniCssExtractPlugin.loader
+              // options: {
+              //   publicPath: '../',
+              //   hmr: isProd ? false : true
+              // }
             }
           : 'style-loader',
         {
           loader: 'css-loader',
           options: {
+            sourceMap: !isProd,
             modules: {
-              localIdentName: '[path]___[name]__[local]___[hash:base64:5]'
+              // localIdentName: '[path]_[name]_[local]_[hash:base64:5]',
+              getLocalIdent: (context, _localIdentName, localName) => {
+                return generateScopedName(localName, context.resourcePath);
+              }
             }
           }
         },
@@ -57,7 +75,7 @@ exports.styleLoaders = function (isProd) {
         }
       ]
     }
-  ]
+  ];
 
-  return output
-}
+  return output;
+};
