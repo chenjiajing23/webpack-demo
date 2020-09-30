@@ -1,5 +1,6 @@
 const os = require('os');
 const path = require('path');
+// const glob = require('glob');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
@@ -9,22 +10,22 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
-const smp = new SpeedMeasurePlugin();
-
-// const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
-// const PurgecssPlugin = require('purgecss-webpack-plugin')
-// const PATHS = {
-//   src: path.join(__dirname, '../src')
-// }
+// const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+// const PurgecssPlugin = require('purgecss-webpack-plugin');
 
 const utils = require('./utils');
 const config = require('../config');
+
+const smp = new SpeedMeasurePlugin();
+const PATHS = {
+  src: path.join(__dirname, '../src')
+};
 
 module.exports = smp.wrap(
   merge(common, {
     mode: 'production',
 
-    devtool: 'source-map',
+    devtool: 'cheap-module-source-map',
 
     output: {
       publicPath: config.prod.assetsPublicPath
@@ -75,7 +76,7 @@ module.exports = smp.wrap(
       //   { test: /mini-css-extract-plugin[\\/]dist[\\/]loader/ }
       // ]),
       new MiniCssExtractPlugin({
-        filename: utils.assetsPath('css/[name].[hash]p.css'),
+        filename: utils.assetsPath('css/[name].[contenthash:8]p.css'),
         chunkFilename: utils.assetsPath('css/[id].[chunkhash]p.css')
       })
       // new PurgecssPlugin({
