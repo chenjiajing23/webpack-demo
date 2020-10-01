@@ -17,9 +17,9 @@ const utils = require('./utils');
 const config = require('../config');
 
 const smp = new SpeedMeasurePlugin();
-const PATHS = {
-  src: path.join(__dirname, '../src')
-};
+// const PATHS = {
+//   src: path.join(__dirname, '../src')
+// };
 
 module.exports = smp.wrap(
   merge(common, {
@@ -76,8 +76,8 @@ module.exports = smp.wrap(
       //   { test: /mini-css-extract-plugin[\\/]dist[\\/]loader/ }
       // ]),
       new MiniCssExtractPlugin({
-        filename: utils.assetsPath('css/[name].[contenthash:8]p.css'),
-        chunkFilename: utils.assetsPath('css/[id].[chunkhash]p.css')
+        filename: utils.assetsPath('css/[name].[contenthash].css'),
+        chunkFilename: utils.assetsPath('css/[id].[chunkhash].css')
       })
       // new PurgecssPlugin({
       //   paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),

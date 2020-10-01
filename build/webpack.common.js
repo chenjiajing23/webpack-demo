@@ -13,8 +13,8 @@ module.exports = {
   },
 
   output: {
-    filename: utils.assetsPath('js/[name].[hash]p.js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash]p.js'),
+    filename: utils.assetsPath('js/[name].[hash].js'),
+    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js'),
     path: config.base.assetsRoot,
     publicPath: config.base.assetsPublicPath
   },
