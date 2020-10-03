@@ -19,7 +19,12 @@
     "fix": "eslint src --ext .tsx,.ts --color --fix",
     "gc": "git-cz",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "release": "standard-version --first-release -m 'first-release'",
+    "patch": "standard-version -r patch",
+    "minor": "standard-version -r minor",
+    "major": "standard-version -r major",
+    "pub": "npm run build && npx git push --follow-tags origin master"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
@@ -68,6 +73,7 @@
     "progress-bar-webpack-plugin": "^2.1.0",
     "redux-devtools-extension": "^2.13.8",
     "speed-measure-webpack-plugin": "^1.3.3",
+    "standard-version": "^9.0.0",
     "style-loader": "^1.3.0",
     "stylelint": "^13.7.2",
     "stylelint-config-recommended": "^3.0.0",
