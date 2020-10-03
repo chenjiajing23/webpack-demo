@@ -1,1 +1,7 @@
-export const getUserInfo = () => window.apis.get('/api/user/1');
+export default {
+  getUserInfo: {
+    server: 'baseServer',
+    method: 'get',
+    url: '/api/user/1'
+  }
+};

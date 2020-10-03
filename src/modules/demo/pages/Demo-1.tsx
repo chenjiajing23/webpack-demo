@@ -4,7 +4,6 @@ import { Button } from 'antd';
 import classnames from 'classnames';
 
 import '../style/demo.less';
-import { getUserInfo } from '../apis';
 import demeImage from '../assets/good.png';
 import { setCommon } from '@/store/demo/action';
 import { IWrapDemoState, IDemoState } from '@/store/demo/type';
@@ -20,7 +19,7 @@ const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   const [isShow, setShow] = useState(false);
 
   useEffect(() => {
-    void getUserInfo().then(res => {
+    (window.apis as any).getUserInfo({ params: { id: 333 } }).then((res: any) => {
       console.log(res);
     });
   }, []);

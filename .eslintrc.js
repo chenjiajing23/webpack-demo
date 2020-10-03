@@ -89,6 +89,7 @@ module.exports = {
     '@typescript-eslint/type-annotation-spacing': 'off',
     '@typescript-eslint/no-unsafe-return': 'off',
     '@typescript-eslint/unified-signatures': 'error',
+    '@typescript-eslint/restrict-template-expressions': 'off',
     '@typescript-eslint/camelcase': 'off',
     'arrow-body-style': 'error',
     'arrow-parens': ['off', 'as-needed'],
@@ -201,4 +202,4 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error', // 检查 Hook 的规则
     'react-hooks/exhaustive-deps': 'warn' // 检查 effect 的依赖
   }
-}
+};

@@ -1,9 +1,11 @@
+import Apis from 'good-apis';
 import { History } from 'history';
-import { AxiosInstance } from 'axios';
 
 declare global {
-  interface Window {
-    router: History<History.PoorMansUnknown>;
-    apis: AxiosInstance;
+  interface Window extends CICD {
+    router: History<unknown>;
+    apis: Apis;
   }
 }
+
+export {};
