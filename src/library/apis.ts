@@ -72,10 +72,10 @@ Apis.onUseReq(
 // 响应拦截器
 Apis.onUseRes(
   res => {
-    if (res.data && res.data.code === 1) {
+    if (res.data) {
       return res.data;
     } else {
-      return Promise.reject(new Error(res.data.msg || '响应异常'));
+      return Promise.reject(res.data.msg || '响应异常');
     }
   },
   err => {
