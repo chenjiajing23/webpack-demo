@@ -20,7 +20,7 @@
     "gc": "git-cz",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "release": "standard-version --first-release -m 'first-release'",
+    "first-release": "standard-version --first-release -m 'first-release'",
     "patch": "standard-version -r patch",
     "minor": "standard-version -r minor",
     "major": "standard-version -r major",
