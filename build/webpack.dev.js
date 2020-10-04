@@ -5,6 +5,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer');
 const common = require('./webpack.common.js');
 
 const utils = require('./utils');
+const config = require('../config');
 
 module.exports = merge(common, {
   mode: 'development',
@@ -26,24 +27,24 @@ module.exports = merge(common, {
   },
 
   devServer: {
-    contentBase: path.resolve(__dirname, '../dist'),
-    port: 8080,
     hot: true,
-    host: 'localhost',
+    contentBase: path.resolve(__dirname, '../dist'),
+    port: config.dev.port,
+    host: config.dev.host,
     // public: 'local.test.baidu.com:8080', // 需要带上端口
     // writeToDisk: true, // 文件形式输出 dev-server 代码
     compress: true, // 一切服务都启用gzip 压缩
     disableHostCheck: true, // true：不进行host检查
-    quiet: true,
+    quiet: false,
     // 设置控制台的提示信息
-    stats: {
-      chunks: false,
-      children: false,
-      modules: false,
-      entrypoints: false, // 是否输出入口信息
-      warnings: false,
-      performance: false // 是否输出webpack建议（如文件体积大小）
-    },
+    // stats: {
+    //   chunks: false,
+    //   children: false,
+    //   modules: false,
+    //   entrypoints: false, // 是否输出入口信息
+    //   warnings: false,
+    //   performance: false // 是否输出webpack建议（如文件体积大小）
+    // },
     watchOptions: {
       ignored: /node_modules/ // 略过node_modules目录
     },
@@ -66,6 +67,9 @@ module.exports = merge(common, {
   },
 
   plugins: [
+    // new webpack.DefinePlugin({
+    //   'process.env.NODE_ENV': JSON.stringify('development')
+    // }),
     new webpack.HotModuleReplacementPlugin(),
     new BundleAnalyzerPlugin.BundleAnalyzerPlugin({
       openAnalyzer: false,

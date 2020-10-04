@@ -12,8 +12,8 @@
     "*.less"
   ],
   "scripts": {
-    "dev": "webpack-dev-server  --config ./build/webpack.dev.js",
-    "build": "node ./build/prod-build.js",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server  --config ./build/webpack.dev.js",
+    "build": "cross-env NODE_ENV=production node ./build/prod-build.js",
     "mock": "nodemon --watch mock ./node_modules/.bin/good-mock",
     "server": "node ./server/bin/index.js",
     "fix": "eslint src --ext .tsx,.ts --color --fix",
@@ -49,6 +49,7 @@
     "clean-webpack-plugin": "^3.0.0",
     "commitizen": "^4.2.1",
     "compression-webpack-plugin": "^6.0.2",
+    "cross-env": "^7.0.2",
     "css-loader": "^4.3.0",
     "eslint": "^7.10.0",
     "eslint-config-airbnb": "^18.2.0",

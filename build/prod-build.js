@@ -1,9 +1,9 @@
-const chalk = require('chalk')
-const webpack = require('webpack')
-const webpackConfig = require('./webpack.prod')
+const chalk = require('chalk');
+const webpack = require('webpack');
+const webpackConfig = require('./webpack.prod');
 
 webpack(webpackConfig, function (err, stats) {
-  if (err) throw err
+  if (err) throw err;
 
   process.stdout.write(
     stats.toString({
@@ -13,13 +13,13 @@ webpack(webpackConfig, function (err, stats) {
       chunks: false,
       chunkModules: false
     }) + '\n\n'
-  )
+  );
 
-  console.log(chalk.default.green('  Build complete.\n'))
+  console.log(chalk.default.green('  Build complete.\n'));
   console.log(
-    chalk.default.yellow(
+    chalk.default.green(
       '  Tip: built files are meant to be served over an HTTP server.\n' +
         "  Opening index.html over file:// won't work.\n"
     )
-  )
-})
+  );
+});

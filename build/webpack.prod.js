@@ -1,7 +1,5 @@
 const os = require('os');
 const path = require('path');
-// const glob = require('glob');
-const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -68,16 +66,16 @@ module.exports = smp.wrap(
 
     plugins: [
       new CleanWebpackPlugin(),
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify('production')
-      }),
+      // new webpack.DefinePlugin({
+      //   'process.env.NODE_ENV': JSON.stringify('production')
+      // }),
       // new HardSourceWebpackPlugin(),
       // new HardSourceWebpackPlugin.ExcludeModulePlugin([
       //   { test: /mini-css-extract-plugin[\\/]dist[\\/]loader/ }
       // ]),
       new MiniCssExtractPlugin({
         filename: utils.assetsPath('css/[name].[contenthash].css'),
-        chunkFilename: utils.assetsPath('css/[id].[chunkhash].css')
+        chunkFilename: utils.assetsPath('css/[id].[contenthash].css')
       })
       // new PurgecssPlugin({
       //   paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),

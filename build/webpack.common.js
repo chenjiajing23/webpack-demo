@@ -7,14 +7,16 @@ const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 const utils = require('./utils');
 const config = require('../config');
 
+const isDev = process.env.NODE_ENV === 'development';
+
 module.exports = {
   entry: {
     app: './src/main/index.tsx'
   },
 
   output: {
-    filename: utils.assetsPath('js/[name].[hash].js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js'),
+    filename: utils.assetsPath(`js/[name].[${isDev ? 'hash' : 'contenthash'}].js`),
+    chunkFilename: utils.assetsPath('js/[id].[contenthash].js'),
     path: config.base.assetsRoot,
     publicPath: config.base.assetsPublicPath
   },
@@ -119,18 +121,24 @@ module.exports = {
   ],
 
   optimization: {
+    moduleIds: 'hashed', // 混淆文件路径名
+    runtimeChunk: { name: 'manifest' }, // 提取runtime代码命名为manifest
+    namedModules: true, // 让模块id根据路径设置，避免每增加新模块，所有id都改变，造成缓存失效的情况
+    namedChunks: true, // 避免增加entrypoint，其他文件都缓存失效
     splitChunks: {
-      chunks: 'async',
+      chunks: 'all',
       minSize: 30000,
+      maxSize: 0,
       minChunks: 1,
-      maxAsyncRequests: 5,
-      maxInitialRequests: 3,
+      maxAsyncRequests: 30,
+      maxInitialRequests: 30,
       automaticNameDelimiter: '~',
       name: true,
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
-          priority: -10
+          priority: -10,
+          chunks: 'all'
         },
         default: {
           minChunks: 2,
