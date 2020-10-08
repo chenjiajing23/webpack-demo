@@ -15,8 +15,12 @@ module.exports = {
   },
 
   output: {
-    filename: utils.assetsPath(`js/[name].[${isDev ? 'hash' : 'contenthash'}].js`),
-    chunkFilename: utils.assetsPath('js/[id].[contenthash].js'),
+    filename: utils.assetsPath(
+      isDev ? 'js/[name].[hash].js' : 'js/[name].[contenthash]-p.js'
+    ),
+    chunkFilename: utils.assetsPath(
+      isDev ? 'js/[id].[hash].js' : 'js/[id].[contenthash]-p.js'
+    ),
     path: config.base.assetsRoot,
     publicPath: config.base.assetsPublicPath
   },
