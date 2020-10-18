@@ -5,6 +5,7 @@ const webpack = require('webpack');
 const getPort = require('get-port');
 const devMiddleware = require('webpack-dev-middleware');
 const hotMiddleware = require('webpack-hot-middleware');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const config = require('../config');
 const port = config.dev.port;
@@ -29,8 +30,19 @@ const main = () => {
     });
 
     app.use(webpackDevMiddleware);
-
     app.use(webpackHotMiddleware);
+
+    // proxy
+    Object.keys(config.dev.proxyTable).forEach(context => {
+      let options = config.dev.proxyTable[context];
+      if (typeof options === 'string') {
+        options = {
+          target: options,
+          proxyTimeout: 30 * 1000
+        };
+      }
+      app.use(context, createProxyMiddleware(options.filter || context, options));
+    });
 
     app.use('/ping', function (_req, res) {
       res.sendStatus(200);

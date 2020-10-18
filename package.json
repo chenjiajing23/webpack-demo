@@ -61,6 +61,7 @@
     "fork-ts-checker-webpack-plugin": "^5.2.0",
     "good-mock": "^1.2.2",
     "html-webpack-plugin": "^4.5.0",
+    "http-proxy-middleware": "^1.0.6",
     "husky": "^4.3.0",
     "less": "^3.12.2",
     "less-loader": "^7.0.2",

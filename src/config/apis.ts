@@ -3,7 +3,7 @@
  * @Author: Chenjiajing
  * @Date: 2020-10-03 23:36:40
  * @LastEditors: Chenjiajing
- * @LastEditTime: 2020-10-04 01:09:13
+ * @LastEditTime: 2020-10-18 20:25:15
  */
 const serverMap: IServerMap = {
   baseServer: {
@@ -12,7 +12,7 @@ const serverMap: IServerMap = {
       stage: 'https://state.apis.com',
       test: 'https://test.apis.com',
       dev: 'https://dev.apis.com',
-      local: 'http://localhost:1234'
+      local: 'http://localhost:8080'
     },
     default: true
   }
