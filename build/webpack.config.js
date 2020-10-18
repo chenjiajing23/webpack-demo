@@ -124,21 +124,23 @@ module.exports = {
   ],
 
   optimization: {
+    chunkIds: 'named',
     moduleIds: 'hashed', // 混淆文件路径名
-    runtimeChunk: { name: 'manifest' }, // 提取runtime代码命名为manifest
-    namedModules: true, // 让模块id根据路径设置，避免每增加新模块，所有id都改变，造成缓存失效的情况
-    namedChunks: true, // 避免增加entrypoint，其他文件都缓存失效
+    // runtimeChunk: { name: 'manifest' }, // 提取runtime代码命名为manifest
+    // namedModules: true, // 让模块id根据路径设置，避免每增加新模块，所有id都改变，造成缓存失效的情况
+    // namedChunks: true, // 避免增加entrypoint，其他文件都缓存失效
     splitChunks: {
       chunks: 'all',
       minSize: 30000,
+      minRemainingSize: 0,
       maxSize: 0,
       minChunks: 1,
       maxAsyncRequests: 30,
       maxInitialRequests: 30,
       automaticNameDelimiter: '~',
-      name: true,
+      enforceSizeThreshold: 50000,
       cacheGroups: {
-        vendors: {
+        defaultVendors: {
           test: /[\\/]node_modules[\\/]/,
           priority: -10,
           chunks: 'all'

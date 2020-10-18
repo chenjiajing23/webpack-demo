@@ -20,7 +20,7 @@ module.exports = merge(base, {
     }
   },
 
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval-cheap-module-source-map',
 
   module: {
     rules: [...utils.styleLoaders(false)]
