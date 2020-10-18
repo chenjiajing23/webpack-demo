@@ -1,7 +1,7 @@
 const os = require('os');
 const path = require('path');
 const { merge } = require('webpack-merge');
-const common = require('./webpack.common.js');
+const base = require('./webpack.config.js');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -20,7 +20,7 @@ const smp = new SpeedMeasurePlugin();
 // };
 
 module.exports = smp.wrap(
-  merge(common, {
+  merge(base, {
     mode: 'production',
 
     devtool: 'cheap-module-source-map',
@@ -31,36 +31,36 @@ module.exports = smp.wrap(
 
     module: {
       rules: [
-        ...utils.styleLoaders(true),
-        {
-          test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-          use: [
-            { loader: 'thread-loader' },
-            {
-              loader: 'image-webpack-loader',
-              options: {
-                mozjpeg: {
-                  progressive: true,
-                  quality: 65
-                },
-                optipng: {
-                  enabled: false
-                },
-                pngquant: {
-                  quality: [0.65, 0.9],
-                  speed: 4
-                },
-                gifsicle: {
-                  interlaced: false
-                },
-                webp: {
-                  quality: 75
-                }
-              }
-            }
-          ],
-          include: path.resolve(__dirname, '../src')
-        }
+        ...utils.styleLoaders(true)
+        // {
+        //   test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        //   use: [
+        //     { loader: 'thread-loader' },
+        //     {
+        //       loader: 'image-webpack-loader',
+        //       options: {
+        //         mozjpeg: {
+        //           progressive: true,
+        //           quality: 65
+        //         },
+        //         optipng: {
+        //           enabled: false
+        //         },
+        //         pngquant: {
+        //           quality: [0.65, 0.9],
+        //           speed: 4
+        //         },
+        //         gifsicle: {
+        //           interlaced: false
+        //         },
+        //         webp: {
+        //           quality: 75
+        //         }
+        //       }
+        //     }
+        //   ],
+        //   include: path.resolve(__dirname, '../src')
+        // }
       ]
     },
 
@@ -88,8 +88,6 @@ module.exports = smp.wrap(
       minimizer: [
         new TerserJSPlugin({
           parallel: os.cpus().length - 1,
-          cache: true,
-          sourceMap: true,
           terserOptions: {
             compress: {
               drop_console: true

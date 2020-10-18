@@ -62,7 +62,7 @@ const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
       <div styleName="cover" />
       <hr />
       <Button type="primary" onClick={onNextPage}>
-        到DEMO-2
+        到 DEMO-2
       </Button>
     </div>
   );

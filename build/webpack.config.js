@@ -6,7 +6,6 @@ const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 
 const utils = require('./utils');
 const config = require('../config');
-
 const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {

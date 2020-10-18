@@ -1,5 +1,5 @@
 module.exports = {
   port: 8080,
-  host: 'localhost',
+  host: 'http://localhost',
   assetsPublicPath: '/'
 };
