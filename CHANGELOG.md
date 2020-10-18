@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/chenjiajing23/react-template-pc/compare/v0.0.1...v0.0.3) (2020-10-18)
+
+### Features
+
+- 🎸 master ([df07c03](https://github.com/chenjiajing23/react-template-pc/commit/df07c03a4136444b306a2080b40c24bb887b750b))
+- 🎸 master ([a1fbbcd](https://github.com/chenjiajing23/react-template-pc/commit/a1fbbcd4bdc6b8410193a2fc7be275e07ce4dea6))
+- 🎸 master ([b4b403b](https://github.com/chenjiajing23/react-template-pc/commit/b4b403b953d6f19a6b92bfe7039a03f24980acfd))
+- 🎸 master ([ef81048](https://github.com/chenjiajing23/react-template-pc/commit/ef81048b2163b9db70bb1bd8108a829e6f5c4700))
+
+### Bug Fixes
+
+- 🐛 master ([3b6ca7b](https://github.com/chenjiajing23/react-template-pc/commit/3b6ca7b1715695639646b7fa92d9bcd9f5dca2d8))
+- 🐛 master ([67253c7](https://github.com/chenjiajing23/react-template-pc/commit/67253c7cccdb44526bbf5e39e773ca2aa2414573))
+- 🐛 master ([387090d](https://github.com/chenjiajing23/react-template-pc/commit/387090d6fe9524ce1adfdf09288e318eb0c7eb18))
+- 🐛 master ([7286684](https://github.com/chenjiajing23/react-template-pc/commit/7286684b0391b1f99971e1277661f361a9768c56))
+
 ### 0.0.1 (2020-10-03)
 
 ### Features
