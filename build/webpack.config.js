@@ -125,7 +125,7 @@ module.exports = {
 
   optimization: {
     chunkIds: 'named',
-    moduleIds: 'hashed', // 混淆文件路径名
+    moduleIds: 'named',
     // runtimeChunk: { name: 'manifest' }, // 提取runtime代码命名为manifest
     // namedModules: true, // 让模块id根据路径设置，避免每增加新模块，所有id都改变，造成缓存失效的情况
     // namedChunks: true, // 避免增加entrypoint，其他文件都缓存失效
@@ -133,7 +133,7 @@ module.exports = {
       chunks: 'all',
       minSize: 30000,
       minRemainingSize: 0,
-      maxSize: 0,
+      maxSize: 50000,
       minChunks: 1,
       maxAsyncRequests: 30,
       maxInitialRequests: 30,

@@ -79,19 +79,20 @@ module.exports = merge(base, {
     // new PurgecssPlugin({
     //   paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
     //   whitelistPatternsChildren: [/^ant/, /^src-modules/, /^src-components/]
-    // })
+    // }),
   ],
 
   optimization: {
     minimize: true,
+    chunkIds: 'deterministic',
+    moduleIds: 'deterministic',
     minimizer: [
       new TerserJSPlugin({
-        // cache: true,
         parallel: os.cpus().length - 1,
-        // sourceMap: true, // 如果在生产环境中使用 source-maps，必须设置为 true
         terserOptions: {
           compress: {
-            drop_console: true
+            drop_console: true,
+            drop_debugger: true
           }
         }
       }),
@@ -100,6 +101,7 @@ module.exports = merge(base, {
         compressionOptions: {
           level: 9
         },
+        minRatio: 0.8,
         algorithm: 'gzip'
       })
     ],
@@ -113,5 +115,12 @@ module.exports = merge(base, {
         }
       }
     }
+  },
+  performance: {
+    maxEntrypointSize: 500000,
+    maxAssetSize: 250000
+    // assetFilter: function (assetFilename) {
+    //   return assetFilename.endsWith('.js');
+    // }
   }
 });
