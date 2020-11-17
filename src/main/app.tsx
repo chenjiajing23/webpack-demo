@@ -9,6 +9,7 @@ import zhCN from 'antd/es/locale/zh_CN';
 import { hot } from 'react-hot-loader/root';
 
 import './../style/reset.css';
+import './../style/font.css';
 import reducers from '../store/reducers';
 import RouterComponent from './router';
 

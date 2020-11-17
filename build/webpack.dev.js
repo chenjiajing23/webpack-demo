@@ -1,7 +1,7 @@
 // const path = require('path');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer');
 
 const base = require('./webpack.config.js');
 const utils = require('./utils');
@@ -12,6 +12,9 @@ module.exports = merge(base, {
 
   entry: {
     app: ['webpack-hot-middleware/client?path=__hmr', './src/main/index.tsx']
+  },
+  infrastructureLogging: {
+    level: 'error'
   },
 
   resolve: {
@@ -67,10 +70,10 @@ module.exports = merge(base, {
   // },
 
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new BundleAnalyzerPlugin.BundleAnalyzerPlugin({
-      openAnalyzer: false,
-      analyzerPort: 8888
-    })
+    new webpack.HotModuleReplacementPlugin()
+    // new BundleAnalyzerPlugin.BundleAnalyzerPlugin({
+    //   openAnalyzer: false,
+    //   analyzerPort: 8888
+    // })
   ]
 });

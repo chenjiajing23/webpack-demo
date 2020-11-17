@@ -93,8 +93,12 @@ module.exports = merge(base, {
           compress: {
             drop_console: true,
             drop_debugger: true
+          },
+          format: {
+            comments: false
           }
-        }
+        },
+        extractComments: false
       }),
       new OptimizeCSSAssetsPlugin(),
       new CompressionWebpackPlugin({

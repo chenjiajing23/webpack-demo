@@ -15,10 +15,10 @@ module.exports = {
 
   output: {
     filename: utils.assetsPath(
-      isDev ? 'js/[name].[hash].js' : 'js/[name].[contenthash]-p.js'
+      isDev ? 'js/[name].[chunkhash].js' : 'js/[name].[contenthash]-p.js'
     ),
     chunkFilename: utils.assetsPath(
-      isDev ? 'js/[id].[hash].js' : 'js/[id].[contenthash]-p.js'
+      isDev ? 'js/[id].[chunkhash].js' : 'js/[id].[contenthash]-p.js'
     ),
     path: config.base.assetsRoot,
     publicPath: config.base.assetsPublicPath
@@ -67,41 +67,65 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 10000,
-              name: utils.assetsPath('img/[name].[contenthash].[ext]')
-            }
+        // webpack4处理方式（勿删）
+        // use: [
+        //   {
+        //     loader: 'url-loader',
+        //     options: {
+        //       limit: 10000,
+        //       name: utils.assetsPath('img/[name].[contenthash].[ext]')
+        //     }
+        //   }
+        // ],
+        // webpack5新处理方式： https://webpack.docschina.org/guides/asset-modules/
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 10 * 1024 // 小于10kb，则使用base64
           }
-        ],
+        },
+        generator: {
+          filename: utils.assetsPath('img/[name][contenthash][ext][query]')
+        },
         include: path.resolve(__dirname, '../src')
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-        use: [
-          { loader: 'thread-loader' },
-          {
-            loader: 'url-loader',
-            options: {
-              name: utils.assetsPath('media/[name].[contenthash].[ext]')
-            }
+        // use: [
+        //   { loader: 'thread-loader' },
+        //   {
+        //     loader: 'url-loader',
+        //     options: {
+        //       name: utils.assetsPath('media/[name].[contenthash].[ext]')
+        //     }
+        //   }
+        // ],
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 10 * 1024 // 小于10kb，则使用base64
           }
-        ],
+        },
+        generator: {
+          filename: utils.assetsPath('media/[name][contenthash][ext][query]')
+        },
         include: path.resolve(__dirname, '../src')
       },
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: [
-          { loader: 'thread-loader' },
-          {
-            loader: 'url-loader',
-            options: {
-              name: utils.assetsPath('fonts/[name].[contenthash].[ext]')
-            }
-          }
-        ],
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        // use: [
+        //   { loader: 'thread-loader' },
+        //   {
+        //     loader: 'url-loader',
+        //     options: {
+        //       name: utils.assetsPath('fonts/[name].[contenthash].[ext]')
+        //     }
+        //   }
+        // ],
+        type: 'asset/resource',
+        generator: {
+          filename: utils.assetsPath('fonts/[name][contenthash][ext][query]')
+        },
         include: path.resolve(__dirname, '../src')
       }
     ]

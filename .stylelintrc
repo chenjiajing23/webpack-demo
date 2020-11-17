@@ -6,6 +6,9 @@
     "block-no-empty": true,
     "selector-pseudo-class-no-unknown": [true, {
       ignorePseudoClasses: ["global","local"]
+    }],
+    "font-family-no-missing-generic-family-keyword":[true,{
+        ignorePseudoClasses: ["Alibaba-PuHuiTi-Bold"]
     }]
   }
 }

@@ -50,6 +50,7 @@ const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
     <div styleName="demo" className={classnames({ chenjiajing: isShow })}>
       <div styleName="content">
         <h1>{count}</h1>
+        <p styleName="title">-大哥放过我吧abcdABCDfffff</p>
         <Button type="primary" onClick={increment}>
           +
         </Button>

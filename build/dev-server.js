@@ -19,7 +19,7 @@ const main = () => {
     const compiler = webpack(webpackConfig);
 
     const webpackDevMiddleware = devMiddleware(compiler, {
-      logLevel: 'silent',
+      // logLevel: 'silent',
       publicPath: webpackConfig.output.publicPath
     });
 
