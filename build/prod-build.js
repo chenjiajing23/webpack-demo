@@ -15,9 +15,9 @@ webpack(webpackConfig, function (err, stats) {
     }) + '\n\n'
   );
 
-  console.log(chalk.default.green('  Build complete.\n'));
+  console.log(chalk.green('  Build complete.\n'));
   console.log(
-    chalk.default.green(
+    chalk.green(
       '  Tip: built files are meant to be served over an HTTP server.\n' +
         "  Opening index.html over file:// won't work.\n"
     )

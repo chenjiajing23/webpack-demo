@@ -56,9 +56,7 @@ const main = () => {
 
     console.log('> Starting dev server...');
     webpackDevMiddleware.waitUntilValid(() => {
-      console.log(
-        chalk.default.green(`> Listening at： ${config.dev.host}:${newPort} \n`)
-      );
+      console.log(chalk.green(`> Listening at： ${config.dev.host}:${newPort} \n`));
     });
     app.listen(newPort);
   });
