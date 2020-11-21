@@ -16,7 +16,7 @@
     "start": "webpack serve",
     "build": "cross-env NODE_ENV=production node ./build/prod-build.js",
     "mock": "nodemon --watch mock ./node_modules/.bin/good-mock",
-    "server": "node ./server/bin/index.js",
+    "server": "cd server && yarn && npm run serve",
     "fix": "eslint src --ext .tsx,.ts --color --fix",
     "gc": "git-cz",
     "predeploy": "npm run build",
