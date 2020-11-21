@@ -3,8 +3,8 @@
  * @Author: Chenjiajing
  * @Date: 2020-09-30 14:49:00
  * @LastEditors: Chenjiajing
- * @LastEditTime: 2020-11-22 01:51:02
+ * @LastEditTime: 2020-11-22 02:10:31
  */
 module.exports = {
-  assetsPublicPath: '150.158.180.163:8080/'
+  assetsPublicPath: 'http://150.158.180.163:8080/'
 };
