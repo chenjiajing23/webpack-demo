@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer');
 const common = require('./webpack.common.js');
+const createErrorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 
 const utils = require('./utils');
 
@@ -51,7 +52,10 @@ module.exports = merge(common, {
       errors: true
     },
     noInfo: false,
-    historyApiFallback: true
+    historyApiFallback: true,
+    before(app) {
+      app.use(createErrorOverlayMiddleware());
+    }
     // 接口代理（这段配置更推荐：写到package.json，再引入到这里）
     // proxy: {
     //   "/api-dev": {

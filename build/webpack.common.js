@@ -1,4 +1,5 @@
 const path = require('path');
+const { DefinePlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
@@ -49,9 +50,14 @@ module.exports = {
       {
         test: /\.tsx?$/,
         use: [
-          { loader: 'thread-loader' },
+          // { loader: 'thread-loader' },
           {
             loader: 'babel-loader'
+          },
+          // 注意这个 loader babel 编译之前执行
+          {
+            loader: 'react-dev-inspector/plugins/webpack/inspector-loader',
+            options: { exclude: [path.resolve(__dirname, '../dist')] }
           },
           {
             loader: 'ts-loader',
@@ -103,6 +109,9 @@ module.exports = {
   },
 
   plugins: [
+    new DefinePlugin({
+      'process.env.PWD': JSON.stringify(process.env.PWD)
+    }),
     new ProgressBarPlugin(),
     new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
