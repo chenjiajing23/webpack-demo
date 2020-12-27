@@ -157,13 +157,14 @@ module.exports = {
       chunks: 'all',
       minSize: 30000,
       minRemainingSize: 0,
-      maxSize: 50000,
+      // maxSize: 50000,
       minChunks: 1,
       maxAsyncRequests: 30,
       maxInitialRequests: 30,
       automaticNameDelimiter: '~',
       enforceSizeThreshold: 50000,
       cacheGroups: {
+        default: false,
         defaultVendors: {
           test: /[\\/]node_modules[\\/]/,
           priority: -10,
@@ -174,6 +175,11 @@ module.exports = {
           priority: -20,
           reuseExistingChunk: true
         }
+        // vendors: {
+        //   test: /[\\/]node_modules[\\/]/,
+        //   name: "vendors",
+        //   priority: 10,
+        // }
       }
     }
   }
