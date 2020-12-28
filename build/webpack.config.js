@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
@@ -9,16 +10,17 @@ const config = require('../config');
 const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
+  mode: 'none',
   entry: {
     app: './src/main/index.tsx'
   },
 
   output: {
     filename: utils.assetsPath(
-      isDev ? 'js/[name].[chunkhash].js' : 'js/[name].[contenthash]-p.js'
+      isDev ? 'js/[name].[chunkhash].js' : 'js/[name].[contenthash].js'
     ),
     chunkFilename: utils.assetsPath(
-      isDev ? 'js/[id].[chunkhash].js' : 'js/[id].[contenthash]-p.js'
+      isDev ? 'js/[id].[chunkhash].js' : 'js/[id].[contenthash].js'
     ),
     path: config.base.assetsRoot,
     publicPath: config.base.assetsPublicPath
@@ -144,7 +146,8 @@ module.exports = {
       title: config.base.title,
       logo: path.resolve(__dirname, '../src/favicon/favicon.ico'),
       suppressSuccess: true
-    })
+    }),
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/)
   ],
 
   optimization: {
@@ -165,21 +168,29 @@ module.exports = {
       enforceSizeThreshold: 50000,
       cacheGroups: {
         default: false,
-        defaultVendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-          chunks: 'all'
-        },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true
-        }
-        // vendors: {
+        // defaultVendors: {
         //   test: /[\\/]node_modules[\\/]/,
-        //   name: "vendors",
-        //   priority: 10,
-        // }
+        //   priority: -10,
+        //   chunks: 'all'
+        // },
+        // default: {
+        //   minChunks: 2,
+        //   priority: -20,
+        //   reuseExistingChunk: true
+        // },
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: 10,
+          name(module) {
+            // get the name. E.g. node_modules/packageName/not/this/part.js
+            // or node_modules/packageName
+            const packageName = module.context.match(
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+            )[1];
+            // npm package names are URL-safe, but some servers don't like @ symbols
+            return `npm.${packageName.replace('@', '')}`;
+          }
+        }
       }
     }
   }

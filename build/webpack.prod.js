@@ -7,6 +7,7 @@ const TerserJSPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer');
 // const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 // const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 // const PurgecssPlugin = require('purgecss-webpack-plugin');
@@ -80,6 +81,10 @@ module.exports = merge(base, {
     //   paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
     //   whitelistPatternsChildren: [/^ant/, /^src-modules/, /^src-components/]
     // }),
+    // new BundleAnalyzerPlugin.BundleAnalyzerPlugin({
+    //   openAnalyzer: false,
+    //   analyzerPort: 8888
+    // })
   ],
 
   optimization: {
