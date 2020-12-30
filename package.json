@@ -1,7 +1,7 @@
 {
-  "name": "react-template-pc",
+  "name": "{{ package_name }}",
   "version": "0.0.3",
-  "description": "a react-template-pc project",
+  "description": "a react project template",
   "homepage": "https://chenjiajing23.github.io/react-template-pc",
   "private": true,
   "keywords": [],

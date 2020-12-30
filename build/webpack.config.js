@@ -17,10 +17,10 @@ module.exports = {
 
   output: {
     filename: utils.assetsPath(
-      isDev ? 'js/[name].[chunkhash].js' : 'js/[name].[contenthash].js'
+      isDev ? 'js/[name].[chunkhash].js' : 'js/[name].[contenthash:8].js'
     ),
     chunkFilename: utils.assetsPath(
-      isDev ? 'js/[id].[chunkhash].js' : 'js/[id].[contenthash].js'
+      isDev ? 'js/[id].[chunkhash].js' : 'js/[id].[contenthash:8].js'
     ),
     path: config.base.assetsRoot,
     publicPath: config.base.assetsPublicPath
@@ -75,7 +75,7 @@ module.exports = {
         //     loader: 'url-loader',
         //     options: {
         //       limit: 10000,
-        //       name: utils.assetsPath('img/[name].[contenthash].[ext]')
+        //       name: utils.assetsPath('img/[name].[contenthash:8].[ext]')
         //     }
         //   }
         // ],
@@ -87,7 +87,7 @@ module.exports = {
           }
         },
         generator: {
-          filename: utils.assetsPath('img/[name][contenthash][ext][query]')
+          filename: utils.assetsPath('img/[name][contenthash:8][ext][query]')
         },
         include: path.resolve(__dirname, '../src')
       },
@@ -109,7 +109,7 @@ module.exports = {
           }
         },
         generator: {
-          filename: utils.assetsPath('media/[name][contenthash][ext][query]')
+          filename: utils.assetsPath('media/[name][contenthash:8][ext][query]')
         },
         include: path.resolve(__dirname, '../src')
       },
@@ -126,7 +126,7 @@ module.exports = {
         // ],
         type: 'asset/resource',
         generator: {
-          filename: utils.assetsPath('fonts/[name][contenthash][ext][query]')
+          filename: utils.assetsPath('fonts/[name][contenthash:8][ext][query]')
         },
         include: path.resolve(__dirname, '../src')
       }
@@ -163,7 +163,8 @@ module.exports = {
       // maxSize: 50000,
       minChunks: 1,
       maxAsyncRequests: 30,
-      maxInitialRequests: 30,
+      // maxInitialRequests: 30,
+      maxInitialRequests: Infinity,
       automaticNameDelimiter: '~',
       enforceSizeThreshold: 50000,
       cacheGroups: {
@@ -181,13 +182,11 @@ module.exports = {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           priority: 10,
+          // enforce: true,
           name(module) {
-            // get the name. E.g. node_modules/packageName/not/this/part.js
-            // or node_modules/packageName
             const packageName = module.context.match(
               /[\\/]node_modules[\\/](.*?)([\\/]|$)/
             )[1];
-            // npm package names are URL-safe, but some servers don't like @ symbols
             return `npm.${packageName.replace('@', '')}`;
           }
         }

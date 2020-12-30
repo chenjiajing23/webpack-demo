@@ -74,8 +74,8 @@ module.exports = merge(base, {
     //   { test: /mini-css-extract-plugin[\\/]dist[\\/]loader/ }
     // ]),
     new MiniCssExtractPlugin({
-      filename: utils.assetsPath('css/[name].[contenthash].css'),
-      chunkFilename: utils.assetsPath('css/[id].[contenthash].css')
+      filename: utils.assetsPath('css/[name].[contenthash:8].css'),
+      chunkFilename: utils.assetsPath('css/[id].[contenthash:8].css')
     })
     // new PurgecssPlugin({
     //   paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
