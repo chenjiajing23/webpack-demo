@@ -4,10 +4,23 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 var ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const utils = require('./utils');
 const config = require('../config');
 const isDev = process.env.NODE_ENV === 'development';
+const hasJsxRuntime = (() => {
+  if (process.env.DISABLE_NEW_JSX_TRANSFORM === 'true') {
+    return false;
+  }
+
+  try {
+    require.resolve('react/jsx-runtime');
+    return true;
+  } catch (e) {
+    return false;
+  }
+})();
 
 module.exports = {
   mode: 'none',
@@ -147,7 +160,27 @@ module.exports = {
       logo: path.resolve(__dirname, '../src/favicon/favicon.ico'),
       suppressSuccess: true
     }),
-    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/)
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
+    // ESLINT
+    new ESLintPlugin({
+      extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
+      formatter: require.resolve('react-dev-utils/eslintFormatter'),
+      eslintPath: require.resolve('eslint'),
+      context: path.resolve(__dirname, '../src'),
+      cache: true,
+      quiet: false, // 只输出error，忽略warn
+      cwd: path.resolve('..'),
+      fix: true, // 自动修复
+      resolvePluginsRelativeTo: __dirname,
+      baseConfig: {
+        extends: [require.resolve('eslint-config-react-app/base')],
+        rules: {
+          ...(!hasJsxRuntime && {
+            'react/react-in-jsx-scope': 'error'
+          })
+        }
+      }
+    })
   ],
 
   optimization: {

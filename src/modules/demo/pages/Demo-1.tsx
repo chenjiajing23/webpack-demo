@@ -1,22 +1,24 @@
-import React, { PropsWithChildren, useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { PropsWithChildren, useState, useEffect, memo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'antd';
 import classnames from 'classnames';
 
 import '../style/demo.less';
 import demeImage from '../assets/good.png';
-import { setCommon } from '@/store/demo/action';
-import { IWrapDemoState, IDemoState } from '@/store/demo/type';
+import { decrementCount, incrementCount } from '@/store/demo/action';
+import { IDemoState } from '@/store/demo/type';
 import { RouteComponentProps } from 'react-router-dom';
+import { IStoreState } from '@/store/type';
 
 interface IProps {
-  count: number;
-  setCommon: (payload: Partial<IDemoState>) => void;
+  [key: string]: any;
 }
 
 const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
-  const { count, setCommon } = props;
+  const {} = props;
   const [isShow, setShow] = useState(false);
+  const dispatch = useDispatch();
+  const demo = useSelector<IStoreState, IDemoState>(state => state.demo);
 
   useEffect(() => {
     (window.apis as any).getUserInfo({ params: { id: 333 } }).then((res: any) => {
@@ -25,17 +27,15 @@ const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   }, []);
 
   const increment = () => {
-    setCommon({ count: count + 1 });
+    dispatch(incrementCount(1));
     setShow(!isShow);
   };
 
   const decrement = () => {
-    setCommon({
-      count: count - 1
-    });
+    dispatch(decrementCount(-1));
     setShow(!isShow);
   };
-  if (count === 5) {
+  if (demo.count === 5) {
     throw new Error('测试错误边界！');
   }
 
@@ -49,8 +49,8 @@ const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   return (
     <div styleName="demo" className={classnames({ chenjiajing: isShow })}>
       <div styleName="content">
-        <h1>{count}</h1>
-        <p styleName="title">-大哥放过我吧abcdABCDfffff</p>
+        <h1>{demo.count}</h1>
+        <p styleName="title">无敌是多么寂寞</p>
         <Button type="primary" onClick={increment}>
           +
         </Button>
@@ -69,12 +69,4 @@ const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   );
 };
 
-const mapStateToProps = (state: IWrapDemoState) => ({
-  count: state.demo.count
-});
-
-const mapDispatchToProps = (dispatch: any) => ({
-  setCommon: (payload: Partial<IDemoState>) => dispatch(setCommon(payload))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Demo1);
+export default memo(Demo1);
