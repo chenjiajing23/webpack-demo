@@ -8,7 +8,7 @@
       ignorePseudoClasses: ["global","local"]
     }],
     "font-family-no-missing-generic-family-keyword":[true,{
-        ignorePseudoClasses: ["Alibaba-PuHuiTi-Bold"]
+      ignoreFontFamilies: ["Alibaba-PuHuiTi-Bold","MyFont"]
     }]
   }
 }
