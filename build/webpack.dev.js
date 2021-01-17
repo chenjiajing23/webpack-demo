@@ -1,7 +1,7 @@
 // const path = require('path');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer');
 
 const base = require('./webpack.config.js');
 const utils = require('./utils');
@@ -70,10 +70,12 @@ module.exports = merge(base, {
   // },
 
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
-    // new BundleAnalyzerPlugin.BundleAnalyzerPlugin({
-    //   openAnalyzer: false,
-    //   analyzerPort: 8888
-    // }),
+    new webpack.HotModuleReplacementPlugin(),
+    new BundleAnalyzerPlugin.BundleAnalyzerPlugin({
+      openAnalyzer: false,
+      analyzerPort: 8888,
+      analyzerMode: 'disabled', // 不启动展示打包报告的http服务器
+      generateStatsFile: true, // 是否生成stats.json文件
+    }),
   ]
 });

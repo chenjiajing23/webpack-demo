@@ -12,7 +12,7 @@ import 'moment/locale/zh-cn';
 import './../style/reset.css';
 import './../style/font.css';
 import reducers from '../store/reducers';
-import Local from './Local';
+import Local from './local';
 
 moment.locale(enUS.locale);
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk, promise)));

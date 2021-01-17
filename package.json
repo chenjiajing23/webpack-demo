@@ -25,7 +25,9 @@
     "patch": "standard-version -r patch",
     "minor": "standard-version -r minor",
     "major": "standard-version -r major",
-    "pub": "npm run build && npx git push --follow-tags origin master"
+    "pub": "npm run build && npx git push --follow-tags origin master",
+    "generateAnalyzFile": "webpack --profile --json > stats.json",
+    "analyz": "webpack-bundle-analyzer --port 8888 ./dist/stats.json"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

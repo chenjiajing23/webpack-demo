@@ -30,10 +30,10 @@ module.exports = {
 
   output: {
     filename: utils.assetsPath(
-      isDev ? 'js/[name].[chunkhash].js' : 'js/[name].[contenthash:8].js'
+      isDev ? 'js/[name].[chunkhash:8].js' : 'js/[name].[contenthash:8].js'
     ),
     chunkFilename: utils.assetsPath(
-      isDev ? 'js/[id].[chunkhash].js' : 'js/[id].[contenthash:8].js'
+      isDev ? 'js/[id].[chunkhash:8].js' : 'js/[id].[contenthash:8].js'
     ),
     path: config.base.assetsRoot,
     publicPath: config.base.assetsPublicPath
@@ -160,6 +160,11 @@ module.exports = {
       logo: path.resolve(__dirname, '../src/favicon/favicon.ico'),
       suppressSuccess: true
     }),
+    /**
+     * @desc 内置插件，也可以使用 `moment-locales-webpack-plugin` -> https://www.npmjs.com/package/moment-locales-webpack-plugin
+     * @url https://www.webpackjs.com/plugins/context-replacement-plugin/
+     */
+
     new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
     // ESLINT
     new ESLintPlugin({
