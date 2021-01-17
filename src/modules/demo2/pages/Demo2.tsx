@@ -1,10 +1,14 @@
 import React, { PropsWithChildren, useEffect, useReducer } from 'react';
-import { Button } from 'antd';
+import { Button, Calendar, Pagination } from 'antd';
 import { RouteComponentProps } from 'react-router-dom';
 import { useImmer } from 'use-immer';
+import { useDispatch, useSelector } from 'react-redux';
 
 import '../style/deme-2.less';
-
+import moment from 'moment';
+import { IStoreState } from '@/store/type';
+import { ILangState } from '@/store/lang/type';
+import { onSwitchLang } from '@/store/lang/action';
 interface IProps {
   [key: string]: any;
 }
@@ -15,6 +19,8 @@ function reducer(state: { count: number }) {
 
 const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   const {} = props;
+  const lang = useSelector<IStoreState, ILangState>(state => state.lang);
+  const dispatchRedux = useDispatch();
 
   const [state, dispatch] = useReducer(reducer, { count: 0 });
 
@@ -55,26 +61,53 @@ const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
     });
   };
 
+  // switch lang
+  const onSetLocal = () => {
+    if (lang.local === 'en') {
+      dispatchRedux(onSwitchLang('zh-cn'));
+    } else {
+      dispatchRedux(onSwitchLang('en'));
+    }
+  };
+
   return (
     <section styleName="deme-2">
-      <Button type="primary" onClick={onNextPage}>
-        回到DEMO-1
-      </Button>
-      <div className="App">
-        <h1>
-          Hello {person.name} ({person.age})
-        </h1>
-        <input
-          onChange={e => {
-            updateName(e.target.value);
-          }}
-          value={person.name}
-        />
-        <br />
-        <button onClick={becomeOlder}>Older</button>
-      </div>
-      <div>
-        <span>计时开始：{state.count}</span>
+      <header styleName="header">
+        <span styleName="title">Demo-2</span>
+        <Button size="small" styleName="lang" onClick={onSetLocal}>
+          {lang.local === 'en' ? '中文' : 'English'}
+        </Button>
+      </header>
+      <div styleName="content">
+        <p>国际化</p>
+        <div style={{ margin: '20px 0' }}>
+          <Pagination defaultCurrent={1} total={50} showSizeChanger />
+        </div>
+        <div
+          style={{ margin: '20px 0' }}
+          className="site-config-provider-calendar-wrapper"
+        >
+          <Calendar fullscreen={false} value={moment()} />
+        </div>
+        <Button type="primary" onClick={onNextPage}>
+          回到DEMO-1
+        </Button>
+        <div className="App">
+          <h1>
+            Hello {person.name} ({person.age})
+          </h1>
+          <input
+            onChange={e => {
+              updateName(e.target.value);
+            }}
+            value={person.name}
+          />
+          <br />
+          <button onClick={becomeOlder}>Older</button>
+        </div>
+        <div>
+          <span>计时开始：{state.count}</span>
+        </div>
       </div>
     </section>
   );
