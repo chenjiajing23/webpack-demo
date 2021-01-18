@@ -25,7 +25,7 @@ const hasJsxRuntime = (() => {
 module.exports = {
   mode: 'none',
   entry: {
-    app: './src/main/index.tsx'
+    app: path.resolve(__dirname, '../src/main/index.tsx'),
   },
 
   output: {
@@ -81,7 +81,8 @@ module.exports = {
         include: path.resolve(__dirname, '../src')
       },
       {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        test: /\.(bmp|png|jpe?g|gif|svg)(\?.*)?$/,
+        // test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg$/],
         // webpack4处理方式（勿删）
         // use: [
         //   {
@@ -100,7 +101,7 @@ module.exports = {
           }
         },
         generator: {
-          filename: utils.assetsPath('img/[name][contenthash:8][ext][query]')
+          filename: utils.assetsPath('img/[name][hash:8][ext][query]')
         },
         include: path.resolve(__dirname, '../src')
       },

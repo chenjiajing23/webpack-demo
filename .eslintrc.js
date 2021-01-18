@@ -91,6 +91,7 @@ module.exports = {
     '@typescript-eslint/unified-signatures': 'error',
     '@typescript-eslint/restrict-template-expressions': 'off',
     '@typescript-eslint/camelcase': 'off',
+    '@typescript-eslint/no-floating-promises': 'warn',
     'arrow-body-style': 'error',
     'arrow-parens': ['off', 'as-needed'],
     camelcase: 'off',

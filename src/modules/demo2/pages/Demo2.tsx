@@ -3,6 +3,7 @@ import { Button, Calendar, Pagination } from 'antd';
 import { RouteComponentProps } from 'react-router-dom';
 import { useImmer } from 'use-immer';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import '../style/deme-2.less';
 import moment from 'moment';
@@ -19,8 +20,9 @@ function reducer(state: { count: number }) {
 
 const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   const {} = props;
-  const lang = useSelector<IStoreState, ILangState>(state => state.lang);
   const dispatchRedux = useDispatch();
+  const { t } = useTranslation();
+  const lang = useSelector<IStoreState, ILangState>(state => state.lang);
 
   const [state, dispatch] = useReducer(reducer, { count: 0 });
 
@@ -74,6 +76,12 @@ const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
     <section styleName="deme-2">
       <header styleName="header">
         <span styleName="title">Demo-2</span>
+        <div>
+          {/* 3种常用使用方式 */}
+          <h1>{t('home')}</h1>
+          {/* <h2><Trans>home</Trans></h2>
+          <Translation>{t => <h3>{t('home')}</h3>}</Translation> */}
+        </div>
         <Button size="small" styleName="lang" onClick={onSetLocal}>
           {lang.local === 'en' ? '中文' : 'English'}
         </Button>

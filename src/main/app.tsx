@@ -17,9 +17,9 @@ import Local from './local';
 moment.locale(enUS.locale);
 const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk, promise)));
 
-const App = () => (
+const App = (props: JSX.IntrinsicAttributes) => (
   <Provider store={store}>
-    <Local />
+    <Local {...props} />
   </Provider>
 );
 

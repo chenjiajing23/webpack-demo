@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createHashHistory } from 'history';
+
+import '@/config/i18n';
 import apis from '../library/apis';
 
-window.router = createHashHistory();
+console.log('我输了');
+
 window.apis = apis;
+window.router = createHashHistory();
 
 import App from './app';
 

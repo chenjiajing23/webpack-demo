@@ -9,7 +9,8 @@
   "license": "ISC",
   "sideEffects": [
     "*.css",
-    "*.less"
+    "*.less",
+    "./src/config/i18n.ts"
   ],
   "scripts": {
     "dev": "cross-env NODE_ENV=development node ./build/dev-server.js",
@@ -26,8 +27,8 @@
     "minor": "standard-version -r minor",
     "major": "standard-version -r major",
     "pub": "npm run build && npx git push --follow-tags origin master",
-    "generateAnalyzFile": "webpack --profile --json > stats.json",
-    "analyz": "webpack-bundle-analyzer --port 8888 ./dist/stats.json"
+    "generateAnalyzeFile": "webpack --profile --json > stats.json",
+    "analyze": "webpack-bundle-analyzer --port 8888 ./dist/stats.json"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
@@ -102,10 +103,13 @@
     "classnames": "^2.2.6",
     "gh-pages": "^3.1.0",
     "good-apis": "^0.0.10",
+    "i18next": "^19.8.4",
+    "i18next-browser-languagedetector": "^6.0.1",
     "immer": "^8.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hot-loader": "^4.13.0",
+    "react-i18next": "^11.8.5",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
