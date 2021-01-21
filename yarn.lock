@@ -5604,10 +5604,10 @@ latest-version@^5.0.0:
   dependencies:
     package-json "^6.3.0"
 
-less-loader@^7.2.1:
-  version "7.2.1"
-  resolved "https://registry.npm.taobao.org/less-loader/download/less-loader-7.2.1.tgz?cache=0&sync_timestamp=1609160531018&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless-loader%2Fdownload%2Fless-loader-7.2.1.tgz#a923df8567256751b0ab4e0c3eecff10fd0a5876"
-  integrity sha1-qSPfhWclZ1Gwq04MPuz/EP0KWHY=
+less-loader@^7.3.0:
+  version "7.3.0"
+  resolved "https://registry.npm.taobao.org/less-loader/download/less-loader-7.3.0.tgz#f9d6d36d18739d642067a05fb5bd70c8c61317e5"
+  integrity sha1-+dbTbRhznWQgZ6Bftb1wyMYTF+U=
   dependencies:
     klona "^2.0.4"
     loader-utils "^2.0.0"
@@ -7081,16 +7081,16 @@ postcss-less@^4.0.0:
   dependencies:
     postcss "^8.1.2"
 
-postcss-loader@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.npm.taobao.org/postcss-loader/download/postcss-loader-4.1.0.tgz#4647a6c8dad3cb6b253fbfaa21d62201086f6e39"
-  integrity sha1-RkemyNrTy2slP7+qIdYiAQhvbjk=
+postcss-loader@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.npm.taobao.org/postcss-loader/download/postcss-loader-4.2.0.tgz#f6993ea3e0f46600fb3ee49bbd010448123a7db4"
+  integrity sha1-9pk+o+D0ZgD7PuSbvQEESBI6fbQ=
   dependencies:
     cosmiconfig "^7.0.0"
     klona "^2.0.4"
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
-    semver "^7.3.2"
+    semver "^7.3.4"
 
 postcss-media-query-parser@^0.2.3:
   version "0.2.3"
@@ -10006,10 +10006,10 @@ webpack-build-notifier@^2.1.1:
     node-notifier "9.0.0"
     strip-ansi "^6.0.0"
 
-webpack-bundle-analyzer@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.npm.taobao.org/webpack-bundle-analyzer/download/webpack-bundle-analyzer-4.3.0.tgz?cache=0&sync_timestamp=1608133719952&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwebpack-bundle-analyzer%2Fdownload%2Fwebpack-bundle-analyzer-4.3.0.tgz#2f3c0ca9041d5ee47fa418693cf56b4a518b578b"
-  integrity sha1-LzwMqQQdXuR/pBhpPPVrSlGLV4s=
+webpack-bundle-analyzer@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.npm.taobao.org/webpack-bundle-analyzer/download/webpack-bundle-analyzer-4.4.0.tgz?cache=0&sync_timestamp=1611221513167&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwebpack-bundle-analyzer%2Fdownload%2Fwebpack-bundle-analyzer-4.4.0.tgz#74013106e7e2b07cbd64f3a5ae847f7e814802c7"
+  integrity sha1-dAExBufisHy9ZPOlroR/foFIAsc=
   dependencies:
     acorn "^8.0.4"
     acorn-walk "^8.0.0"
