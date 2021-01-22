@@ -1,14 +1,15 @@
 import React, { PropsWithChildren, useEffect, useReducer } from 'react';
-import { Button, Calendar, Pagination } from 'antd';
+import { Button, Calendar, Pagination, Popover } from 'antd';
 import { RouteComponentProps } from 'react-router-dom';
 import { useImmer } from 'use-immer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 
 import '../style/deme-2.less';
 import moment from 'moment';
 import { IStoreState } from '@/store/type';
-import { ILangState } from '@/store/lang/type';
+import { ILangState, ILangType } from '@/store/lang/type';
 import { onSwitchLang } from '@/store/lang/action';
 interface IProps {
   [key: string]: any;
@@ -64,12 +65,8 @@ const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   };
 
   // switch lang
-  const onSetLocal = () => {
-    if (lang.local === 'en') {
-      dispatchRedux(onSwitchLang('zh-cn'));
-    } else {
-      dispatchRedux(onSwitchLang('en'));
-    }
+  const onSetLocal = (key: ILangType) => {
+    dispatchRedux(onSwitchLang(key));
   };
 
   return (
@@ -82,9 +79,31 @@ const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
           {/* <h2><Trans>home</Trans></h2>
           <Translation>{t => <h3>{t('home')}</h3>}</Translation> */}
         </div>
-        <Button size="small" styleName="lang" onClick={onSetLocal}>
-          {lang.local === 'en' ? '中文' : 'English'}
-        </Button>
+        <Popover
+          arrowPointAtCenter
+          trigger="click"
+          overlayClassName="popover-wrap"
+          title={null}
+          content={
+            <ul styleName={'lang-list'}>
+              {lang.langList.map(item => (
+                <li
+                  styleName={classNames('lang-list-item', {
+                    'lang-list-item-active': lang.local === item.key
+                  })}
+                  key={item.key}
+                  onClick={() => onSetLocal(item.key)}
+                >
+                  {item.name}
+                </li>
+              ))}
+            </ul>
+          }
+        >
+          <Button size="small" styleName="lang">
+            {lang.langList.find(v => lang.local === v.key)?.name || '中文'}
+          </Button>
+        </Popover>
       </header>
       <div styleName="content">
         <p>国际化</p>

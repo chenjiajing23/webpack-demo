@@ -3,7 +3,8 @@ const os = require('os');
 const { merge } = require('webpack-merge');
 const base = require('./webpack.config.js');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const TerserJSPlugin = require('terser-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const safePostCssParser = require("postcss-safe-parser");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -14,6 +15,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const utils = require('./utils');
 const config = require('../config');
+const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false'; // 默认为 true
 
 // const smp = new SpeedMeasurePlugin();
 // const PATHS = {
@@ -22,13 +24,10 @@ const config = require('../config');
 
 module.exports = merge(base, {
   mode: 'production',
-
-  devtool: 'source-map',
-
+  devtool: shouldUseSourceMap ? "source-map" : false,
   output: {
     publicPath: config.prod.assetsPublicPath
   },
-
   module: {
     rules: [
       ...utils.styleLoaders(true)
@@ -63,7 +62,6 @@ module.exports = merge(base, {
       // }
     ]
   },
-
   plugins: [
     new CleanWebpackPlugin(),
     // new webpack.DefinePlugin({
@@ -92,20 +90,46 @@ module.exports = merge(base, {
     chunkIds: 'deterministic',
     moduleIds: 'deterministic',
     minimizer: [
-      new TerserJSPlugin({
+      new TerserPlugin({
         parallel: os.cpus().length - 1,
         terserOptions: {
           compress: {
+            ecma: 5,
+            comparisons: false,
             drop_console: true,
-            drop_debugger: true
+            drop_debugger: true,
+            inline: 2
           },
           format: {
             comments: false
-          }
+          },
+          mangle: {
+            safari10: true,
+          },
         },
-        extractComments: false
+        extractComments: false, // 是否提取注释到单独文件
       }),
-      new OptimizeCSSAssetsPlugin(),
+      // This is only used in production mode
+      new OptimizeCSSAssetsPlugin(
+        {
+          cssProcessorOptions: {
+            parser: safePostCssParser,
+            map: shouldUseSourceMap
+              ? {
+                // `inline: false` forces the sourcemap to be output into a
+                // separate file
+                inline: false,
+                // `annotation: true` appends the sourceMappingURL to the end of
+                // the css file, helping the browser find the sourcemap
+                annotation: true
+              }
+              : false
+          },
+          cssProcessorPluginOptions: {
+            preset: ["default", { minifyFontValues: { removeQuotes: false } }]
+          }
+        }
+      ),
       new CompressionWebpackPlugin({
         compressionOptions: {
           level: 9

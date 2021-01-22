@@ -1,7 +1,9 @@
 const path = require('path');
 const genericNames = require('generic-names');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 const config = require('../config');
+const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 
 exports.resolve = function (dir) {
   return path.join(__dirname, '..', dir);
@@ -32,17 +34,17 @@ exports.styleLoaders = function (isProd) {
       use: [
         isProd
           ? {
-              loader: MiniCssExtractPlugin.loader
-              // options: {
-              //   publicPath: '../',
-              //   hmr: isProd ? false : true
-              // }
-            }
+            loader: MiniCssExtractPlugin.loader
+            // options: {
+            //   publicPath: '../',
+            //   hmr: isProd ? false : true
+            // }
+          }
           : 'style-loader',
         {
           loader: 'css-loader',
           options: {
-            sourceMap: !isProd,
+            sourceMap: isProd && shouldUseSourceMap,
             modules: {
               // localIdentName: '[path]_[name]_[local]_[hash:base64:5]',
               getLocalIdent: (context, _localIdentName, localName) => {
@@ -51,8 +53,16 @@ exports.styleLoaders = function (isProd) {
             }
           }
         },
-        { loader: 'postcss-loader' },
-        { loader: 'less-loader' }
+        {
+          loader: 'postcss-loader', options: {
+            sourceMap: isProd && shouldUseSourceMap
+          }
+        },
+        {
+          loader: 'less-loader', options: {
+            sourceMap: true,
+          }
+        }
       ]
     },
     {

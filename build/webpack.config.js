@@ -164,9 +164,10 @@ module.exports = {
     /**
      * @desc 内置插件，也可以使用 `moment-locales-webpack-plugin` -> https://www.npmjs.com/package/moment-locales-webpack-plugin
      * @url https://www.webpackjs.com/plugins/context-replacement-plugin/
+     * @more @{moment} // https://github.com/moment/moment/tree/develop/dist/locale
      */
 
-    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/),
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn|ja|zh-hk/),
     // ESLINT
     new ESLintPlugin({
       extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],

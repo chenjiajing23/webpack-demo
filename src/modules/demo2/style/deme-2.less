@@ -1,3 +1,11 @@
+:global {
+  .popover-wrap {
+    .ant-popover-inner-content {
+      padding: 0;
+    }
+  }
+}
+
 .deme-2 {
   width: 100vw;
   height: 100vh;
@@ -18,7 +26,7 @@
     align-items: center;
     flex-shrink: 0;
     height: 64px;
-    padding: 0 24px;
+    padding: 0 50px;
     position: relative;
     z-index: 10;
     max-width: 100%;
@@ -40,5 +48,42 @@
     justify-content: center;
     align-items: center;
     flex-grow: 1;
+  }
+}
+
+.lang-list {
+  display: flex;
+  flex-direction: column;
+  min-width: 100px;
+  max-width: 300px;
+  min-height: 80px;
+  padding: 0 20px;
+  background: #ffffff;
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+
+  .lang-list-item {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.8);
+    font-weight: 400;
+    cursor: pointer;
+
+    &:hover {
+      color: #00205b;
+      font-weight: 500;
+    }
+
+    &:not(:last-of-type) {
+      box-shadow: inset 0px -1px 0px 0px rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  .lang-list-item-active {
+    color: #00205b;
+    font-weight: 500;
   }
 }
