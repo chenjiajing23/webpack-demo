@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useEffect, useReducer } from 'react';
 import { Button, Calendar, Pagination, Popover } from 'antd';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, useParams } from 'react-router-dom';
 import { useImmer } from 'use-immer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -21,6 +21,7 @@ function reducer(state: { count: number }) {
 
 const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   const {} = props;
+  const { language } = useParams<RouterParams>();
   const dispatchRedux = useDispatch();
   const { t } = useTranslation();
   const lang = useSelector<IStoreState, ILangState>(state => state.lang);
@@ -59,7 +60,7 @@ const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
 
   const onNextPage = () => {
     window.router.push({
-      pathname: '/demo',
+      pathname: `/${lang.local}/demo`,
       state: { name: window.router.location.pathname }
     });
   };
@@ -67,6 +68,11 @@ const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   // switch lang
   const onSetLocal = (key: ILangType) => {
     dispatchRedux(onSwitchLang(key));
+    localStorage.setItem('language', key);
+    const url = window.location.href.replace(`/${language}/`, `/${key}/`);
+    // 更新 url（不刷新）+ 重新刷新页面（加载资源）
+    window.history.replaceState({ url, title: document.title }, document.title, url);
+    window.location.reload();
   };
 
   return (

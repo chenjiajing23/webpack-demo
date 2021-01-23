@@ -14,7 +14,7 @@
     "preserveConstEnums": true,
     "resolveJsonModule": true,
     "jsx": "preserve",
-    "lib": ["dom", "es6", "es2017"],
+    "lib": ["dom", "es6", "es2017", "es2020.string", "esnext"],
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"],

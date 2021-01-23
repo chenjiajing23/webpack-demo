@@ -5,8 +5,6 @@ import { createHashHistory } from 'history';
 import '@/config/i18n';
 import apis from '../library/apis';
 
-console.log('我输了');
-
 window.apis = apis;
 window.router = createHashHistory();
 

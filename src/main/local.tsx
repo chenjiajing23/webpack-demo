@@ -10,7 +10,6 @@ import moment from 'moment';
 import 'moment/locale/zh-cn'; // 中文
 import 'moment/locale/ja'; // 日文
 import 'moment/locale/zh-hk'; // 繁体中文（中国香港）
-moment.locale(en_US.locale); // 默认英文
 
 import RouterComponent from './router';
 import { IStoreState } from '@/store/type';
@@ -27,26 +26,26 @@ const Local = () => {
       case 'en':
         setLocal(en_US);
         moment.locale(en_US.locale);
-        i18n.changeLanguage && i18n.changeLanguage('en');
+        void i18n.changeLanguage('en');
         break;
       case 'zh_CN':
         setLocal(zh_CN);
-        i18n.changeLanguage && i18n.changeLanguage('zh_CN');
+        void i18n.changeLanguage('zh_CN');
         break;
       case 'ja_JP':
         setLocal(ja_JP);
         moment.locale(ja_JP.locale);
-        i18n.changeLanguage && i18n.changeLanguage('ja_JP');
+        void i18n.changeLanguage('ja_JP');
         break;
       case 'zh_HK':
         setLocal(zh_HK);
         moment.locale(zh_HK.locale);
-        i18n.changeLanguage && i18n.changeLanguage('zh_HK');
+        void i18n.changeLanguage('zh_HK');
         break;
       default:
         setLocal(en_US);
         moment.locale(en_US.locale);
-        i18n.changeLanguage && i18n.changeLanguage('en');
+        void i18n.changeLanguage('en');
         break;
     }
   }, [i18n, lang.local]);

@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useState, useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'antd';
 import classnames from 'classnames';
+import { useParams } from 'react-router-dom';
 
 import '../style/demo.less';
 import demeImage from '../assets/good.png';
@@ -16,6 +17,7 @@ interface IProps {
 
 const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   const {} = props;
+  const { language } = useParams<RouterParams>();
   const [isShow, setShow] = useState(false);
   const dispatch = useDispatch();
   const demo = useSelector<IStoreState, IDemoState>(state => state.demo);
@@ -41,7 +43,7 @@ const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
 
   const onNextPage = () => {
     window.router.push({
-      pathname: '/demo-2',
+      pathname: `/${language}/demo-2`,
       state: { name: window.router.location.pathname }
     });
   };

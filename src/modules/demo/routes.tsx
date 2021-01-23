@@ -6,7 +6,7 @@ const Demo1 = withRouter(React.lazy(() => import('./pages/Demo-1')));
 
 const routeList: IRouteInfo[] = [
   {
-    path: '/demo',
+    path: '/:language/demo',
     exact: false,
     component: () => <Demo1 />
   }

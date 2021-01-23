@@ -1,7 +1,7 @@
 import { ILangState } from './type';
 
 const initialState: ILangState = {
-  local: 'en',
+  local: 'zh_CN',
   langList: [
     { key: 'zh_CN', name: '中文' },
     { key: 'en', name: 'English' },

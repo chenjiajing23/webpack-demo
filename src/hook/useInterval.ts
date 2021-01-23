@@ -5,7 +5,6 @@ const useSetInterval = (callback: Function) => {
 
   useEffect(() => {
     ref.current = callback;
-    console.log('good');
   });
 
   useEffect(() => {
