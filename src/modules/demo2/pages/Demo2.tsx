@@ -67,12 +67,15 @@ const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
 
   // switch lang
   const onSetLocal = (key: ILangType) => {
-    dispatchRedux(onSwitchLang(key));
-    localStorage.setItem('language', key);
-    const url = window.location.href.replace(`/${language}/`, `/${key}/`);
-    // 更新 url（不刷新）+ 重新刷新页面（加载资源）
-    window.history.replaceState({ url, title: document.title }, document.title, url);
-    window.location.reload();
+    console.log(language, '路由参数');
+    if (key !== language) {
+      dispatchRedux(onSwitchLang(key));
+      localStorage.setItem('language', key);
+      const url = window.location.href.replace(`/${language}/`, `/${key}/`);
+      // 更新 url（不刷新）+ 重新刷新页面（加载资源）
+      window.history.replaceState({ url, title: document.title }, document.title, url);
+      window.location.reload();
+    }
   };
 
   return (

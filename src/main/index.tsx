@@ -6,6 +6,7 @@ import '@/config/i18n';
 import apis from '../library/apis';
 
 window.apis = apis;
+// window.router = createBrowserHistory();
 window.router = createHashHistory();
 
 import App from './app';
