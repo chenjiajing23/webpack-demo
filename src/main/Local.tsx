@@ -17,7 +17,7 @@ import { ILangState } from '@/store/lang/type';
 
 const Local = () => {
   const { i18n } = useTranslation();
-  const [local, setLocal] = useState(en_US);
+  const [local, setLocal] = useState(zh_CN);
   const lang = useSelector<IStoreState, ILangState>(state => state.lang);
 
   // 切换语言
@@ -48,6 +48,7 @@ const Local = () => {
         void i18n.changeLanguage('en');
         break;
     }
+    document.documentElement.lang = lang.local;
   }, [i18n, lang.local]);
 
   return (
