@@ -98,7 +98,7 @@
   },
   "dependencies": {
     "@types/webpack-env": "^1.16.0",
-    "antd": "^4.10.3",
+    "antd": "^4.11.1",
     "axios": "^0.21.1",
     "babel-plugin-react-css-modules": "^5.2.6",
     "classnames": "^2.2.6",
