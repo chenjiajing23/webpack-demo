@@ -1,5 +1,16 @@
 {
-  "presets": [["@babel/preset-env", { "targets": { "node": "current" } }]],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current",
+          // "browsers": ["last 2 versions"],
+          "browsers": ["last 1 chrome version"]
+        }
+      }
+    ]
+  ],
   "plugins": [
     "react-hot-loader/babel",
     "@babel/plugin-transform-react-jsx",
