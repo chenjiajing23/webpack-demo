@@ -1,7 +1,11 @@
-process.env.NODE_ENV = 'production';
-
+const config = require('../config');
+// 定义环境变量
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = JSON.parse(config.prod.env.NODE_ENV);
+}
 const chalk = require('chalk');
 const webpack = require('webpack');
+
 const webpackConfig = require('./webpack.prod');
 
 

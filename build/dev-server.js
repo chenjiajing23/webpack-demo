@@ -1,5 +1,3 @@
-process.env.NODE_ENV = 'development';
-
 const opn = require('opn');
 const address = require('address')
 const path = require('path');
@@ -11,9 +9,12 @@ const devMiddleware = require('webpack-dev-middleware');
 const hotMiddleware = require('webpack-hot-middleware');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const history = require('connect-history-api-fallback');
-
-
 const config = require('../config');
+
+// 定义环境变量
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV);
+}
 const port = config.dev.port;
 const webpackConfig = require('./webpack.dev');
 
