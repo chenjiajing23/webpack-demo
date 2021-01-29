@@ -3,7 +3,6 @@ const genericNames = require('generic-names');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const config = require('../config');
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 
 exports.resolve = function (dir) {
   return path.join(__dirname, '..', dir);
@@ -26,7 +25,7 @@ const generateScopedName = (localName, filePath) => {
   return generate(localName, relativePath);
 };
 
-exports.styleLoaders = function (isProd) {
+exports.styleLoaders = function (isProd, shouldUseSourceMap = false) {
   const output = [
     {
       test: /\.(css|less)$/,
@@ -44,7 +43,7 @@ exports.styleLoaders = function (isProd) {
         {
           loader: 'css-loader',
           options: {
-            sourceMap: isProd && shouldUseSourceMap,
+            sourceMap: shouldUseSourceMap,
             modules: {
               // localIdentName: '[path]_[name]_[local]_[hash:base64:5]',
               getLocalIdent: (context, _localIdentName, localName) => {
@@ -55,7 +54,7 @@ exports.styleLoaders = function (isProd) {
         },
         {
           loader: 'postcss-loader', options: {
-            sourceMap: isProd && shouldUseSourceMap
+            sourceMap: shouldUseSourceMap
           }
         },
         {

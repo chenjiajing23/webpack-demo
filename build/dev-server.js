@@ -1,3 +1,7 @@
+process.env.NODE_ENV = 'development';
+
+const opn = require('opn');
+const address = require('address')
 const path = require('path');
 const chalk = require('chalk');
 const express = require('express');
@@ -6,6 +10,8 @@ const getPort = require('get-port');
 const devMiddleware = require('webpack-dev-middleware');
 const hotMiddleware = require('webpack-hot-middleware');
 const { createProxyMiddleware } = require('http-proxy-middleware');
+const history = require('connect-history-api-fallback');
+
 
 const config = require('../config');
 const port = config.dev.port;
@@ -29,6 +35,9 @@ const main = () => {
       path: '/__hmr'
     });
 
+    // handle fallback for HTML5 history API（https://github.com/bripkens/connect-history-api-fallback#readme）
+    app.use(history());
+
     app.use(webpackDevMiddleware);
     app.use(webpackHotMiddleware);
 
@@ -48,15 +57,19 @@ const main = () => {
       res.sendStatus(200);
     });
 
-    const staticPath = path.posix.join(
-      config.dev.assetsPublicPath,
-      config.base.assetsSubDirectory
-    );
+    const uri = `http://${config.dev.host}:${newPort}`;
+    // 使用address模块，自动获取本机IP
+    const autoUrl = `http://${address.ip()}:${newPort}`;
+
+    const staticPath = path.posix.join(config.dev.assetsPublicPath, config.base.assetsSubDirectory); // /static
     app.use(staticPath, express.static('./static'));
 
     console.log('> Starting dev server...');
     webpackDevMiddleware.waitUntilValid(() => {
-      console.log(chalk.green(`> Listening at： ${config.dev.host}:${newPort} \n`));
+      console.log(chalk.green(`\n> Listening at： ${uri}`));
+      console.log(chalk.yellowBright('or'));
+      console.log(chalk.green(`> Listening at： ${autoUrl} \n`));
+      opn(uri);
     });
     app.listen(newPort);
   });

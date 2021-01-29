@@ -9,6 +9,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const utils = require('./utils');
 const config = require('../config');
 const isDev = process.env.NODE_ENV === 'development';
+
 const hasJsxRuntime = (() => {
   if (process.env.DISABLE_NEW_JSX_TRANSFORM === 'true') {
     return false;

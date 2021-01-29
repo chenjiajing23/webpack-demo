@@ -1,7 +1,6 @@
 import React, { useEffect, PropsWithChildren } from 'react';
 import {
-  HashRouter as Router,
-  // BrowserRouter as Router,
+  Router,
   Redirect,
   Route,
   Switch,
@@ -114,7 +113,7 @@ const SwitchRouterComponent = (props: PropsWithChildren<RouteComponentProps>) =>
 const WithRouterComponent = withRouter(SwitchRouterComponent);
 
 const RouterComponent = () => (
-  <Router>
+  <Router history={window.router}>
     <WithRouterComponent />
   </Router>
 );

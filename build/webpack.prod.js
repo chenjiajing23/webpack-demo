@@ -1,28 +1,26 @@
 const os = require('os');
-// const path = require('path');
+const webpack = require('webpack');
 const { merge } = require('webpack-merge');
-const base = require('./webpack.config.js');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const safePostCssParser = require("postcss-safe-parser");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer');
 // const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 // const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 // const PurgecssPlugin = require('purgecss-webpack-plugin');
 
+const base = require('./webpack.config.js');
 const utils = require('./utils');
 const config = require('../config');
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false'; // 默认为 true
+const shouldUseSourceMap = config.prod.productionSourceMap;
 
 // const smp = new SpeedMeasurePlugin();
 // const PATHS = {
 //   src: path.join(__dirname, '../src')
 // };
 
-module.exports = merge(base, {
+const webpackConfig = merge(base, {
   mode: 'production',
   devtool: shouldUseSourceMap ? "source-map" : false,
   output: {
@@ -30,7 +28,7 @@ module.exports = merge(base, {
   },
   module: {
     rules: [
-      ...utils.styleLoaders(true)
+      ...utils.styleLoaders(true, false)
       // {
       //   test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
       //   use: [
@@ -63,6 +61,9 @@ module.exports = merge(base, {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': config.prod.env,
+    }),
     new CleanWebpackPlugin(),
     // new webpack.DefinePlugin({
     //   'process.env.NODE_ENV': JSON.stringify('production')
@@ -79,10 +80,6 @@ module.exports = merge(base, {
     //   paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
     //   whitelistPatternsChildren: [/^ant/, /^src-modules/, /^src-components/]
     // }),
-    // new BundleAnalyzerPlugin.BundleAnalyzerPlugin({
-    //   openAnalyzer: false,
-    //   analyzerPort: 8888
-    // })
   ],
 
   optimization: {
@@ -113,6 +110,7 @@ module.exports = merge(base, {
       new OptimizeCSSAssetsPlugin(
         {
           cssProcessorOptions: {
+            safe: true,
             parser: safePostCssParser,
             map: shouldUseSourceMap
               ? {
@@ -130,13 +128,6 @@ module.exports = merge(base, {
           }
         }
       ),
-      new CompressionWebpackPlugin({
-        compressionOptions: {
-          level: 9
-        },
-        minRatio: 0.8,
-        algorithm: 'gzip'
-      })
     ],
     splitChunks: {
       cacheGroups: {
@@ -155,5 +146,35 @@ module.exports = merge(base, {
     // assetFilter: function (assetFilename) {
     //   return assetFilename.endsWith('.js');
     // }
-  }
+  },
 });
+
+// gzip
+if (config.prod.productionGzip) {
+  const CompressionWebpackPlugin = require('compression-webpack-plugin');
+  webpackConfig.plugins.push(new CompressionWebpackPlugin({
+    asset: '[path].gz[query]',
+    algorithm: 'gzip',
+    compressionOptions: {
+      level: 9
+    },
+    test: new RegExp(
+      '\\.(' +
+      config.prod.productionGzipExtensions.join('|') +
+      ')$'
+    ),
+    minRatio: 0.8,
+    threshold: 10240,
+  }));
+};
+
+// 分析打包文件
+if (config.prod.bundleAnalyzerReport) {
+  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+  webpackConfig.plugins.push(new BundleAnalyzerPlugin({
+    openAnalyzer: true,
+    analyzerPort: 8888
+  }))
+};
+
+module.exports = webpackConfig

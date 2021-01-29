@@ -1,6 +1,9 @@
+process.env.NODE_ENV = 'production';
+
 const chalk = require('chalk');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.prod');
+
 
 webpack(webpackConfig, function (err, stats) {
   if (err) throw err;
@@ -19,7 +22,7 @@ webpack(webpackConfig, function (err, stats) {
   console.log(
     chalk.green(
       '  Tip: built files are meant to be served over an HTTP server.\n' +
-        "  Opening index.html over file:// won't work.\n"
+      "  Opening index.html over file:// won't work.\n"
     )
   );
 });
