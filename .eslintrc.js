@@ -20,6 +20,7 @@ module.exports = {
     ecmaFeatures: {
       tsx: true
     },
+    ecmaVersion: 2020,
     extraFileExtensions: ['.ts', '.tsx']
   },
   plugins: ['react', '@typescript-eslint', 'react-hooks'],
@@ -27,7 +28,7 @@ module.exports = {
     react: {
       pragma: 'React',
       version: 'detect'
-    }
+    },
   },
   rules: {
     semi: ['error', 'always'],
@@ -202,5 +203,5 @@ module.exports = {
     'react/display-name': 'off',
     'react-hooks/rules-of-hooks': 'error', // 检查 Hook 的规则
     'react-hooks/exhaustive-deps': 'warn' // 检查 effect 的依赖
-  }
+  },
 };

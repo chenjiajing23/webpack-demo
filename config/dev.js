@@ -3,9 +3,9 @@ module.exports = {
     NODE_ENV: '"development"'
   },
   port: 8080,
-  host: '0.0.0.0',
+  autoOpenBrowser: true,
   assetsPublicPath: '/',
-  // 代理，更多请参考 => https://github.com/chimurai/http-proxy-middleware
+  // 代理，更多(https://github.com/chimurai/http-proxy-middleware)
   proxyTable: {
     '/api': {
       target: 'http://localhost:1234',

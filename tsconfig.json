@@ -10,9 +10,12 @@
     "sourceMap": true,
     "noImplicitAny": true,
     // "noUnusedLocals": true,
+    "noImplicitReturns": true,
     "noUnusedParameters": true,
     "preserveConstEnums": true,
     "resolveJsonModule": true,
+    "noFallthroughCasesInSwitch": true,
+
     "jsx": "preserve",
     "lib": ["dom", "es6", "es2017", "es2020.string", "esnext"],
     "baseUrl": "./",
@@ -26,6 +29,9 @@
     },
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./src/**/*"],
-  "exclude": ["./node_modules"]
+  /* Experimental Options */
+  "experimentalDecorators": true,
+  "emitDecoratorMetadata": true,
+
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }

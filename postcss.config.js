@@ -4,7 +4,7 @@ module.exports = {
       overrideBrowserslist: ['last 2 versions', '>1%']
     }),
     require('stylelint')({
-      configFile: '.stylelintrc'
-    })
-  ]
+      configFile: '.stylelintrc.json'
+    }),
+  ],
 }

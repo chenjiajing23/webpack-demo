@@ -30,6 +30,7 @@ module.exports = {
   },
 
   output: {
+    // ecmaVersion: 2015,
     filename: utils.assetsPath(
       isDev ? 'js/[name].[chunkhash:8].js' : 'js/[name].[contenthash:8].js'
     ),
@@ -192,20 +193,22 @@ module.exports = {
   ],
 
   optimization: {
-    chunkIds: 'named',
-    moduleIds: 'named',
-    // runtimeChunk: { name: 'manifest' }, // 提取runtime代码命名为manifest
-    // namedModules: true, // 让模块id根据路径设置，避免每增加新模块，所有id都改变，造成缓存失效的情况
-    // namedChunks: true, // 避免增加entrypoint，其他文件都缓存失效
+    chunkIds: "deterministic",
+    moduleIds: "deterministic",
     splitChunks: {
       chunks: 'all',
-      minSize: 30000,
+      minSize: {
+        javascript: 30000,
+        style: 50000,
+      },
       minRemainingSize: 0,
-      // maxSize: 50000,
+      maxSize: {
+        javascript: 50000,
+        style: 50000,
+      },
       minChunks: 1,
       maxAsyncRequests: 30,
-      // maxInitialRequests: 30,
-      maxInitialRequests: Infinity,
+      maxInitialRequests: Infinity, // 30
       automaticNameDelimiter: '~',
       enforceSizeThreshold: 50000,
       cacheGroups: {

@@ -1,3 +1,8 @@
+const config = require('../config');
+// 定义环境变量
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV);
+}
 const opn = require('opn');
 const address = require('address')
 const path = require('path');
@@ -9,13 +14,10 @@ const devMiddleware = require('webpack-dev-middleware');
 const hotMiddleware = require('webpack-hot-middleware');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const history = require('connect-history-api-fallback');
-const config = require('../config');
 
-// 定义环境变量
-if (!process.env.NODE_ENV) {
-  process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV);
-}
 const port = config.dev.port;
+// automatically open browser, if not set will be false
+const autoOpenBrowser = !!config.dev.autoOpenBrowser
 const webpackConfig = require('./webpack.dev');
 
 const main = () => {
@@ -26,17 +28,17 @@ const main = () => {
     const compiler = webpack(webpackConfig);
 
     const webpackDevMiddleware = devMiddleware(compiler, {
-      // logLevel: 'silent',
       publicPath: webpackConfig.output.publicPath
     });
 
     const webpackHotMiddleware = hotMiddleware(compiler, {
-      log: false,
+      noInfo: true,
+      log: () => { },
       heartbeat: 2000,
       path: '/__hmr'
     });
 
-    // handle fallback for HTML5 history API（https://github.com/bripkens/connect-history-api-fallback#readme）
+    // handle fallback for HTML5 history API
     app.use(history());
 
     app.use(webpackDevMiddleware);
@@ -58,7 +60,7 @@ const main = () => {
       res.sendStatus(200);
     });
 
-    const uri = `http://${config.dev.host}:${newPort}`;
+    const uri = `http://localhost:${newPort}`;
     // 使用address模块，自动获取本机IP
     const autoUrl = `http://${address.ip()}:${newPort}`;
 
@@ -68,9 +70,12 @@ const main = () => {
     console.log('> Starting dev server...');
     webpackDevMiddleware.waitUntilValid(() => {
       console.log(chalk.green(`\n> Listening at： ${uri}`));
-      console.log(chalk.yellowBright('or'));
       console.log(chalk.green(`> Listening at： ${autoUrl} \n`));
-      opn(uri);
+
+      // when env is testing, don't need open it
+      if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
+        opn(uri)
+      }
     });
     app.listen(newPort);
   });
