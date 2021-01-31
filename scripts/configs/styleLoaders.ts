@@ -1,16 +1,6 @@
 import path from 'path';
 import genericNames from 'generic-names';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import config from '../env';
-
-const resolve = function (dir: string) {
-  return path.join(__dirname, '..', dir);
-};
-
-const assetsPath = function (_path: string) {
-  const assetsSubDirectory = config.base.assetsSubDirectory;
-  return path.posix.join(assetsSubDirectory, _path);
-};
 
 /**
  * 自定义css-loader的hash值（解决css-modules的hash不一致问题）
@@ -22,27 +12,46 @@ const generateScopedName = (localName: string, filePath: string) => {
   return generate(localName, relativePath);
 };
 
+// style files regexes
+const cssRegex = /\.css$/;
+const lessRegex = /\.less$/;
+
 const styleLoaders = function (isProd: boolean, shouldUseSourceMap = false) {
   const output = [
     {
-      test: /\.(css|less)$/,
-      include: path.resolve(__dirname, '../src'),
+      test: cssRegex,
       use: [
-        isProd
-          ? {
-            loader: MiniCssExtractPlugin.loader
+        isProd ? { loader: MiniCssExtractPlugin.loader } : 'style-loader',
+        {
+          loader: "css-loader",
+          options: {
+            sourceMap: shouldUseSourceMap,
+            modules: {
+              getLocalIdent: (context: { resourcePath: string; }, _localIdentName: string, localName: string) => {
+                return generateScopedName(localName, context.resourcePath);
+              }
+            },
+            importLoaders: 1
           }
-          : 'style-loader',
+        },
+        { loader: "postcss-loader" },
+      ],
+    },
+    {
+      test: lessRegex,
+      use: [
+        isProd ? { loader: MiniCssExtractPlugin.loader } : 'style-loader',
         {
           loader: 'css-loader',
           options: {
             sourceMap: shouldUseSourceMap,
             modules: {
-              // localIdentName: '[path]_[name]_[local]_[hash:base64:5]',
-              getLocalIdent: (context: { resourcePath: string; }, _localIdentName: any, localName: string) => {
+              // 默认 localIdentName: '[path]_[name]_[local]_[hash:base64:5]',
+              getLocalIdent: (context: { resourcePath: string; }, _localIdentName: string, localName: string) => {
                 return generateScopedName(localName, context.resourcePath);
               }
-            }
+            },
+            importLoaders: 2
           }
         },
         {
@@ -51,35 +60,23 @@ const styleLoaders = function (isProd: boolean, shouldUseSourceMap = false) {
           }
         },
         {
-          loader: 'less-loader', options: {
-            sourceMap: true,
-          }
-        }
-      ]
-    },
-    {
-      test: /\.(less)$/,
-      include: path.resolve(__dirname, '../node_modules/antd'),
-      use: [
-        isProd ? MiniCssExtractPlugin.loader : 'style-loader',
-        { loader: 'css-loader' },
-        {
           loader: 'less-loader',
           options: {
+            sourceMap: shouldUseSourceMap,
             lessOptions: {
               modifyVars: {
                 'primary-color': '#13C2C2',
                 'link-color': '#13C2C2'
               },
-              javascriptEnabled: true
+              javascriptEnabled: true,
             }
           }
         }
       ]
-    }
+    },
   ];
 
   return output;
 };
 
-export default { resolve, assetsPath, styleLoaders }
+export { styleLoaders }

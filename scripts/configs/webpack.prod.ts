@@ -13,8 +13,10 @@ import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
 import SizePlugin from 'size-plugin';
 
 import commonConfig from './webpack.common';
-import utils from './utils';
+import { styleLoaders } from './styleLoaders';
 import config from '../env';
+import { assetsPath } from '../utils/getPath';
+import { PROJECT_ROOT } from '../utils/constants';
 // 生成map
 const shouldUseSourceMap = config.prod.productionSourceMap;
 
@@ -26,7 +28,7 @@ const webpackConfig = merge(commonConfig, {
   },
   module: {
     rules: [
-      ...utils.styleLoaders(true, false)
+      ...styleLoaders(true, false)
     ]
   },
   plugins: [
@@ -38,12 +40,12 @@ const webpackConfig = merge(commonConfig, {
       typescript: {
         // 生产环境打包并不频繁，可以适当调高允许使用的内存，加快类型检查速度
         memoryLimit: 1024 * 2,
-        configFile: path.resolve(__dirname, '../tsconfig.json'),
+        configFile: path.resolve(PROJECT_ROOT, './tsconfig.json'),
       },
     }),
     new MiniCssExtractPlugin({
-      filename: utils.assetsPath('css/[name].[contenthash:8].css'),
-      chunkFilename: utils.assetsPath('css/[id].[contenthash:8].css')
+      filename: assetsPath('css/[name].[contenthash:8].css'),
+      chunkFilename: assetsPath('css/[id].[contenthash:8].css')
     })
   ],
 

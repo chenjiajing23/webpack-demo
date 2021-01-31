@@ -7,4 +7,5 @@ dist/*
 mock/*
 server/*
 src/style/*
-script/*
+scripts/*
+babel.config.js

@@ -1,84 +1,64 @@
-const config = require('../config');
-// 定义环境变量
-if (!process.env.NODE_ENV) {
-  process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV);
-}
-const opn = require('opn');
-const address = require('address')
-const path = require('path');
-const chalk = require('chalk');
-const express = require('express');
-const webpack = require('webpack');
-const getPort = require('get-port');
-const devMiddleware = require('webpack-dev-middleware');
-const hotMiddleware = require('webpack-hot-middleware');
-const { createProxyMiddleware } = require('http-proxy-middleware');
-const history = require('connect-history-api-fallback');
+import chalk from 'chalk';
+import logSymbols from 'log-symbols';
+import express from 'express';
+import webpack from 'webpack';
+import WebpackOpenBrowser from 'webpack-open-browser';
 
-const port = config.dev.port;
-// automatically open browser, if not set will be false
-const autoOpenBrowser = !!config.dev.autoOpenBrowser
-const webpackConfig = require('../build/webpack.dev');
+import getPort from './utils/getPort';
+import setupMiddlewares from './middlewares';
+import devConfig from './configs/webpack.dev';
+import { HOST, DEFAULT_PORT, ENABLE_OPEN } from './utils/constants';
 
-const main = () => {
-  getPort({
-    port: getPort.makeRange(port, port + 100)
-  }).then(newPort => {
-    const app = express();
-    const compiler = webpack(webpackConfig);
-
-    const webpackDevMiddleware = devMiddleware(compiler, {
-      publicPath: webpackConfig.output.publicPath
-    });
-
-    const webpackHotMiddleware = hotMiddleware(compiler, {
-      noInfo: true,
-      log: () => { },
-      heartbeat: 2000,
-      path: '/__hmr'
-    });
-
-    // handle fallback for HTML5 history API
-    app.use(history());
-
-    app.use(webpackDevMiddleware);
-    app.use(webpackHotMiddleware);
-
-    // proxy
-    Object.keys(config.dev.proxyTable).forEach(context => {
-      let options = config.dev.proxyTable[context];
-      if (typeof options === 'string') {
-        options = {
-          target: options,
-          proxyTimeout: 30 * 1000
-        };
+async function start() {
+  const PORT = await getPort(HOST, DEFAULT_PORT);
+  const address = `http://${HOST}:${PORT}`;
+  // ENABLE_OPEN 参数值可能是 true 或者是一个指定的 URL
+  if (ENABLE_OPEN) {
+    let openAddress = ENABLE_OPEN as string;
+    if (ENABLE_OPEN === true) {
+      openAddress = address;
+      let publicPath = devConfig.output?.publicPath as string | undefined;
+      // 未设置和空串都视为根路径
+      publicPath = publicPath == null || publicPath === '' ? '/' : publicPath;
+      if (publicPath !== '/') {
+        // 要注意处理没有带 '/' 前缀和后缀的情况
+        openAddress = `${address}${publicPath.startsWith('/') ? '' : '/'}${publicPath}${publicPath.endsWith('/') ? '' : '/'
+          }index.html`;
       }
-      app.use(context, createProxyMiddleware(options.filter || context, options));
-    });
+    }
+    devConfig.plugins!.push(new WebpackOpenBrowser({ url: openAddress }));
+  }
 
-    app.use('/ping', function (_req, res) {
-      res.sendStatus(200);
-    });
+  const devServer = express();
+  // 加载 webpack 配置，获取 compiler
+  const compiler = webpack(devConfig);
+  setupMiddlewares(devServer, compiler);
 
-    const uri = `http://localhost:${newPort}`;
-    // 使用address模块，自动获取本机IP
-    const autoUrl = `http://${address.ip()}:${newPort}`;
-
-    const staticPath = path.posix.join(config.dev.assetsPublicPath, config.base.assetsSubDirectory); // /static
-    app.use(staticPath, express.static('./static'));
-
-    console.log('> Starting dev server...');
-    webpackDevMiddleware.waitUntilValid(() => {
-      console.log(chalk.green(`\n> Listening at： ${uri}`));
-      console.log(chalk.green(`> Listening at： ${autoUrl} \n`));
-
-      // when env is testing, don't need open it
-      if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
-        opn(uri)
-      }
-    });
-    app.listen(newPort);
+  // see: https://github.com/DefinitelyTyped/DefinitelyTyped/commit/bb48ba4feb5ef620b5fe5147a4ee0e31e741dd9c#diff-d4c3ca4364a91014c1024748a43ae185
+  const httpServer = devServer.listen(PORT, HOST, () => {
+    // logSymbols.success 在 windows 平台渲染为 √ ，支持的平台会显示 ✔
+    console.log(
+      `DevServer is running at ${chalk.magenta.underline(address)} ${logSymbols.success}`,
+    );
   });
-};
 
-main();
+  // 我们监听了 node 信号，所以使用 cross-env-shell 而不是 cross-env
+  // 参考：https://github.com/kentcdodds/cross-env#cross-env-vs-cross-env-shell
+  ['SIGINT', 'SIGTERM'].forEach((signal: any) => {
+    process.on(signal, () => {
+      // 先关闭 devServer
+      httpServer.close();
+      // 在 ctrl + c 的时候随机输出 'See you again' 和 'Goodbye'
+      console.log(
+        chalk.greenBright.bold(`\n${Math.random() > 0.5 ? 'See you again' : 'Goodbye'}!`),
+      );
+      // 退出 node 进程
+      process.exit();
+    });
+  });
+}
+
+// 判断这个模块是不是被直接运行的
+if (require.main === module) {
+  start();
+}

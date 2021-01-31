@@ -4,7 +4,7 @@ import { merge } from 'webpack-merge';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 import commonConfig from './webpack.common';
-import utils from './utils';
+import { styleLoaders } from './styleLoaders';
 import config from '../env';
 import { PROJECT_ROOT } from '../utils/constants';
 
@@ -25,7 +25,7 @@ const devConfig = merge(commonConfig, {
   devtool: 'eval-cheap-module-source-map',
 
   module: {
-    rules: [...utils.styleLoaders(false, true)]
+    rules: [...styleLoaders(false, true)]
   },
 
   plugins: [
@@ -35,54 +35,12 @@ const devConfig = merge(commonConfig, {
     new ForkTsCheckerWebpackPlugin({
       typescript: {
         memoryLimit: 1024,
-        configFile: path.resolve(PROJECT_ROOT, './src/tsconfig.json')
+        configFile: path.resolve(PROJECT_ROOT, './tsconfig.json')
       }
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
+    // new webpack.NoEmitOnErrorsPlugin(),
   ]
 });
 
 export default devConfig;
-
-
-
-
-
-
-// devServer: {
-//   // "start": "webpack serve --config ./build/webpack.dev.js --progress",
-//   hot: true,
-//   colors: true,
-//   contentBase: path.resolve(__dirname, '../dist'),
-//   port: config.dev.port,
-//   host: config.dev.host,
-//   // public: 'local.test.baidu.com:8080', // 需要带上端口
-//   // writeToDisk: true, // 文件形式输出代码
-//   compress: true, // 一切服务都启用gzip 压缩
-//   disableHostCheck: true, // true：不进行host检查
-//   quiet: true, // necessary for FriendlyErrorsPlugin
-//   // 设置控制台的提示信息
-//   // stats: {
-//   //   chunks: false,
-//   //   children: false,
-//   //   modules: false,
-//   //   entrypoints: false, // 是否输出入口信息
-//   //   warnings: false,
-//   //   performance: false // 是否输出webpack建议（如文件体积大小）
-//   // },
-//   watchOptions: {
-//     ignored: /node_modules/ // 略过node_modules目录
-//   },
-//   overlay: {
-//     errors: true
-//   },
-//   noInfo: true,
-//   historyApiFallback: {
-//     rewrites: [
-//       { from: /.*/, to: path.posix.join(config.dev.assetsPublicPath, 'index.html') },
-//     ],
-//   },
-//   // 接口代理
-//   proxy: config.dev.proxyTable,
-// },

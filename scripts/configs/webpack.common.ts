@@ -5,11 +5,10 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WebpackBuildNotifierPlugin from 'webpack-build-notifier';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
-import { loader as MiniCssExtractLoader } from 'mini-css-extract-plugin';
 import FriendlyErrorsPlugin from 'friendly-errors-webpack-plugin';
 import WebpackBar from 'webpackbar';
 
-import utils from './utils';
+import { assetsPath } from '../utils/getPath';
 import config from '../env';
 import { HMR_PATH, PROJECT_NAME, PROJECT_ROOT, __DEV__ } from '../utils/constants';
 
@@ -26,26 +25,6 @@ const hasJsxRuntime = (() => {
   }
 })();
 
-// css-loader
-function getCssLoaders(importLoaders: number) {
-  return [
-    __DEV__ ? 'style-loader' : MiniCssExtractLoader,
-    {
-      loader: 'css-loader',
-      options: {
-        modules: false,
-        // 前面使用的每一个 loader 都需要指定 sourceMap 选项
-        sourceMap: true,
-        // 指定在 css-loader 前应用的 loader 的数量
-        importLoaders,
-      },
-    },
-    {
-      loader: 'postcss-loader',
-      options: { sourceMap: true },
-    },
-  ];
-}
 
 // index.html 压缩选项
 const htmlMinifyOptions = {
@@ -62,12 +41,6 @@ const htmlMinifyOptions = {
   useShortDoctype: true,
 };
 
-// 静态资源子目录
-const assetsPath = function (pathname: string) {
-  const temPath = path.posix.join(config.base.assetsSubDirectory, pathname);
-  return resolve(PROJECT_ROOT, temPath);
-};
-
 const commonConfig: Configuration = {
   mode: 'none',
 
@@ -78,7 +51,7 @@ const commonConfig: Configuration = {
       __DEV__ ? 'js/[name].[chunkhash:8].js' : 'js/[name].[contenthash:8].js'
     ),
     chunkFilename: assetsPath(
-      __DEV__ ? 'js/[id].[chunkhash:8].js' : 'js/[id].[contenthash:8].js'
+      __DEV__ ? 'js/[name]-[chunkhash:8].bundle.js' : 'js/[name]-[contenthash:8].js'
     ),
     path: resolve(PROJECT_ROOT, `./${config.base.assetsRoot}`),
     publicPath: config.base.assetsPublicPath,
@@ -111,22 +84,6 @@ const commonConfig: Configuration = {
           }
         ],
         exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/,
-        use: getCssLoaders(0),
-      },
-      {
-        test: /\.less$/,
-        use: [
-          ...getCssLoaders(2),
-          {
-            loader: 'less-loader',
-            options: {
-              sourceMap: true,
-            },
-          },
-        ],
       },
       {
         test: /\.(bmp|png|jpe?g|gif|svg)(\?.*)?$/,
@@ -177,7 +134,7 @@ const commonConfig: Configuration = {
       // HtmlWebpackPlugin 会调用 HtmlMinifier 对 HTMl 文件进行压缩 只在生产环境压缩
       minify: __DEV__ ? false : htmlMinifyOptions,
       title: config.base.title,
-      template: resolve(__dirname, '../public/index.html'),
+      template: resolve(PROJECT_ROOT, './public/index.html'),
       templateParameters: (...args) => {
         const [compilation, assets, assetTags, options] = args;
         const rawPublicPath = commonConfig.output!.publicPath! as string;
@@ -229,9 +186,9 @@ const commonConfig: Configuration = {
     new CopyPlugin({
       patterns: [
         {
-          context: resolve(__dirname, '../public'),
+          context: resolve(PROJECT_ROOT, './public'),
           from: '*',
-          to: resolve(__dirname, '../dist'),
+          to: resolve(PROJECT_ROOT, `./${config.base.assetsRoot}`),
           toType: 'dir',
           globOptions: {
             ignore: ['index.html'],
@@ -261,28 +218,27 @@ const commonConfig: Configuration = {
       automaticNameDelimiter: '~',
       enforceSizeThreshold: 50000,
       cacheGroups: {
-        default: false,
-        // defaultVendors: {
-        //   test: /[\\/]node_modules[\\/]/,
-        //   priority: -10,
-        //   chunks: 'all'
-        // },
-        // default: {
-        //   minChunks: 2,
-        //   priority: -20,
-        //   reuseExistingChunk: true
-        // },
-        vendors: {
+        defaultVendors: {
           test: /[\\/]node_modules[\\/]/,
-          priority: 10,
-          // enforce: true,
-          name(module: { context: { match: (arg0: RegExp) => any[]; }; }) {
-            const packageName = module.context.match(
-              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-            )[1];
-            return `npm.${packageName.replace('@', '')}`;
-          }
-        }
+          priority: -10,
+          chunks: 'all'
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        },
+        // vendors: {
+        //   test: /[\\/]node_modules[\\/]/,
+        //   priority: 10,
+        //   // enforce: true,
+        //   name(module: { context: { match: (arg0: RegExp) => any[]; }; }) {
+        //     const packageName = module.context.match(
+        //       /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+        //     )[1];
+        //     return `npm.${packageName.replace('@', '')}`;
+        //   }
+        // }
       }
     }
   }

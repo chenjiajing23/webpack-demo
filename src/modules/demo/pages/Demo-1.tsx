@@ -16,7 +16,7 @@ interface IProps {
 }
 
 const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
-  const { } = props;
+  const {} = props;
   const { language } = useParams<RouterParams>();
   const [isShow, setShow] = useState(false);
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
     <div styleName="demo" className={classnames({ chenjiajing: isShow })}>
       <div styleName="content">
         <h1>{demo.count}</h1>
-        <p styleName="title">无敌是多么寂寞-44444</p>
+        <p styleName="title">无敌是多么寂寞-666666</p>
         <Button type="primary" onClick={increment}>
           +
         </Button>
