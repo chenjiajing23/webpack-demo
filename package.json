@@ -134,13 +134,13 @@
     }
   },
   "lint-staged": {
-    "./src/**/*.{ts,tsx}": [
+    "*.{ts,tsx}": [
       "eslint src --ext .tsx,.ts --color --fix"
     ],
-    "./src/**/*.{css,less,scss}": [
+    "*.{css,less,scss}": [
       "stylelint --config .stylelintrc.json --fix"
     ],
-    "./src/**/*.{tsx,ts,jsx,js,css,less,md}": [
+    "*.{tsx,ts,jsx,js,css,less,md}": [
       "prettier --write"
     ]
   }
