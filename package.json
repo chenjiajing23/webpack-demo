@@ -140,7 +140,7 @@
     "./src/**/*.{css,less,scss}": [
       "stylelint --config .stylelintrc.json --fix"
     ],
-    ".src/**/*.{tsx,ts,jsx,js,css,less,md}": [
+    "./src/**/*.{tsx,ts,jsx,js,css,less,md}": [
       "prettier --write"
     ]
   }
