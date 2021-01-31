@@ -2,24 +2,25 @@ module.exports = function (api) {
   api.cache(true);
 
   return {
-    "presets": [
+    presets: [
+      '@babel/preset-typescript',
       [
         "@babel/preset-env",
         {
           "targets": {
             "node": "current",
-            "browsers": ["last 2 versions"],
-            // "browsers": ["last 1 chrome version"]
+            // "browsers": ["last 2 versions"],
+            "browsers": ["last 1 chrome version"]
           }
         }
       ]
     ],
-    "plugins": [
-      "react-hot-loader/babel",
-      "@babel/plugin-transform-react-jsx",
+    plugins: [
       "@babel/plugin-syntax-dynamic-import",
       "@babel/plugin-transform-runtime",
       "@babel/plugin-proposal-optional-chaining",
+      ['@babel/plugin-proposal-class-properties', { loose: true }],
+      ['@babel/plugin-proposal-decorators', { decoratorsBeforeExport: true }],
       [
         "import",
         {
@@ -45,6 +46,20 @@ module.exports = function (api) {
         }
       ]
     ],
-    "ignore": ["node_modules/**"]
+    env: {
+      development: {
+        presets: [['@babel/preset-react', { development: true }]],
+        plugins: ['react-hot-loader/babel'],
+      },
+      production: {
+        presets: ['@babel/preset-react'],
+        plugins: [
+          'babel-plugin-dev-expression',
+          '@babel/plugin-transform-react-constant-elements',
+          '@babel/plugin-transform-react-inline-elements',
+        ],
+      },
+    },
+    ignore: ["node_modules/**"]
   }
 }

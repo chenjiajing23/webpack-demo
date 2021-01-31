@@ -2,9 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const utils = require('./utils');
 const config = require('../config');
@@ -23,14 +23,28 @@ const hasJsxRuntime = (() => {
   }
 })();
 
-module.exports = {
+// index.html 压缩选项
+const htmlMinifyOptions = {
+  collapseWhitespace: true,
+  collapseBooleanAttributes: true,
+  collapseInlineTagWhitespace: true,
+  removeComments: true,
+  removeRedundantAttributes: true,
+  removeScriptTypeAttributes: true,
+  removeStyleLinkTypeAttributes: true,
+  minifyCSS: true,
+  minifyJS: true,
+  minifyURLs: true,
+  useShortDoctype: true,
+};
+
+const commonConfig = {
   mode: 'none',
   entry: {
     app: path.resolve(__dirname, '../src/main/index.tsx'),
   },
 
   output: {
-    // ecmaVersion: 2015,
     filename: utils.assetsPath(
       isDev ? 'js/[name].[chunkhash:8].js' : 'js/[name].[contenthash:8].js'
     ),
@@ -151,16 +165,32 @@ module.exports = {
 
   plugins: [
     new ProgressBarPlugin(),
-    new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
+      // HtmlWebpackPlugin 会调用 HtmlMinifier 对 HTMl 文件进行压缩 只在生产环境压缩
+      minify: isDev ? false : htmlMinifyOptions,
       title: config.base.title,
-      template: path.resolve(__dirname, '../src/templates/index.ejs'),
-      favicon: path.resolve(__dirname, '../src/favicon/favicon.ico'),
-      inject: true
+      template: path.resolve(__dirname, '../public/index.html'),
+      templateParameters: (...args) => {
+        const [compilation, assets, assetTags, options] = args;
+        const rawPublicPath = commonConfig.output.publicPath;
+        return {
+          compilation,
+          webpackConfig: compilation.options,
+          htmlWebpackPlugin: {
+            tags: assetTags,
+            files: assets,
+            options,
+          },
+          // 在 index.html 模板中注入模板参数 PUBLIC_PATH
+          // 移除最后的反斜杠为了让拼接路径更自然，例如：<%= `${PUBLIC_PATH}/favicon.ico` %>
+          PUBLIC_PATH: rawPublicPath.endsWith('/')
+            ? rawPublicPath.slice(0, -1)
+            : rawPublicPath,
+        };
+      },
     }),
     new WebpackBuildNotifierPlugin({
       title: config.base.title,
-      logo: path.resolve(__dirname, '../src/favicon/favicon.ico'),
       suppressSuccess: true
     }),
     /**
@@ -168,9 +198,7 @@ module.exports = {
      * @url https://www.webpackjs.com/plugins/context-replacement-plugin/
      * @more @{moment} // https://github.com/moment/moment/tree/develop/dist/locale
      */
-
     new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn|ja|zh-hk/),
-    // ESLINT
     new ESLintPlugin({
       extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
       formatter: require.resolve('react-dev-utils/eslintFormatter'),
@@ -189,7 +217,20 @@ module.exports = {
           })
         }
       }
-    })
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          context: path.resolve(__dirname, '../public'),
+          from: '*',
+          to: path.resolve(__dirname, '../dist'),
+          toType: 'dir',
+          globOptions: {
+            ignore: ['index.html'],
+          },
+        },
+      ],
+    }),
   ],
 
   optimization: {
@@ -238,3 +279,5 @@ module.exports = {
     }
   }
 };
+
+module.exports = commonConfig;
