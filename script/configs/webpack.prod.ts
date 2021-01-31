@@ -1,20 +1,24 @@
-const os = require('os');
-const path = require('path');
-const webpack = require('webpack');
-const { merge } = require('webpack-merge');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const safePostCssParser = require("postcss-safe-parser");
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+import os from 'os';
+import path from 'path';
+import webpack from 'webpack';
+import { merge } from 'webpack-merge';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import safePostCssParser from "postcss-safe-parser";
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
+import SizePlugin from 'size-plugin';
 
-const base = require('./webpack.config.js');
-const utils = require('./utils');
-const config = require('../config');
+import commonConfig from './webpack.common';
+import utils from './utils';
+import config from '../env';
+// 生成map
 const shouldUseSourceMap = config.prod.productionSourceMap;
 
-const webpackConfig = merge(base, {
+const webpackConfig = merge(commonConfig, {
   mode: 'production',
   devtool: shouldUseSourceMap ? "source-map" : false,
   output: {
@@ -102,7 +106,7 @@ const webpackConfig = merge(base, {
 // gzip
 if (config.prod.productionGzip) {
   const CompressionWebpackPlugin = require('compression-webpack-plugin');
-  webpackConfig.plugins.push(new CompressionWebpackPlugin({
+  webpackConfig.plugins!.push(new CompressionWebpackPlugin({
     cache: true,
     asset: '[path].gz[query]',
     algorithm: 'gzip',
@@ -123,17 +127,13 @@ let prodConfig = webpackConfig;
 
 // 使用 --analyze 参数构建时，会输出各个阶段的耗时和自动打开浏览器访问 bundle 分析页面
 if (config.prod.bundleAnalyzerReport) {
-  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-  const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
-  const SizePlugin = require('size-plugin');
-
-  prodConfig.plugins.push(new SizePlugin({ writeFile: false }),
+  prodConfig.plugins!.push(new SizePlugin({ writeFile: false }),
     new BundleAnalyzerPlugin({
       openAnalyzer: true,
       analyzerPort: 8888
     }));
-  // const smp = new SpeedMeasurePlugin();
-  // prodConfig = smp.wrap(webpackConfig);
+  const smp = new SpeedMeasurePlugin();
+  prodConfig = smp.wrap(webpackConfig);
 };
 
-module.exports = prodConfig
+export default prodConfig;

@@ -1,9 +1,7 @@
-const path = require('path');
-
-module.exports = {
+export default {
   title: 'react-template-pc',
   projectName: 'react-template-pc',
   assetsPublicPath: '/',
   assetsSubDirectory: 'static',
-  assetsRoot: path.resolve(__dirname, '../dist')
+  assetsRoot: 'dist',
 };

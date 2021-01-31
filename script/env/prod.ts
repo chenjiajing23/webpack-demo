@@ -1,12 +1,4 @@
-/*
- * @Description: 线上CDN路径（腾讯云服务器）
- * @Author: Chenjiajing
- * @Date: 2020-09-30 14:49:00
- * @LastEditors: Chenjiajing
- * @LastEditTime: 2021-01-31 17:11:11
- */
-
-module.exports = {
+export default {
   // 环境变量
   env: {
     NODE_ENV: '"production"'

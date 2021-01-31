@@ -1,31 +1,28 @@
-const path = require('path');
-const genericNames = require('generic-names');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+import path from 'path';
+import genericNames from 'generic-names';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import config from '../env';
 
-const config = require('../config');
-
-exports.resolve = function (dir) {
+const resolve = function (dir: string) {
   return path.join(__dirname, '..', dir);
 };
 
-exports.assetsPath = function (_path) {
+const assetsPath = function (_path: string) {
   const assetsSubDirectory = config.base.assetsSubDirectory;
   return path.posix.join(assetsSubDirectory, _path);
 };
 
 /**
- * @description 自定义css-loader的hash值（解决css-modules的hash不一致问题）
- * @license https://github.com/gajus/babel-plugin-react-css-modules/issues/279
+ * 自定义css-loader的hash值（解决css-modules的hash不一致问题）
+ * https://github.com/gajus/babel-plugin-react-css-modules/issues/279
  */
-const generate = genericNames('[path]_[name]_[local]_[hash:base64:5]', {
-  context: process.cwd()
-});
-const generateScopedName = (localName, filePath) => {
+const generate = genericNames('[path]_[name]_[local]_[hash:base64:5]', { context: process.cwd() });
+const generateScopedName = (localName: string, filePath: string) => {
   const relativePath = path.relative(process.cwd(), filePath);
   return generate(localName, relativePath);
 };
 
-exports.styleLoaders = function (isProd, shouldUseSourceMap = false) {
+const styleLoaders = function (isProd: boolean, shouldUseSourceMap = false) {
   const output = [
     {
       test: /\.(css|less)$/,
@@ -34,10 +31,6 @@ exports.styleLoaders = function (isProd, shouldUseSourceMap = false) {
         isProd
           ? {
             loader: MiniCssExtractPlugin.loader
-            // options: {
-            //   publicPath: '../',
-            //   hmr: isProd ? false : true
-            // }
           }
           : 'style-loader',
         {
@@ -46,7 +39,7 @@ exports.styleLoaders = function (isProd, shouldUseSourceMap = false) {
             sourceMap: shouldUseSourceMap,
             modules: {
               // localIdentName: '[path]_[name]_[local]_[hash:base64:5]',
-              getLocalIdent: (context, _localIdentName, localName) => {
+              getLocalIdent: (context: { resourcePath: string; }, _localIdentName: any, localName: string) => {
                 return generateScopedName(localName, context.resourcePath);
               }
             }
@@ -88,3 +81,5 @@ exports.styleLoaders = function (isProd, shouldUseSourceMap = false) {
 
   return output;
 };
+
+export default { resolve, assetsPath, styleLoaders }

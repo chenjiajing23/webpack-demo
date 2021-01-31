@@ -18,7 +18,7 @@ const history = require('connect-history-api-fallback');
 const port = config.dev.port;
 // automatically open browser, if not set will be false
 const autoOpenBrowser = !!config.dev.autoOpenBrowser
-const webpackConfig = require('./webpack.dev');
+const webpackConfig = require('../build/webpack.dev');
 
 const main = () => {
   getPort({

@@ -7,3 +7,4 @@ dist/*
 mock/*
 server/*
 src/style/*
+script/*

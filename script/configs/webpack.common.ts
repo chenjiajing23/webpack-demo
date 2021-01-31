@@ -1,14 +1,17 @@
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-var ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
-const ESLintPlugin = require('eslint-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
+import { resolve } from 'path';
+import webpack, { Configuration } from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+// import ProgressBarPlugin from 'progress-bar-webpack-plugin';
+import WebpackBuildNotifierPlugin from 'webpack-build-notifier';
+import ESLintPlugin from 'eslint-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin';
+import { loader as MiniCssExtractLoader } from 'mini-css-extract-plugin';
+import FriendlyErrorsPlugin from 'friendly-errors-webpack-plugin';
+import WebpackBar from 'webpackbar';
 
-const utils = require('./utils');
-const config = require('../config');
-const isDev = process.env.NODE_ENV === 'development';
+import utils from './utils';
+import config from '../env';
+import { HMR_PATH, PROJECT_NAME, PROJECT_ROOT, __DEV__ } from '../utils/constants';
 
 const hasJsxRuntime = (() => {
   if (process.env.DISABLE_NEW_JSX_TRANSFORM === 'true') {
@@ -22,6 +25,27 @@ const hasJsxRuntime = (() => {
     return false;
   }
 })();
+
+// css-loader
+function getCssLoaders(importLoaders: number) {
+  return [
+    __DEV__ ? 'style-loader' : MiniCssExtractLoader,
+    {
+      loader: 'css-loader',
+      options: {
+        modules: false,
+        // 前面使用的每一个 loader 都需要指定 sourceMap 选项
+        sourceMap: true,
+        // 指定在 css-loader 前应用的 loader 的数量
+        importLoaders,
+      },
+    },
+    {
+      loader: 'postcss-loader',
+      options: { sourceMap: true },
+    },
+  ];
+}
 
 // index.html 压缩选项
 const htmlMinifyOptions = {
@@ -38,39 +62,45 @@ const htmlMinifyOptions = {
   useShortDoctype: true,
 };
 
-const commonConfig = {
+// 静态资源子目录
+const assetsPath = function (pathname: string) {
+  const temPath = path.posix.join(config.base.assetsSubDirectory, pathname);
+  return resolve(PROJECT_ROOT, temPath);
+};
+
+const commonConfig: Configuration = {
   mode: 'none',
-  entry: {
-    app: path.resolve(__dirname, '../src/main/index.tsx'),
-  },
+
+  entry: ['react-hot-loader/patch', resolve(PROJECT_ROOT, './src/main/index.tsx')],
 
   output: {
-    filename: utils.assetsPath(
-      isDev ? 'js/[name].[chunkhash:8].js' : 'js/[name].[contenthash:8].js'
+    filename: assetsPath(
+      __DEV__ ? 'js/[name].[chunkhash:8].js' : 'js/[name].[contenthash:8].js'
     ),
-    chunkFilename: utils.assetsPath(
-      isDev ? 'js/[id].[chunkhash:8].js' : 'js/[id].[contenthash:8].js'
+    chunkFilename: assetsPath(
+      __DEV__ ? 'js/[id].[chunkhash:8].js' : 'js/[id].[contenthash:8].js'
     ),
-    path: config.base.assetsRoot,
-    publicPath: config.base.assetsPublicPath
+    path: resolve(PROJECT_ROOT, `./${config.base.assetsRoot}`),
+    publicPath: config.base.assetsPublicPath,
+    hashSalt: PROJECT_NAME,
   },
 
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {
-      '@': utils.resolve('src'),
-      '@store': utils.resolve('src/store'),
-      '@library': utils.resolve('src/library'),
-      '@modules': utils.resolve('src/modules'),
-      '@style': utils.resolve('src/style'),
-      '@components': utils.resolve('src/components')
+      '@': resolve(PROJECT_ROOT, './src'),
+      '@store': resolve(PROJECT_ROOT, './src/store'),
+      '@library': resolve(PROJECT_ROOT, './src/library'),
+      '@modules': resolve(PROJECT_ROOT, './src/modules'),
+      '@style': resolve(PROJECT_ROOT, './src/style'),
+      '@components': resolve(PROJECT_ROOT, './src/components')
     }
   },
 
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(tsx?|js)$/,
         use: [
           { loader: 'thread-loader' },
           {
@@ -80,35 +110,26 @@ const commonConfig = {
             }
           }
         ],
-        include: path.resolve(__dirname, '../src')
+        exclude: /node_modules/,
       },
       {
-        test: /\.tsx?$/,
+        test: /\.css$/,
+        use: getCssLoaders(0),
+      },
+      {
+        test: /\.less$/,
         use: [
-          { loader: 'thread-loader' },
+          ...getCssLoaders(2),
           {
-            loader: 'babel-loader'
+            loader: 'less-loader',
+            options: {
+              sourceMap: true,
+            },
           },
-          {
-            loader: 'ts-loader',
-            options: { transpileOnly: true, happyPackMode: true }
-          }
         ],
-        include: path.resolve(__dirname, '../src')
       },
       {
         test: /\.(bmp|png|jpe?g|gif|svg)(\?.*)?$/,
-        // test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg$/],
-        // webpack4处理方式（勿删）
-        // use: [
-        //   {
-        //     loader: 'url-loader',
-        //     options: {
-        //       limit: 10000,
-        //       name: utils.assetsPath('img/[name].[contenthash:8].[ext]')
-        //     }
-        //   }
-        // ],
         // webpack5新处理方式： https://webpack.docschina.org/guides/asset-modules/
         type: 'asset',
         parser: {
@@ -117,21 +138,12 @@ const commonConfig = {
           }
         },
         generator: {
-          filename: utils.assetsPath('img/[name][hash:8][ext][query]')
+          filename: assetsPath('img/[name][hash:8][ext][query]')
         },
-        include: path.resolve(__dirname, '../src')
+        exclude: /node_modules/,
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-        // use: [
-        //   { loader: 'thread-loader' },
-        //   {
-        //     loader: 'url-loader',
-        //     options: {
-        //       name: utils.assetsPath('media/[name].[contenthash].[ext]')
-        //     }
-        //   }
-        // ],
         type: 'asset',
         parser: {
           dataUrlCondition: {
@@ -139,40 +151,36 @@ const commonConfig = {
           }
         },
         generator: {
-          filename: utils.assetsPath('media/[name][contenthash:8][ext][query]')
+          filename: assetsPath('media/[name][contenthash:8][ext][query]')
         },
-        include: path.resolve(__dirname, '../src')
+        exclude: /node_modules/,
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        // use: [
-        //   { loader: 'thread-loader' },
-        //   {
-        //     loader: 'url-loader',
-        //     options: {
-        //       name: utils.assetsPath('fonts/[name].[contenthash].[ext]')
-        //     }
-        //   }
-        // ],
         type: 'asset/resource',
         generator: {
-          filename: utils.assetsPath('fonts/[name][contenthash:8][ext][query]')
+          filename: assetsPath('fonts/[name][contenthash:8][ext][query]')
         },
-        include: path.resolve(__dirname, '../src')
+        exclude: /node_modules/,
       }
     ]
   },
 
   plugins: [
-    new ProgressBarPlugin(),
+    new WebpackBar({
+      name: 'react-template-pc',
+      color: '#61dafb',
+    }),
+    new FriendlyErrorsPlugin(),
+    // new ProgressBarPlugin(),
     new HtmlWebpackPlugin({
       // HtmlWebpackPlugin 会调用 HtmlMinifier 对 HTMl 文件进行压缩 只在生产环境压缩
-      minify: isDev ? false : htmlMinifyOptions,
+      minify: __DEV__ ? false : htmlMinifyOptions,
       title: config.base.title,
-      template: path.resolve(__dirname, '../public/index.html'),
+      template: resolve(__dirname, '../public/index.html'),
       templateParameters: (...args) => {
         const [compilation, assets, assetTags, options] = args;
-        const rawPublicPath = commonConfig.output.publicPath;
+        const rawPublicPath = commonConfig.output!.publicPath! as string;
         return {
           compilation,
           webpackConfig: compilation.options,
@@ -203,10 +211,10 @@ const commonConfig = {
       extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
       formatter: require.resolve('react-dev-utils/eslintFormatter'),
       eslintPath: require.resolve('eslint'),
-      context: path.resolve(__dirname, '../src'),
+      context: resolve(__dirname, '../src'),
       cache: true,
       quiet: false, // 只输出error，忽略warn
-      cwd: path.resolve('..'),
+      cwd: resolve('..'),
       fix: true, // 自动修复
       resolvePluginsRelativeTo: __dirname,
       baseConfig: {
@@ -221,9 +229,9 @@ const commonConfig = {
     new CopyPlugin({
       patterns: [
         {
-          context: path.resolve(__dirname, '../public'),
+          context: resolve(__dirname, '../public'),
           from: '*',
-          to: path.resolve(__dirname, '../dist'),
+          to: resolve(__dirname, '../dist'),
           toType: 'dir',
           globOptions: {
             ignore: ['index.html'],
@@ -268,7 +276,7 @@ const commonConfig = {
           test: /[\\/]node_modules[\\/]/,
           priority: 10,
           // enforce: true,
-          name(module) {
+          name(module: { context: { match: (arg0: RegExp) => any[]; }; }) {
             const packageName = module.context.match(
               /[\\/]node_modules[\\/](.*?)([\\/]|$)/
             )[1];
@@ -280,4 +288,12 @@ const commonConfig = {
   }
 };
 
-module.exports = commonConfig;
+if (__DEV__) {
+  // 开发环境下注入热更新补丁
+  // reload=true 设置 webpack 无法热更新时刷新整个页面，overlay=true 设置编译出错时在网页中显示出错信息遮罩
+  (commonConfig.entry as string[]).unshift(
+    `webpack-hot-middleware/client?path=${HMR_PATH}&reload=true&overlay=true`,
+  );
+}
+
+export default commonConfig;
