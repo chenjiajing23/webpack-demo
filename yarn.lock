@@ -3870,10 +3870,10 @@ eslint-webpack-plugin@^2.4.3:
     micromatch "^4.0.2"
     schema-utils "^3.0.0"
 
-eslint@^7.18.0:
-  version "7.18.0"
-  resolved "https://registry.npm.taobao.org/eslint/download/eslint-7.18.0.tgz?cache=0&sync_timestamp=1610751984223&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint%2Fdownload%2Feslint-7.18.0.tgz#7fdcd2f3715a41fe6295a16234bd69aed2c75e67"
-  integrity sha1-f9zS83FaQf5ilaFiNL1prtLHXmc=
+eslint@^7.19.0:
+  version "7.19.0"
+  resolved "https://registry.npm.taobao.org/eslint/download/eslint-7.19.0.tgz#6719621b196b5fad72e43387981314e5d0dc3f41"
+  integrity sha1-ZxliGxlrX61y5DOHmBMU5dDcP0E=
   dependencies:
     "@babel/code-frame" "^7.0.0"
     "@eslint/eslintrc" "^0.3.0"
@@ -6116,10 +6116,10 @@ less-loader@^7.3.0:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
-less@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.npm.taobao.org/less/download/less-4.1.0.tgz?cache=0&sync_timestamp=1610244863145&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless%2Fdownload%2Fless-4.1.0.tgz#a12708d1951239db1c9d7eaa405f1ebac9a75b8d"
-  integrity sha1-oScI0ZUSOdscnX6qQF8eusmnW40=
+less@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.npm.taobao.org/less/download/less-4.1.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless%2Fdownload%2Fless-4.1.1.tgz#15bf253a9939791dc690888c3ff424f3e6c7edba"
+  integrity sha1-Fb8lOpk5eR3GkIiMP/Qk8+bH7bo=
   dependencies:
     copy-anything "^2.0.1"
     parse-node-version "^1.0.1"

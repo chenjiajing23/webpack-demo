@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES2019",
     "strict": true,
     "allowJs": true,
     "module": "esnext",
@@ -9,7 +9,7 @@
     "types": ["node", "webpack-env"],
     "sourceMap": true,
     "noImplicitAny": true,
-    // "noUnusedLocals": true,
+    "noUnusedLocals": true,
     "noImplicitReturns": true,
     "noUnusedParameters": true,
     "preserveConstEnums": true,
@@ -29,9 +29,13 @@
     },
     "allowSyntheticDefaultImports": true
   },
-  /* Experimental Options */
   "experimentalDecorators": true,
   "emitDecoratorMetadata": true,
+  "esModuleInterop": true,
+  "isolatedModules": true,
+  /* Advanced Options */
+  "forceConsistentCasingInFileNames": true,
+  "skipLibCheck": true,
 
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }
