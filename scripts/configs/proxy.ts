@@ -1,4 +1,4 @@
-import { ProxyTable } from '../typings/server.d';
+import { ProxyTable } from '../typings/server';
 
 // 代理，更多(https://github.com/chimurai/http-proxy-middleware)
 const proxyTable: ProxyTable = {
