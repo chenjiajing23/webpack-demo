@@ -127,11 +127,6 @@
     "redux-thunk": "^2.3.0",
     "use-immer": "^0.4.2"
   },
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-conventional-changelog"
-    }
-  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
