@@ -8,8 +8,8 @@ module.exports = function (api) {
         {
           "targets": {
             "node": "current",
-            // "browsers": ["last 2 versions"],
-            "browsers": ["last 1 chrome version"]
+            "browsers": ["last 2 versions"],
+            // "browsers": ["last 1 chrome version"]
           }
         }
       ]
