@@ -1,7 +1,6 @@
 import { resolve } from 'path';
 import webpack, { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-// import ProgressBarPlugin from 'progress-bar-webpack-plugin';
 import WebpackBuildNotifierPlugin from 'webpack-build-notifier';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
@@ -124,12 +123,13 @@ const commonConfig: Configuration = {
   },
 
   plugins: [
-    new WebpackBar({
-      name: 'react-template-pc',
-      color: '#61dafb',
-    }),
+    new WebpackBar({ name: 'react-template-pc' }),
     new FriendlyErrorsPlugin(),
-    // new ProgressBarPlugin(),
+    new WebpackBuildNotifierPlugin({
+      // suppressSuccess: true 设置只在第一次编译成功时输出成功的通知, rebuild 成功的时候不通知
+      title: config.base.title,
+      suppressSuccess: true
+    }),
     new HtmlWebpackPlugin({
       // HtmlWebpackPlugin 会调用 HtmlMinifier 对 HTMl 文件进行压缩 只在生产环境压缩
       minify: __DEV__ ? false : htmlMinifyOptions,
@@ -153,10 +153,6 @@ const commonConfig: Configuration = {
             : rawPublicPath,
         };
       },
-    }),
-    new WebpackBuildNotifierPlugin({
-      title: config.base.title,
-      suppressSuccess: true
     }),
     /**
      * @desc 内置插件，也可以使用 `moment-locales-webpack-plugin` -> https://www.npmjs.com/package/moment-locales-webpack-plugin
@@ -218,27 +214,27 @@ const commonConfig: Configuration = {
       automaticNameDelimiter: '~',
       enforceSizeThreshold: 50000,
       cacheGroups: {
-        defaultVendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-          chunks: 'all'
-        },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true
-        },
-        // vendors: {
+        // defaultVendors: {
         //   test: /[\\/]node_modules[\\/]/,
-        //   priority: 10,
-        //   // enforce: true,
-        //   name(module: { context: { match: (arg0: RegExp) => any[]; }; }) {
-        //     const packageName = module.context.match(
-        //       /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-        //     )[1];
-        //     return `npm.${packageName.replace('@', '')}`;
-        //   }
-        // }
+        //   priority: -10,
+        //   chunks: 'all'
+        // },
+        // default: {
+        //   minChunks: 2,
+        //   priority: -20,
+        //   reuseExistingChunk: true
+        // },
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: 10,
+          // enforce: true,
+          name(module: { context: { match: (arg0: RegExp) => any[]; }; }) {
+            const packageName = module.context.match(
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+            )[1];
+            return `npm.${packageName.replace('@', '')}`;
+          }
+        }
       }
     }
   }

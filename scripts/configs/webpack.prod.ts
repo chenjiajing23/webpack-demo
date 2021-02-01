@@ -105,7 +105,7 @@ const webpackConfig = merge(commonConfig, {
   },
 });
 
-// gzip
+// 是否开启gzip压缩
 if (config.prod.productionGzip) {
   const CompressionWebpackPlugin = require('compression-webpack-plugin');
   webpackConfig.plugins!.push(new CompressionWebpackPlugin({

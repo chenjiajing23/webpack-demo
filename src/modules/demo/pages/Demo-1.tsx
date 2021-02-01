@@ -38,6 +38,7 @@ const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
     setShow(!isShow);
   };
   if (demo.count === 5) {
+    // console.log((demo.count as unknown as string).length.id);
     throw new Error('测试错误边界！');
   }
 

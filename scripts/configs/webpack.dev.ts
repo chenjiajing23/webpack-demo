@@ -2,6 +2,7 @@ import path from 'path';
 import webpack from 'webpack';
 import { merge } from 'webpack-merge';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import ErrorOverlayPlugin from 'error-overlay-webpack-plugin';
 
 import commonConfig from './webpack.common';
 import { styleLoaders } from './styleLoaders';
@@ -10,6 +11,9 @@ import { PROJECT_ROOT } from '../utils/constants';
 
 const devConfig = merge(commonConfig, {
   mode: 'development',
+
+  // 如果觉得还可以容忍更慢的非 eval 类型的 sourceMap，可以搭配 error-overlay-webpack-plugin（已集成） 使用
+  devtool: 'cheap-module-source-map',
 
   infrastructureLogging: {
     // 'none'| 'warn' | 'error' | 'info' | 'log' | 'verbose'
@@ -21,8 +25,6 @@ const devConfig = merge(commonConfig, {
       'react-dom': '@hot-loader/react-dom'
     }
   },
-
-  devtool: 'eval-cheap-module-source-map',
 
   module: {
     rules: [...styleLoaders(false, true)]
@@ -39,6 +41,7 @@ const devConfig = merge(commonConfig, {
       }
     }),
     new webpack.HotModuleReplacementPlugin(),
+    new ErrorOverlayPlugin(),
     // new webpack.NoEmitOnErrorsPlugin(),
   ]
 });

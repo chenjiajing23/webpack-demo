@@ -44,7 +44,7 @@ async function start() {
 
   // 我们监听了 node 信号，所以使用 cross-env-shell 而不是 cross-env
   // 参考：https://github.com/kentcdodds/cross-env#cross-env-vs-cross-env-shell
-  ['SIGINT', 'SIGTERM'].forEach((signal: any) => {
+  ['SIGINT', 'SIGTERM'].forEach((signal) => {
     process.on(signal, () => {
       // 先关闭 devServer
       httpServer.close();
