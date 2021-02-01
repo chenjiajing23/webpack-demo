@@ -17,7 +17,7 @@ const devConfig = merge(commonConfig, {
 
   infrastructureLogging: {
     // 'none'| 'warn' | 'error' | 'info' | 'log' | 'verbose'
-    level: 'error',
+    level: 'none',
   },
 
   resolve: {
@@ -42,7 +42,6 @@ const devConfig = merge(commonConfig, {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new ErrorOverlayPlugin(),
-    // new webpack.NoEmitOnErrorsPlugin(),
   ]
 });
 

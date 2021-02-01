@@ -17,27 +17,24 @@ compiler.run((error, stats) => {
   };
 
   if (stats) {
-    // process.stdout.write(
-    //   stats.toString({
-    //     colors: true,
-    //     modules: false,
-    //     children: false,
-    //     chunks: false,
-    //     chunkModules: false
-    //   }) + '\n\n'
-    // );
     const analyzeStatsOpts = {
       preset: 'normal',
       colors: true,
+      modules: false,
+      children: false,
+      chunks: false,
+      chunkModules: false
     };
-    console.log(stats.toString(ENABLE_ANALYZE ? analyzeStatsOpts : 'minimal'));
-  }
+    process.stdout.write(
+      stats.toString(ENABLE_ANALYZE ? analyzeStatsOpts : "minimal") + '\n\n'
+    );
 
-  console.log(chalk.green('  Build complete.\n'));
-  console.log(
-    chalk.green(
-      '  Tip: built files are meant to be served over an HTTP server.\n' +
-      "  Opening index.html over file:// won't work.\n"
-    )
-  );
+    console.log(chalk.green('  Build complete.\n'));
+    console.log(
+      chalk.green(
+        '  Tip: built files are meant to be served over an HTTP server.\n' +
+        "  Opening index.html over file:// won't work.\n"
+      )
+    );
+  }
 });

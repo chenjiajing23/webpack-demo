@@ -8,7 +8,7 @@ export default {
   // Surge or Netlify already gzip all static assets for you.
   // Before setting to `true`, make sure to:
   // npm install --save-dev compression-webpack-plugin
-  productionGzip: false,
+  productionGzip: true,
   productionGzipExtensions: ['js', 'css'],
   // 上线资源路径配置
   assetsPublicPath: 'http://localhost:8080/', // 'http://150.158.180.163:8080/'

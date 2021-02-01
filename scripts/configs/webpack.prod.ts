@@ -1,41 +1,49 @@
 import os from 'os';
 import path from 'path';
-import webpack from 'webpack';
+import { BannerPlugin, ids, DefinePlugin } from 'webpack';
 import { merge } from 'webpack-merge';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import safePostCssParser from "postcss-safe-parser";
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
+// import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
 import SizePlugin from 'size-plugin';
+import CompressionWebpackPlugin from 'compression-webpack-plugin';
 
 import commonConfig from './webpack.common';
 import { styleLoaders } from './styleLoaders';
 import config from '../env';
 import { assetsPath } from '../utils/getPath';
-import { PROJECT_ROOT } from '../utils/constants';
+import { COPYRIGHT, PROJECT_ROOT } from '../utils/constants';
 // 生成map
 const shouldUseSourceMap = config.prod.productionSourceMap;
 
 const webpackConfig = merge(commonConfig, {
   mode: 'production',
+
   devtool: shouldUseSourceMap ? "source-map" : false,
+
   output: {
     publicPath: config.prod.assetsPublicPath
   },
+
   module: {
     rules: [
       ...styleLoaders(true, false)
     ]
   },
+
   plugins: [
-    new webpack.DefinePlugin({
+    new DefinePlugin({
       'process.env': config.prod.env,
     }),
-    new CleanWebpackPlugin(),
+    new BannerPlugin({
+      raw: true,
+      banner: COPYRIGHT, // 添加版权声明
+    }),
+    new ids.HashedModuleIdsPlugin(),
     new ForkTsCheckerWebpackPlugin({
       typescript: {
         // 生产环境打包并不频繁，可以适当调高允许使用的内存，加快类型检查速度
@@ -51,8 +59,6 @@ const webpackConfig = merge(commonConfig, {
 
   optimization: {
     minimize: true,
-    chunkIds: 'deterministic',
-    moduleIds: 'deterministic',
     minimizer: [
       new TerserPlugin({
         parallel: os.cpus().length - 1,
@@ -65,7 +71,7 @@ const webpackConfig = merge(commonConfig, {
             inline: 2
           },
           format: {
-            comments: false
+            // comments: false
           },
           mangle: {
             safari10: true,
@@ -75,6 +81,7 @@ const webpackConfig = merge(commonConfig, {
       }),
       // This is only used in production mode
       new OptimizeCSSAssetsPlugin({
+        canPrint: false,
         cssProcessorOptions: {
           safe: true,
           parser: safePostCssParser,
@@ -107,21 +114,17 @@ const webpackConfig = merge(commonConfig, {
 
 // 是否开启gzip压缩
 if (config.prod.productionGzip) {
-  const CompressionWebpackPlugin = require('compression-webpack-plugin');
   webpackConfig.plugins!.push(new CompressionWebpackPlugin({
-    cache: true,
-    asset: '[path].gz[query]',
-    algorithm: 'gzip',
-    compressionOptions: {
-      level: 9
-    },
     test: new RegExp(
       '\\.(' +
       config.prod.productionGzipExtensions.join('|') +
       ')$'
     ),
-    minRatio: 0.8,
-    threshold: 10240,
+    compressionOptions: {
+      level: 9,
+      minRatio: 0.8,
+      threshold: 10240,
+    },
   }));
 };
 
@@ -129,13 +132,14 @@ let prodConfig = webpackConfig;
 
 // 使用 --analyze 参数构建时，会输出各个阶段的耗时和自动打开浏览器访问 bundle 分析页面
 if (config.prod.bundleAnalyzerReport) {
-  prodConfig.plugins!.push(new SizePlugin({ writeFile: false }),
+  prodConfig.plugins!.push(new SizePlugin({ writeFile: false, color: 'green' }),
     new BundleAnalyzerPlugin({
       openAnalyzer: true,
       analyzerPort: 8888
     }));
-  const smp = new SpeedMeasurePlugin();
-  prodConfig = smp.wrap(webpackConfig);
+  // webpack5 还不支持 -> (https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/149)
+  // const smp = new SpeedMeasurePlugin();
+  // prodConfig = smp.wrap(webpackConfig);
 };
 
 export default prodConfig;

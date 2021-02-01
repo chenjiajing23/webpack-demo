@@ -1,11 +1,12 @@
 import { resolve } from 'path';
+import WebpackBar from 'webpackbar';
 import webpack, { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import WebpackBuildNotifierPlugin from 'webpack-build-notifier';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import FriendlyErrorsPlugin from 'friendly-errors-webpack-plugin';
-import WebpackBar from 'webpackbar';
+import WebpackBuildNotifierPlugin from 'webpack-build-notifier';
 
 import { assetsPath } from '../utils/getPath';
 import config from '../env';
@@ -130,6 +131,7 @@ const commonConfig: Configuration = {
       title: config.base.title,
       suppressSuccess: true
     }),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       // HtmlWebpackPlugin 会调用 HtmlMinifier 对 HTMl 文件进行压缩 只在生产环境压缩
       minify: __DEV__ ? false : htmlMinifyOptions,
@@ -164,7 +166,7 @@ const commonConfig: Configuration = {
       extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
       formatter: require.resolve('react-dev-utils/eslintFormatter'),
       eslintPath: require.resolve('eslint'),
-      context: resolve(__dirname, '../src'),
+      context: resolve(PROJECT_ROOT, './src'),
       cache: true,
       quiet: false, // 只输出error，忽略warn
       cwd: resolve('..'),
@@ -195,8 +197,8 @@ const commonConfig: Configuration = {
   ],
 
   optimization: {
-    chunkIds: "deterministic",
-    moduleIds: "deterministic",
+    // chunkIds: "deterministic",
+    // moduleIds: "deterministic",
     splitChunks: {
       chunks: 'all',
       minSize: {

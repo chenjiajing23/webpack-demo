@@ -7,10 +7,13 @@ module.exports = function (api) {
       [
         "@babel/preset-env",
         {
-          "targets": {
-            "node": "current",
+          useBuiltIns: 'usage', // 只导入需要的 polyfill
+          corejs: 3, // 指定 corjs 版本
+          modules: false, // 禁用模块化方案转换
+          targets: {
+            node: "current",
             // "browsers": ["last 2 versions"],
-            "browsers": ["last 1 chrome version"]
+            browsers: ["last 1 chrome version"]
           }
         }
       ]

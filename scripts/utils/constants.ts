@@ -7,7 +7,7 @@ const ENABLE_OPEN = argv.open as true | string;
 
 const HOST = '127.0.0.1';
 const DEFAULT_PORT = 3000;
-const COPYRIGHT = `/** @preserve Powered by react-typescript-boilerplate (https://github.com/tjx666/react-typescript-boilerplate) */`;
+const COPYRIGHT = `/** @preserve Powered by react-template-pc (https://github.com/chenjiajing23/react-template-pc/pull/3/files) */`;
 
 const PROJECT_ROOT = path.resolve(__dirname, '../../');
 const PROJECT_NAME = path.parse(PROJECT_ROOT).name;
