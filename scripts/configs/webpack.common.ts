@@ -8,8 +8,8 @@ import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import FriendlyErrorsPlugin from 'friendly-errors-webpack-plugin';
 import WebpackBuildNotifierPlugin from 'webpack-build-notifier';
 
-import { assetsPath } from '../utils/getPath';
 import config from '../env';
+import { assetsPath } from '../utils/getPath';
 import { HMR_PATH, PROJECT_NAME, PROJECT_ROOT, __DEV__ } from '../utils/constants';
 
 const hasJsxRuntime = (() => {
@@ -133,9 +133,11 @@ const commonConfig: Configuration = {
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
+      filename: 'index.html',
       // HtmlWebpackPlugin 会调用 HtmlMinifier 对 HTMl 文件进行压缩 只在生产环境压缩
       minify: __DEV__ ? false : htmlMinifyOptions,
       title: config.base.title,
+      inject: true,
       template: resolve(PROJECT_ROOT, './public/index.html'),
       templateParameters: (...args) => {
         const [compilation, assets, assetTags, options] = args;

@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import logSymbols from 'log-symbols';
 import express from 'express';
 import webpack from 'webpack';
-import WebpackOpenBrowser from 'webpack-open-browser';
+import WebpackOpenBrowser from './plugins/open-browser-plugin';
 
 import getPort from './utils/getPort';
 import setupMiddlewares from './middlewares';
