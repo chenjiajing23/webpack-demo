@@ -1,12 +1,14 @@
 import path from 'path';
 import { argv } from 'yargs';
 
+import env from '../env';
+
 const __DEV__ = process.env.NODE_ENV !== 'production';
 const ENABLE_ANALYZE = !!argv.analyze;
-const ENABLE_OPEN = argv.open as true | string;
+const ENABLE_OPEN = argv.open || env.dev.autoOpenBrowser as true | string; // 是否自动打开浏览器
 
-const HOST = '127.0.0.1';
-const DEFAULT_PORT = 3000;
+const HOST = env.dev.host;
+const DEFAULT_PORT = env.dev.port;
 const COPYRIGHT = `/** @preserve Powered by react-template-pc (https://github.com/chenjiajing23/react-template-pc/pull/3/files) */`;
 
 const PROJECT_ROOT = path.resolve(__dirname, '../../');
