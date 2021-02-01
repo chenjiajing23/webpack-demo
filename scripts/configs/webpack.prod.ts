@@ -1,15 +1,14 @@
 import os from 'os';
 import path from 'path';
-import { BannerPlugin, ids, DefinePlugin } from 'webpack';
+import { BannerPlugin, ids, DefinePlugin, NoEmitOnErrorsPlugin } from 'webpack';
 import { merge } from 'webpack-merge';
 import TerserPlugin from 'terser-webpack-plugin';
-import safePostCssParser from "postcss-safe-parser";
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 // import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
-import SizePlugin from 'size-plugin';
+// import SizePlugin from 'size-plugin';
 import CompressionWebpackPlugin from 'compression-webpack-plugin';
 
 import commonConfig from './webpack.common';
@@ -54,7 +53,8 @@ const webpackConfig = merge(commonConfig, {
     new MiniCssExtractPlugin({
       filename: assetsPath('css/[name].[contenthash:8].css'),
       chunkFilename: assetsPath('css/[id].[contenthash:8].css')
-    })
+    }),
+    new NoEmitOnErrorsPlugin(),
   ],
 
   optimization: {
@@ -79,17 +79,9 @@ const webpackConfig = merge(commonConfig, {
         },
         extractComments: false, // 是否提取注释到单独文件
       }),
-      // This is only used in production mode
-      new OptimizeCSSAssetsPlugin({
-        canPrint: false,
-        cssProcessorOptions: {
-          safe: true,
-          parser: safePostCssParser,
-          map: shouldUseSourceMap ? { inline: false, annotation: true } : false
-        },
-        cssProcessorPluginOptions: {
-          preset: ["default", { minifyFontValues: { removeQuotes: false } }]
-        }
+      // webpack5 使用
+      new CssMinimizerPlugin({
+        sourceMap: shouldUseSourceMap
       }),
     ],
     splitChunks: {
@@ -132,12 +124,14 @@ let prodConfig = webpackConfig;
 
 // 使用 --analyze 参数构建时，会输出各个阶段的耗时和自动打开浏览器访问 bundle 分析页面
 if (config.prod.bundleAnalyzerReport) {
-  prodConfig.plugins!.push(new SizePlugin({ writeFile: false, color: 'green' }),
+  prodConfig.plugins!.push(
+    // todo webpack5 不支持 https://github.com/euclid1990/write-assets-webpack-plugin/issues/4
+    // new SizePlugin({ writeFile: false, color: 'green' }),
     new BundleAnalyzerPlugin({
       openAnalyzer: true,
       analyzerPort: 8888
     }));
-  // webpack5 还不支持 -> (https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/149)
+  // todo webpack5 还不支持 -> (https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/149)
   // const smp = new SpeedMeasurePlugin();
   // prodConfig = smp.wrap(webpackConfig);
 };

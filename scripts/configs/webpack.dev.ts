@@ -1,5 +1,5 @@
 import path from 'path';
-import webpack from 'webpack';
+import { DefinePlugin, HotModuleReplacementPlugin } from 'webpack';
 import { merge } from 'webpack-merge';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import ErrorOverlayPlugin from 'error-overlay-webpack-plugin';
@@ -31,7 +31,7 @@ const devConfig = merge(commonConfig, {
   },
 
   plugins: [
-    new webpack.DefinePlugin({
+    new DefinePlugin({
       'process.env': config.dev.env,
     }),
     new ForkTsCheckerWebpackPlugin({
@@ -40,7 +40,7 @@ const devConfig = merge(commonConfig, {
         configFile: path.resolve(PROJECT_ROOT, './tsconfig.json')
       }
     }),
-    new webpack.HotModuleReplacementPlugin(),
+    new HotModuleReplacementPlugin(),
     new ErrorOverlayPlugin(),
   ]
 });
