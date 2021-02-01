@@ -48,7 +48,7 @@ const commonConfig: Configuration = {
 
   output: {
     filename: assetsPath(
-      __DEV__ ? 'js/bundle.js' : 'js/[name].[contenthash:8].js'
+      __DEV__ ? 'js/[name].[hash:8].js' : 'js/[name].[contenthash:8].js'
     ),  //必须是绝对路径
     chunkFilename: assetsPath(
       __DEV__ ? 'js/[name].chunk.js' : 'js/[name].[contenthash:8].chunk.js'
