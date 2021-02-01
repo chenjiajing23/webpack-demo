@@ -48,13 +48,13 @@ const commonConfig: Configuration = {
 
   output: {
     filename: assetsPath(
-      __DEV__ ? 'js/[name].[chunkhash:8].js' : 'js/[name].[contenthash:8].js'
-    ),
+      __DEV__ ? 'js/bundle.js' : 'js/[name].[contenthash:8].js'
+    ),  //必须是绝对路径
     chunkFilename: assetsPath(
-      __DEV__ ? 'js/[name]-[chunkhash:8].bundle.js' : 'js/[name]-[contenthash:8].js'
+      __DEV__ ? 'js/[name].chunk.js' : 'js/[name].[contenthash:8].chunk.js'
     ),
     path: resolve(PROJECT_ROOT, `./${config.base.assetsRoot}`),
-    publicPath: config.base.assetsPublicPath,
+    publicPath: config.base.assetsPublicPath, //通常是CDN地址
     hashSalt: PROJECT_NAME,
   },
 
@@ -127,15 +127,13 @@ const commonConfig: Configuration = {
     new WebpackBar({ name: 'react-template-pc' }),
     new FriendlyErrorsPlugin(),
     new WebpackBuildNotifierPlugin({
-      // suppressSuccess: true 设置只在第一次编译成功时输出成功的通知, rebuild 成功的时候不通知
       title: config.base.title,
-      suppressSuccess: true
+      suppressSuccess: true, // 设置只在第一次编译成功时输出成功的通知, rebuild 成功的时候不通知
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      // HtmlWebpackPlugin 会调用 HtmlMinifier 对 HTMl 文件进行压缩 只在生产环境压缩
-      minify: __DEV__ ? false : htmlMinifyOptions,
+      filename: 'index.html',  //打包后的文件名
+      minify: __DEV__ ? false : htmlMinifyOptions, // HtmlWebpackPlugin 会调用 HtmlMinifier 对 HTMl 文件进行压缩 只在生产环境压缩
       title: config.base.title,
       inject: true,
       template: resolve(PROJECT_ROOT, './public/index.html'),
@@ -199,46 +197,45 @@ const commonConfig: Configuration = {
   ],
 
   optimization: {
-    // chunkIds: "deterministic",
-    // moduleIds: "deterministic",
     splitChunks: {
       chunks: 'all',
-      minSize: {
-        javascript: 30000,
-        style: 50000,
-      },
+      // minSize: {
+      //   javascript: 30000,
+      //   style: 50000,
+      // },
       minRemainingSize: 0,
-      maxSize: {
-        javascript: 50000,
-        style: 50000,
-      },
+      // maxSize: {
+      //   javascript: 50000,
+      //   style: 50000,
+      // },
       minChunks: 1,
       maxAsyncRequests: 30,
       maxInitialRequests: Infinity, // 30
       automaticNameDelimiter: '~',
       enforceSizeThreshold: 50000,
       cacheGroups: {
-        // defaultVendors: {
-        //   test: /[\\/]node_modules[\\/]/,
-        //   priority: -10,
-        //   chunks: 'all'
-        // },
-        // default: {
-        //   minChunks: 2,
-        //   priority: -20,
-        //   reuseExistingChunk: true
-        // },
-        vendors: {
+        defaultVendors: {
           test: /[\\/]node_modules[\\/]/,
-          priority: 10,
-          // enforce: true,
-          name(module: { context: { match: (arg0: RegExp) => any[]; }; }) {
-            const packageName = module.context.match(
-              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-            )[1];
-            return `npm.${packageName.replace('@', '')}`;
-          }
-        }
+          priority: -10,
+          chunks: 'all'
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        },
+        // 按包拆分
+        // vendors: {
+        //   test: /[\\/]node_modules[\\/]/,
+        //   priority: 10,
+        //   // enforce: true,
+        //   name(module: { context: { match: (arg0: RegExp) => any[]; }; }) {
+        //     const packageName = module.context.match(
+        //       /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+        //     )[1];
+        //     return `npm.${packageName.replace('@', '')}`;
+        //   }
+        // }
       }
     }
   }

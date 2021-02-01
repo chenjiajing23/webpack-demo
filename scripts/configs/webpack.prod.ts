@@ -84,23 +84,20 @@ const webpackConfig = merge(commonConfig, {
         sourceMap: shouldUseSourceMap
       }),
     ],
-    splitChunks: {
-      cacheGroups: {
-        styles: {
-          name: 'styles',
-          test: /\.(c)ss$/,
-          chunks: 'all',
-          enforce: true
-        }
-      }
-    }
+    // splitChunks: {
+    //   cacheGroups: {
+    //     styles: {
+    //       name: 'styles',
+    //       test: /\.(c)ss$/,
+    //       chunks: 'all',
+    //       enforce: true
+    //     }
+    //   }
+    // }
   },
   performance: {
     maxEntrypointSize: 500000,
-    maxAssetSize: 250000
-    // assetFilter: function (assetFilename) {
-    //   return assetFilename.endsWith('.js');
-    // }
+    maxAssetSize: 250000,
   },
 });
 

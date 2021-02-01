@@ -29,9 +29,8 @@ module.exports = function (api) {
         {
           "libraryName": "antd",
           "libraryDirectory": "es",
-          "style": true
-        },
-        "antd"
+          "style": "css", // `style: true` 会加载 less 文件
+        }
       ],
       [
         "babel-plugin-react-css-modules",
