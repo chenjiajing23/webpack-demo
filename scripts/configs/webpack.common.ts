@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 import WebpackBar from 'webpackbar';
-import webpack, { Configuration } from 'webpack';
+import webpack, { Configuration, ProvidePlugin, RuleSetUseItem } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
@@ -23,7 +23,6 @@ const hasJsxRuntime = (() => {
     return false;
   }
 })();
-
 
 // index.html 压缩选项
 const htmlMinifyOptions = {
@@ -52,7 +51,7 @@ const commonConfig: Configuration = {
 
   output: {
     filename: assetsPath(
-      __DEV__ ? 'js/[name].[hash:8].js' : 'js/[name].[contenthash:8].js'
+      __DEV__ ? 'js/[name].[fullhash:8].js' : 'js/[name].[contenthash:8].js'
     ),  //必须是绝对路径
     chunkFilename: assetsPath(
       __DEV__ ? 'js/[name].chunk.js' : 'js/[name].[contenthash:8].chunk.js'
@@ -77,7 +76,7 @@ const commonConfig: Configuration = {
   module: {
     rules: [
       {
-        test: /\.(tsx?|js)$/,
+        test: /\.(tsx?|jsx?)$/,
         use: [
           { loader: 'thread-loader' },
           {
@@ -85,8 +84,10 @@ const commonConfig: Configuration = {
             options: {
               cacheDirectory: true
             }
-          }
-        ],
+          }].concat(__DEV__ ? [{
+            loader: 'react-dev-inspector/plugins/webpack/inspector-loader',
+            options: { exclude: [resolve(PROJECT_ROOT, './dist')] } as any,
+          }] : []) as RuleSetUseItem[],
         exclude: /node_modules/,
       },
       {
@@ -132,6 +133,9 @@ const commonConfig: Configuration = {
   },
 
   plugins: [
+    new ProvidePlugin({
+      process: 'process/browser',
+    }),
     new WebpackBar({ name: 'react-template-pc' }),
     new FriendlyErrorsPlugin(),
     new WebpackBuildNotifierPlugin({
@@ -204,13 +208,14 @@ const commonConfig: Configuration = {
   ],
 
   optimization: {
+    runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',
+      minRemainingSize: 0,
       // minSize: {
       //   javascript: 30000,
       //   style: 50000,
       // },
-      minRemainingSize: 0,
       // maxSize: {
       //   javascript: 50000,
       //   style: 50000,
@@ -221,16 +226,21 @@ const commonConfig: Configuration = {
       automaticNameDelimiter: '~',
       enforceSizeThreshold: 50000,
       cacheGroups: {
-        defaultVendors: {
+        vendor: {
           test: /[\\/]node_modules[\\/]/,
-          priority: -10,
+          name: 'vendors',
           chunks: 'all'
         },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true
-        },
+        // defaultVendors: {
+        //   test: /[\\/]node_modules[\\/]/,
+        //   priority: -10,
+        //   chunks: 'all'
+        // },
+        // default: {
+        //   minChunks: 2,
+        //   priority: -20,
+        //   reuseExistingChunk: true
+        // },
         // 按包拆分
         // vendors: {
         //   test: /[\\/]node_modules[\\/]/,

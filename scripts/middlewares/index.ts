@@ -2,15 +2,17 @@ import { Compiler } from 'webpack';
 import { Express } from 'express';
 
 // 中间件
-import historyFallback from 'connect-history-api-fallback';
 import cors from 'cors';
+import historyFallback from 'connect-history-api-fallback';
 import proxyMiddleware from './proxyMiddleware';
 import webpackMiddleware from './webpackMiddleware';
+import createErrorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
 
 /**
  * 配置中间件
  */
 export default function setupMiddlewares(server: Express, compiler: Compiler): void {
+    server.use(createErrorOverlayMiddleware());
     // 设置代理
     proxyMiddleware(server);
 
