@@ -14,6 +14,7 @@ const devMiddleware = require('webpack-dev-middleware');
 const hotMiddleware = require('webpack-hot-middleware');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const history = require('connect-history-api-fallback');
+const createErrorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 
 const port = config.dev.port;
 // automatically open browser, if not set will be false
@@ -37,6 +38,7 @@ const main = () => {
       heartbeat: 2000,
       path: '/__hmr'
     });
+    app.use(createErrorOverlayMiddleware());
 
     // handle fallback for HTML5 history API
     app.use(history());

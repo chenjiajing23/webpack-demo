@@ -72,7 +72,7 @@ const commonConfig = {
       {
         test: /\.js$/,
         use: [
-          { loader: 'thread-loader' },
+          // { loader: 'thread-loader' },
           {
             loader: 'babel-loader',
             options: {
@@ -85,9 +85,14 @@ const commonConfig = {
       {
         test: /\.tsx?$/,
         use: [
-          { loader: 'thread-loader' },
+          // { loader: 'thread-loader' },
           {
             loader: 'babel-loader'
+          },
+          // 注意这个 loader babel 编译之前执行
+          {
+            loader: 'react-dev-inspector/plugins/webpack/inspector-loader',
+            options: { exclude: [path.resolve(__dirname, '../dist')] },
           },
           {
             loader: 'ts-loader',
@@ -164,6 +169,9 @@ const commonConfig = {
   },
 
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.PWD': JSON.stringify(process.env.PWD),
+    }),
     new ProgressBarPlugin(),
     new HtmlWebpackPlugin({
       // HtmlWebpackPlugin 会调用 HtmlMinifier 对 HTMl 文件进行压缩 只在生产环境压缩

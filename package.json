@@ -14,6 +14,7 @@
   ],
   "scripts": {
     "dev": "node ./build/dev-server.js",
+    "start": "webpack serve --config ./build/webpack.dev.js --progress",
     "build": "node ./build/prod-build.js",
     "analysis": "npm run build --analyze",
     "mock": "nodemon --watch mock ./node_modules/.bin/good-mock",
@@ -85,7 +86,9 @@
     "postcss-loader": "^4.2.0",
     "postcss-safe-parser": "^5.0.2",
     "prettier": "^2.2.1",
+    "process": "^0.11.10",
     "progress-bar-webpack-plugin": "^2.1.0",
+    "react-dev-inspector": "^1.1.4",
     "react-dev-utils": "^11.0.1",
     "redux-devtools-extension": "^2.13.8",
     "size-plugin": "^3.0.0",
