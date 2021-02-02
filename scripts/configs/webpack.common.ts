@@ -4,7 +4,6 @@ import webpack, { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import FriendlyErrorsPlugin from 'friendly-errors-webpack-plugin';
 import WebpackBuildNotifierPlugin from 'webpack-build-notifier';
 
@@ -139,7 +138,6 @@ const commonConfig: Configuration = {
       title: config.base.title,
       suppressSuccess: true, // 设置只在第一次编译成功时输出成功的通知, rebuild 成功的时候不通知
     }),
-    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',  //打包后的文件名
       minify: __DEV__ ? false : htmlMinifyOptions, // HtmlWebpackPlugin 会调用 HtmlMinifier 对 HTMl 文件进行压缩 只在生产环境压缩
@@ -165,6 +163,19 @@ const commonConfig: Configuration = {
         };
       },
     }),
+    new CopyPlugin({
+      patterns: [
+        {
+          context: resolve(PROJECT_ROOT, './public'),
+          from: '*',
+          to: resolve(PROJECT_ROOT, `./${config.base.assetsRoot}`),
+          toType: 'dir',
+          globOptions: {
+            ignore: ['**/index.html'],
+          },
+        },
+      ],
+    }),
     /**
      * @desc 内置插件，也可以使用 `moment-locales-webpack-plugin` -> https://www.npmjs.com/package/moment-locales-webpack-plugin
      * @url https://www.webpackjs.com/plugins/context-replacement-plugin/
@@ -189,19 +200,6 @@ const commonConfig: Configuration = {
           })
         }
       }
-    }),
-    new CopyPlugin({
-      patterns: [
-        {
-          context: resolve(PROJECT_ROOT, './public'),
-          from: '*',
-          to: resolve(PROJECT_ROOT, `./${config.base.assetsRoot}`),
-          toType: 'dir',
-          globOptions: {
-            ignore: ['index.html'],
-          },
-        },
-      ],
     }),
   ],
 

@@ -9,6 +9,7 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 // import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
 // import SizePlugin from 'size-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CompressionWebpackPlugin from 'compression-webpack-plugin';
 
 import commonConfig from './webpack.common';
@@ -35,6 +36,7 @@ const webpackConfig = merge(commonConfig, {
   },
 
   plugins: [
+    new CleanWebpackPlugin(),
     new DefinePlugin({
       'process.env': config.prod.env,
     }),
