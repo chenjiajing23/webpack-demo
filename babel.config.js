@@ -22,6 +22,7 @@ module.exports = function (api) {
       "@babel/plugin-syntax-dynamic-import",
       "@babel/plugin-transform-runtime",
       "@babel/plugin-proposal-optional-chaining",
+      "@babel/plugin-syntax-top-level-await",
       ['@babel/plugin-proposal-class-properties', { loose: true }],
       ['@babel/plugin-proposal-decorators', { decoratorsBeforeExport: true }],
       [

@@ -44,6 +44,11 @@ const htmlMinifyOptions = {
 const commonConfig: Configuration = {
   mode: 'none',
 
+  experiments: {
+    // 在 async 函数外部使用 await 字段
+    topLevelAwait: true,
+  },
+
   entry: ['react-hot-loader/patch', resolve(PROJECT_ROOT, './src/main/index.tsx')],
 
   output: {
@@ -87,7 +92,11 @@ const commonConfig: Configuration = {
       },
       {
         test: /\.(bmp|png|jpe?g|gif|svg)(\?.*)?$/,
-        // webpack5新处理方式： https://webpack.docschina.org/guides/asset-modules/
+        // webpack5新处理方式 官方文档 -> https://webpack.js.org/guides/asset-modules/#general-asset-type
+        // asset/source ——功能相当于 raw-loader。
+        // asset/inline——功能相当于 url-loader，若想要设置编码规则，可以在 generator 中设置 dataUrl。具体可参见官方文档。
+        // asset/resource——功能相当于 file-loader。
+        // asset—— 默认会根据文件大小来选择使用哪种类型，当文件小于 8 KB 的时候会使用 asset/inline，否则会使用 asset/resource。也可手动进行阈值的设定，具体可以参考官方文档。
         type: 'asset',
         parser: {
           dataUrlCondition: {
