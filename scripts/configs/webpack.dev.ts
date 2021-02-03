@@ -6,7 +6,7 @@ import ErrorOverlayPlugin from 'error-overlay-webpack-plugin';
 
 import commonConfig from './webpack.common';
 import { styleLoaders } from './styleLoaders';
-import config from '../env';
+import config from '../variables';
 import { PROJECT_ROOT } from '../utils/constants';
 
 const devConfig = merge(commonConfig, {

@@ -1,6 +1,6 @@
 import path from 'path';
 
-import env from '../env';
+import env from '../variables';
 
 // 静态资源子目录
 const assetsPath = (pathname: string) => {

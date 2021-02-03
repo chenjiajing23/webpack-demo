@@ -1,4 +1,4 @@
-import config from './env';
+import config from './variables';
 import webpack from 'webpack';
 import chalk from 'chalk';
 // 定义环境变量

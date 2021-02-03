@@ -14,7 +14,7 @@ import CompressionWebpackPlugin from 'compression-webpack-plugin';
 
 import commonConfig from './webpack.common';
 import { styleLoaders } from './styleLoaders';
-import config from '../env';
+import config from '../variables';
 import { assetsPath } from '../utils/getPath';
 import { COPYRIGHT, PROJECT_ROOT } from '../utils/constants';
 // 生成map

@@ -7,7 +7,7 @@ import CopyPlugin from 'copy-webpack-plugin';
 import FriendlyErrorsPlugin from 'friendly-errors-webpack-plugin';
 import WebpackBuildNotifierPlugin from 'webpack-build-notifier';
 
-import config from '../env';
+import config from '../variables';
 import { assetsPath } from '../utils/getPath';
 import { HMR_PATH, PROJECT_NAME, PROJECT_ROOT, __DEV__ } from '../utils/constants';
 

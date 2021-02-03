@@ -3023,9 +3023,9 @@ connect-history-api-fallback@^1.6.0:
   integrity sha1-izIIk1kwjRERFdgcrT/Oq4iPl7w=
 
 consola@^2.15.0:
-  version "2.15.1"
-  resolved "https://registry.npm.taobao.org/consola/download/consola-2.15.1.tgz#6c9141d97798537551e5b411a1423e39e4a7abd6"
-  integrity sha1-bJFB2XeYU3VR5bQRoUI+OeSnq9Y=
+  version "2.15.2"
+  resolved "https://registry.npm.taobao.org/consola/download/consola-2.15.2.tgz#c858f1fe36ab97d256c6ebc791905ee923495602"
+  integrity sha1-yFjx/jarl9JWxuvHkZBe6SNJVgI=
 
 contains-path@^0.1.0:
   version "0.1.0"
@@ -5179,10 +5179,10 @@ html-tags@^3.1.0:
   resolved "https://registry.npm.taobao.org/html-tags/download/html-tags-3.1.0.tgz#7b5e6f7e665e9fb41f30007ed9e0d41e97fb2140"
   integrity sha1-e15vfmZen7QfMAB+2eDUHpf7IUA=
 
-html-webpack-plugin@^5.0.0-beta.6:
-  version "5.0.0-beta.6"
-  resolved "https://registry.npm.taobao.org/html-webpack-plugin/download/html-webpack-plugin-5.0.0-beta.6.tgz?cache=0&sync_timestamp=1611174831105&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhtml-webpack-plugin%2Fdownload%2Fhtml-webpack-plugin-5.0.0-beta.6.tgz#aab868a3c1607828699ebbbb44cde9d6f3615cb3"
-  integrity sha1-qrhoo8FgeChpnru7RM3p1vNhXLM=
+html-webpack-plugin@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npm.taobao.org/html-webpack-plugin/download/html-webpack-plugin-5.0.0.tgz#457a9defb33ce368135078b4e0387a27f3fe244d"
+  integrity sha1-RXqd77M842gTUHi04Dh6J/P+JE0=
   dependencies:
     "@types/html-minifier-terser" "^5.0.0"
     html-minifier-terser "^5.0.1"
@@ -8311,7 +8311,7 @@ rc-dialog@~8.5.0, rc-dialog@~8.5.1:
 
 rc-drawer@~4.2.0:
   version "4.2.2"
-  resolved "https://registry.npm.taobao.org/rc-drawer/download/rc-drawer-4.2.2.tgz?cache=0&sync_timestamp=1610602426310&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frc-drawer%2Fdownload%2Frc-drawer-4.2.2.tgz#5fd8b18ce20575ff22b36e0c5ddbe363c13db555"
+  resolved "https://registry.npm.taobao.org/rc-drawer/download/rc-drawer-4.2.2.tgz#5fd8b18ce20575ff22b36e0c5ddbe363c13db555"
   integrity sha1-X9ixjOIFdf8is24MXdvjY8E9tVU=
   dependencies:
     "@babel/runtime" "^7.10.1"
@@ -10970,7 +10970,7 @@ webpack-bundle-analyzer@^4.4.0:
     sirv "^1.0.7"
     ws "^7.3.1"
 
-webpack-cli@^4.4.0:
+webpack-cli@^4.5.0:
   version "4.5.0"
   resolved "https://registry.npm.taobao.org/webpack-cli/download/webpack-cli-4.5.0.tgz?cache=0&sync_timestamp=1612285816128&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwebpack-cli%2Fdownload%2Fwebpack-cli-4.5.0.tgz#b5213b84adf6e1f5de6391334c9fa53a48850466"
   integrity sha1-tSE7hK324fXeY5EzTJ+lOkiFBGY=
@@ -11036,10 +11036,10 @@ webpack-sources@^2.1.1:
     source-list-map "^2.0.1"
     source-map "^0.6.1"
 
-webpack@^5.1.0, webpack@^5.20.0:
-  version "5.20.0"
-  resolved "https://registry.npm.taobao.org/webpack/download/webpack-5.20.0.tgz#7225c2e780f4332aef18e0b323b8b3ec01e16d66"
-  integrity sha1-ciXC54D0MyrvGOCzI7iz7AHhbWY=
+webpack@^5.1.0, webpack@^5.20.1:
+  version "5.20.1"
+  resolved "https://registry.npm.taobao.org/webpack/download/webpack-5.20.1.tgz#dfecbcfb660544113a923479c8ca1044fdbf1533"
+  integrity sha1-3+y8+2YFRBE6kjR5yMoQRP2/FTM=
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.46"
@@ -11065,7 +11065,7 @@ webpack@^5.1.0, webpack@^5.20.0:
     watchpack "^2.0.0"
     webpack-sources "^2.1.1"
 
-webpackbar@5.0.0-3:
+webpackbar@^5.0.0-3:
   version "5.0.0-3"
   resolved "https://registry.npm.taobao.org/webpackbar/download/webpackbar-5.0.0-3.tgz#f4f96c8fb13001b2bb1348252db4c980ab93aaac"
   integrity sha1-9Plsj7EwAbK7E0glLbTJgKuTqqw=

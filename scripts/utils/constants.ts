@@ -1,7 +1,7 @@
 import path from 'path';
 import { argv } from 'yargs';
 
-import env from '../env';
+import env from '../variables';
 
 const __DEV__ = process.env.NODE_ENV !== 'production';
 const ENABLE_ANALYZE = !!argv.analyze;
