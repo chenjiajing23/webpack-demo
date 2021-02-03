@@ -9,3 +9,4 @@ server/*
 src/style/*
 scripts/*
 babel.config.js
+postcss.config.js

@@ -125,7 +125,9 @@ const commonConfig: Configuration = {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
         generator: {
-          filename: assetsPath('fonts/[name][contenthash:8][ext][query]')
+          // TODO 注意不能用 [hash]、[contenthash]，build 生成的hash名和css引入的hash名不一致
+          // 原因未知，后续解决
+          filename: assetsPath('fonts/[name]-[id][ext]')
         },
         exclude: /node_modules/,
       }
