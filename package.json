@@ -108,7 +108,7 @@
     "prettier": "^2.2.1",
     "process": "^0.11.10",
     "react-dev-inspector": "^1.1.4",
-    "react-dev-utils": "^11.0.1",
+    "react-dev-utils": "^11.0.2",
     "redux-devtools-extension": "^2.13.8",
     "size-plugin": "^3.0.0",
     "speed-measure-webpack-plugin": "^1.4.2",
@@ -135,7 +135,7 @@
   },
   "dependencies": {
     "@types/webpack-env": "^1.16.0",
-    "antd": "^4.12.1",
+    "antd": "^4.12.2",
     "axios": "^0.21.1",
     "babel-plugin-react-css-modules": "^5.2.6",
     "classnames": "^2.2.6",
