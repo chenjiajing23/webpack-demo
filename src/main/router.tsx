@@ -9,7 +9,6 @@ import {
 } from 'react-router-dom';
 
 import PageLoading from '@/components/page-loading';
-import ErrorBoundary from '@/components/error-boundary/ErrorBoundary';
 import { ILangState, ILangType } from '@/store/lang/type';
 import { getCurrentUrlLang } from '@/library/format';
 import { useDispatch, useSelector } from 'react-redux';
@@ -83,30 +82,28 @@ const SwitchRouterComponent = (props: PropsWithChildren<RouteComponentProps>) =>
   }, [dispatch, lang.langList, lang.local]);
 
   return (
-    <ErrorBoundary>
-      <React.Suspense fallback={<PageLoading />}>
-        <Switch>
-          {routes.map(route =>
-            route.redirect ? (
-              <Redirect
-                exact={route.exact}
-                key={route.redirect}
-                from={route.path}
-                to={route.redirect}
-              />
-            ) : (
-              <Route
-                key={route.path}
-                path={route.path}
-                exact={route.exact}
-                render={route.component}
-              />
-            )
-          )}
-          <Redirect exact={false} from={'/'} to={`/${lang.local}/demo`} />
-        </Switch>
-      </React.Suspense>
-    </ErrorBoundary>
+    <React.Suspense fallback={<PageLoading />}>
+      <Switch>
+        {routes.map(route =>
+          route.redirect ? (
+            <Redirect
+              exact={route.exact}
+              key={route.redirect}
+              from={route.path}
+              to={route.redirect}
+            />
+          ) : (
+            <Route
+              key={route.path}
+              path={route.path}
+              exact={route.exact}
+              render={route.component}
+            />
+          )
+        )}
+        <Redirect exact={false} from={'/'} to={`/${lang.local}/demo`} />
+      </Switch>
+    </React.Suspense>
   );
 };
 

@@ -7,10 +7,13 @@ module.exports = function (api) {
       [
         "@babel/preset-env",
         {
-          "targets": {
-            "node": "current",
+          useBuiltIns: 'usage', // 只导入需要的 polyfill
+          corejs: 3, // 指定 corjs 版本
+          modules: false, // 禁用模块化方案转换
+          targets: {
+            node: "current",
             // "browsers": ["last 2 versions"],
-            "browsers": ["last 1 chrome version"]
+            browsers: ["last 1 chrome version"]
           }
         }
       ]
@@ -19,6 +22,7 @@ module.exports = function (api) {
       "@babel/plugin-syntax-dynamic-import",
       "@babel/plugin-transform-runtime",
       "@babel/plugin-proposal-optional-chaining",
+      "@babel/plugin-syntax-top-level-await",
       ['@babel/plugin-proposal-class-properties', { loose: true }],
       ['@babel/plugin-proposal-decorators', { decoratorsBeforeExport: true }],
       [
@@ -26,9 +30,8 @@ module.exports = function (api) {
         {
           "libraryName": "antd",
           "libraryDirectory": "es",
-          "style": true
-        },
-        "antd"
+          "style": "css", // `style: true` 会加载 less 文件
+        }
       ],
       [
         "babel-plugin-react-css-modules",

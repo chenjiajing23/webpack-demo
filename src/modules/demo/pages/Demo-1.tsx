@@ -16,7 +16,7 @@ interface IProps {
 }
 
 const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
-  const { } = props;
+  const {} = props;
   const { language } = useParams<RouterParams>();
   const [isShow, setShow] = useState(false);
   const dispatch = useDispatch();
@@ -37,8 +37,8 @@ const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
     dispatch(decrementCount(-1));
     setShow(!isShow);
   };
-  if (demo.count === 5) {
-    throw new Error('测试错误边界！');
+  if (demo.count === 6) {
+    throw new Error('测试错误遮罩层！');
   }
 
   const onNextPage = () => {
@@ -52,7 +52,7 @@ const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
     <div styleName="demo" className={classnames({ chenjiajing: isShow })}>
       <div styleName="content">
         <h1>{demo.count}</h1>
-        <p styleName="title">无敌是多么寂寞-44444</p>
+        <p styleName="title">无敌是多么寂寞-888888</p>
         <Button type="primary" onClick={increment}>
           +
         </Button>
