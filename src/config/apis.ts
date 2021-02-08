@@ -3,7 +3,7 @@
  * @Author: Chenjiajing
  * @Date: 2020-10-03 23:36:40
  * @LastEditors: Chenjiajing
- * @LastEditTime: 2020-10-18 20:25:15
+ * @LastEditTime: 2021-02-08 15:19:54
  */
 const serverMap: IServerMap = {
   baseServer: {
@@ -16,6 +16,17 @@ const serverMap: IServerMap = {
     },
     default: true
   }
+  // 更多
+  // baseServer2: {
+  //   baseMap: {
+  //     prod: 'http://prod.apis.com',
+  //     stage: 'https://state.apis.com',
+  //     test: 'https://test.apis.com',
+  //     dev: 'https://dev.apis.com',
+  //     local: 'http://localhost:8080'
+  //   },
+  //   default: true
+  // }
 };
 
 export default serverMap;

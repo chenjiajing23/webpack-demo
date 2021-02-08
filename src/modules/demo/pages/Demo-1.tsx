@@ -22,10 +22,39 @@ const Demo1 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   const dispatch = useDispatch();
   const demo = useSelector<IStoreState, IDemoState>(state => state.demo);
 
+  // 获取详情
   useEffect(() => {
-    (window.apis as any).getUserInfo({ params: { id: 333 } }).then((res: any) => {
-      console.log(res);
-    });
+    const getUserInfo = () => {
+      void window.apis
+        .getUserInfo<{ name: string }>({
+          params: { id: 110 },
+          rest: { id: 1 }
+        })
+        .then(res => {
+          console.log('success:', res);
+        })
+        .catch(err => {
+          console.log('error:', err);
+        });
+    };
+    void getUserInfo();
+  }, []);
+
+  // 获取详情
+  useEffect(() => {
+    const postFriendList = () => {
+      void window.apis
+        .postFriendList<{ name: string }>({
+          data: { token: 110 }
+        })
+        .then(res => {
+          console.log('success:', res);
+        })
+        .catch(err => {
+          console.log('error:', err);
+        });
+    };
+    void postFriendList();
   }, []);
 
   const increment = () => {
