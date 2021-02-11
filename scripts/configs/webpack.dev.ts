@@ -3,6 +3,7 @@ import { DefinePlugin, HotModuleReplacementPlugin } from 'webpack';
 import { merge } from 'webpack-merge';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import ErrorOverlayPlugin from 'error-overlay-webpack-plugin';
+// import ExtractApisKeysPlugin from '../plugins/extract-apis-keys-plugin';
 
 import commonConfig from './webpack.common';
 import { styleLoaders } from './styleLoaders';
@@ -42,6 +43,7 @@ const devConfig = merge(commonConfig, {
     }),
     new HotModuleReplacementPlugin(),
     new ErrorOverlayPlugin(),
+    // new ExtractApisKeysPlugin(),
   ]
 });
 
