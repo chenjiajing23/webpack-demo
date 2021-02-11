@@ -20,9 +20,8 @@ npm run dev
 - [x] git 检测功能
 - [x] 热更新功能
 - [x] less 模块化支持
-- [x] webpack 缓存功能
-- [x] apis 多 api 功能
-- [x] mock 数据
+- [x] [apis 多 api 功能](https://www.npmjs.com/package/good-apis)
+- [x] [mock 数据](https://www.npmjs.com/package/good-mock)
 - [ ] upload 上传到 cdn 功能
 
 ## 发布
