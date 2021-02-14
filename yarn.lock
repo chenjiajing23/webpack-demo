@@ -1284,10 +1284,10 @@
   dependencies:
     "@types/webpack" "*"
 
-"@types/cors@^2.8.9":
-  version "2.8.9"
-  resolved "https://registry.npm.taobao.org/@types/cors/download/@types/cors-2.8.9.tgz?cache=0&sync_timestamp=1608024180683&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fcors%2Fdownload%2F%40types%2Fcors-2.8.9.tgz#4bd1fcac72eca8d5bec93e76c7fdcbdc1bc2cd4a"
-  integrity sha1-S9H8rHLsqNW+yT52x/3L3BvCzUo=
+"@types/cors@^2.8.10":
+  version "2.8.10"
+  resolved "https://registry.npm.taobao.org/@types/cors/download/@types/cors-2.8.10.tgz#61cc8469849e5bcdd0c7044122265c39cec10cf4"
+  integrity sha1-YcyEaYSeW83QxwRBIiZcOc7BDPQ=
 
 "@types/css-minimizer-webpack-plugin@^1.1.1":
   version "1.1.1"
@@ -7177,10 +7177,18 @@ onetime@^5.1.0, onetime@^5.1.2:
   dependencies:
     mimic-fn "^2.1.0"
 
-open@^7.0.2, open@^7.4.0:
+open@^7.0.2:
   version "7.4.0"
   resolved "https://registry.npm.taobao.org/open/download/open-7.4.0.tgz?cache=0&sync_timestamp=1612174415775&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fopen%2Fdownload%2Fopen-7.4.0.tgz#ad95b98f871d9acb0ec8fecc557082cc9986626b"
   integrity sha1-rZW5j4cdmssOyP7MVXCCzJmGYms=
+  dependencies:
+    is-docker "^2.0.0"
+    is-wsl "^2.1.1"
+
+open@^7.4.1:
+  version "7.4.1"
+  resolved "https://registry.npm.taobao.org/open/download/open-7.4.1.tgz?cache=0&sync_timestamp=1613288662936&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fopen%2Fdownload%2Fopen-7.4.1.tgz#4ccedc11ca348d398378ffb39c71357df55fe6f7"
+  integrity sha1-TM7cEco0jTmDeP+znHE1ffVf5vc=
   dependencies:
     is-docker "^2.0.0"
     is-wsl "^2.1.1"
