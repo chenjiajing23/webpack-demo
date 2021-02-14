@@ -9,7 +9,7 @@ const ENABLE_OPEN = argv.open || env.dev.autoOpenBrowser as true | string; // æ˜
 
 const HOST = env.dev.host;
 const DEFAULT_PORT = env.dev.port;
-const COPYRIGHT = `/** @preserve Powered by react-template-pc (https://github.com/chenjiajing23/react-template-pc/pull/3/files) */`;
+const COPYRIGHT = `/** @preserve Powered by react-template-pc (https://github.com/chenjiajing23/react-template-pc) */`;
 
 const PROJECT_ROOT = path.resolve(__dirname, '../../');
 const PROJECT_NAME = path.parse(PROJECT_ROOT).name;
