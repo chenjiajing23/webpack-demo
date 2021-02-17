@@ -5,6 +5,7 @@ export default {
   },
   host: 'localhost',
   port: 8080,
-  autoOpenBrowser: true,
+  autoOpenBrowser: true, // 自动打开浏览器
+  isInspectorComponent: true, // 组件定位
   assetsPublicPath: '/',
 };

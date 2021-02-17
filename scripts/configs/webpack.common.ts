@@ -9,7 +9,7 @@ import WebpackBuildNotifierPlugin from 'webpack-build-notifier';
 
 import config from '../variables';
 import { assetsPath } from '../utils/getPath';
-import { HMR_PATH, PROJECT_NAME, PROJECT_ROOT, __DEV__ } from '../utils/constants';
+import { HMR_PATH, PROJECT_NAME, PROJECT_ROOT, __DEV__, INSPECTOR_COMPONENT } from '../utils/constants';
 
 const hasJsxRuntime = (() => {
   if (process.env.DISABLE_NEW_JSX_TRANSFORM === 'true') {
@@ -84,7 +84,7 @@ const commonConfig: Configuration = {
             options: {
               cacheDirectory: true
             }
-          }].concat(__DEV__ ? [{
+          }].concat(__DEV__ && INSPECTOR_COMPONENT ? [{
             loader: 'react-dev-inspector/plugins/webpack/inspector-loader',
             options: { exclude: [resolve(PROJECT_ROOT, './dist')] } as any,
           }] : []) as RuleSetUseItem[],
@@ -92,11 +92,13 @@ const commonConfig: Configuration = {
       },
       {
         test: /\.(bmp|png|jpe?g|gif|svg)(\?.*)?$/,
-        // webpack5新处理方式 官方文档 -> https://webpack.js.org/guides/asset-modules/#general-asset-type
-        // asset/source ——功能相当于 raw-loader。
-        // asset/inline——功能相当于 url-loader，若想要设置编码规则，可以在 generator 中设置 dataUrl。具体可参见官方文档。
-        // asset/resource——功能相当于 file-loader。
-        // asset—— 默认会根据文件大小来选择使用哪种类型，当文件小于 8 KB 的时候会使用 asset/inline，否则会使用 asset/resource。也可手动进行阈值的设定，具体可以参考官方文档。
+        /**
+         * webpack5新处理方式 官方文档 -> https://webpack.js.org/guides/asset-modules/#general-asset-type
+        * asset/source ——功能相当于 raw-loader。
+        * asset/resource——功能相当于 file-loader。
+        * asset/inline——功能相当于 url-loader，若想要设置编码规则，可以在 generator 中设置 dataUrl。具体可参见官方文档。
+        * asset—— 默认会根据文件大小来选择使用哪种类型，当文件小于 8 KB 的时候会使用 asset/inline，否则会使用 asset/resource。也可手动进行阈值的设定，具体可以参考官方文档。
+        */
         type: 'asset',
         parser: {
           dataUrlCondition: {

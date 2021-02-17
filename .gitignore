@@ -3,7 +3,7 @@ server/node_modules/
 dist/
 .idea/
 .cache/
-.vscode/
+# .vscode/
 .DS_Store
 */.DS_Store
 stats.json

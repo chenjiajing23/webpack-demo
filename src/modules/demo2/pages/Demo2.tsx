@@ -119,10 +119,7 @@ const Demo2 = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
         <div style={{ margin: '20px 0' }}>
           <Pagination defaultCurrent={1} total={50} showSizeChanger />
         </div>
-        <div
-          style={{ margin: '20px 0' }}
-          className="site-config-provider-calendar-wrapper"
-        >
+        <div style={{ margin: '20px 0' }} className="site-config-provider-calendar-wrapper">
           <Calendar fullscreen={false} value={moment()} />
         </div>
         <Button type="primary" onClick={onNextPage}>

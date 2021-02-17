@@ -6,6 +6,7 @@ import env from '../variables';
 const __DEV__ = process.env.NODE_ENV !== 'production';
 const ENABLE_ANALYZE = !!argv.analyze;
 const ENABLE_OPEN = argv.open || env.dev.autoOpenBrowser as true | string; // 是否自动打开浏览器
+const INSPECTOR_COMPONENT = env.dev.isInspectorComponent;
 
 const HOST = env.dev.host;
 const DEFAULT_PORT = env.dev.port;
@@ -25,4 +26,5 @@ export {
   PROJECT_NAME,
   PROJECT_ROOT,
   HMR_PATH,
+  INSPECTOR_COMPONENT,
 };
