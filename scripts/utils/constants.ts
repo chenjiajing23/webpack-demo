@@ -5,10 +5,11 @@ import env from '../variables';
 
 const __DEV__ = process.env.NODE_ENV !== 'production';
 const ENABLE_ANALYZE = !!argv.analyze;
-const ENABLE_OPEN = argv.open || env.dev.autoOpenBrowser as true | string; // 是否自动打开浏览器
+const ENABLE_OPEN = (argv.open || env.dev.autoOpenBrowser) as true | string; // 是否自动打开浏览器
 const INSPECTOR_COMPONENT = env.dev.isInspectorComponent;
 
 const HOST = env.dev.host;
+const NETWORK_HOST = env.dev.networkHost;
 const DEFAULT_PORT = env.dev.port;
 const COPYRIGHT = `/** @preserve Powered by react-template-pc (https://github.com/chenjiajing23/react-template-pc) */`;
 
@@ -21,6 +22,7 @@ export {
   ENABLE_ANALYZE,
   ENABLE_OPEN,
   HOST,
+  NETWORK_HOST,
   DEFAULT_PORT,
   COPYRIGHT,
   PROJECT_NAME,

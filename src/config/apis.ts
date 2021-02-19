@@ -3,7 +3,7 @@
  * @Author: Chenjiajing
  * @Date: 2020-10-03 23:36:40
  * @LastEditors: Chenjiajing
- * @LastEditTime: 2021-02-08 15:19:54
+ * @LastEditTime: 2021-02-19 22:22:14
  */
 const serverMap: IServerMap = {
   baseServer: {
@@ -12,7 +12,7 @@ const serverMap: IServerMap = {
       stage: 'https://state.apis.com',
       test: 'https://test.apis.com',
       dev: 'https://dev.apis.com',
-      local: 'http://localhost:8080'
+      local: `http://${window.location.host}` || 'http://localhost:8080' // 本地开发后端地址
     },
     default: true
   }

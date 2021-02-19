@@ -2,31 +2,37 @@ import chalk from 'chalk';
 import logSymbols from 'log-symbols';
 import express from 'express';
 import webpack from 'webpack';
+import boxen from 'boxen';
+import clearConsole from 'react-dev-utils/clearConsole';
 
 import getPort from './utils/getPort';
 import setupMiddlewares from './middlewares';
 import devConfig from './configs/webpack.dev';
 import WebpackOpenBrowser from './plugins/open-browser-plugin';
-import { HOST, DEFAULT_PORT, ENABLE_OPEN } from './utils/constants';
+import { HOST, DEFAULT_PORT, ENABLE_OPEN, NETWORK_HOST } from './utils/constants';
+
+const isInteractive = process.stdout.isTTY;
 
 async function start() {
   const PORT = await getPort(HOST, DEFAULT_PORT);
-  const address = `http://${HOST}:${PORT}`;
+  const localAddress = `http://localhost:${PORT}`;
+  const serverAddress = `http://${HOST}:${PORT}`;
+  const networkAddress = `http://${NETWORK_HOST}:${PORT}`;
+
   // ENABLE_OPEN 参数值可能是 true 或者是一个指定的 URL
   if (ENABLE_OPEN) {
-    let openAddress = ENABLE_OPEN as string;
+    let openAddress = ENABLE_OPEN;
     if (ENABLE_OPEN === true) {
-      openAddress = address;
+      openAddress = serverAddress;
       let publicPath = devConfig.output?.publicPath as string | undefined;
       // 未设置和空串都视为根路径
-      publicPath = publicPath == null || publicPath === '' ? '/' : publicPath;
+      publicPath = publicPath || '/';
       if (publicPath !== '/') {
         // 要注意处理没有带 '/' 前缀和后缀的情况
-        openAddress = `${address}${publicPath.startsWith('/') ? '' : '/'}${publicPath}${publicPath.endsWith('/') ? '' : '/'
-          }index.html`;
+        openAddress = `${serverAddress}${publicPath.startsWith('/') ? '' : '/'}${publicPath}${publicPath.endsWith('/') ? '' : '/'}index.html`;
       }
     }
-    devConfig.plugins!.push(new WebpackOpenBrowser({ url: openAddress }));
+    devConfig.plugins!.push(new WebpackOpenBrowser({ url: openAddress as string }));
   }
 
   const devServer = express();
@@ -34,12 +40,27 @@ async function start() {
   const compiler = webpack(devConfig);
   setupMiddlewares(devServer, compiler);
 
-  // see: https://github.com/DefinitelyTyped/DefinitelyTyped/commit/bb48ba4feb5ef620b5fe5147a4ee0e31e741dd9c#diff-d4c3ca4364a91014c1024748a43ae185
-  const httpServer = devServer.listen(PORT, HOST, () => {
+  let message = chalk.green('Serving!');
+
+  if (localAddress) {
     // logSymbols.success 在 windows 平台渲染为 √ ，支持的平台会显示 ✔
-    console.log(
-      `DevServer is running at ${chalk.magenta.underline(address)} ${logSymbols.success}`,
-    );
+    message += `\n\n${chalk.bold(`- Local:`)}            ${localAddress} ${logSymbols.success}`;
+  }
+
+  if (networkAddress) {
+    message += `\n${chalk.bold('- On Your Network:')}  ${networkAddress} ${logSymbols.success}`;
+  }
+
+  const httpServer = devServer.listen(PORT, HOST, () => {
+    if (isInteractive) {
+      clearConsole();
+    }
+
+    console.log(boxen(message, {
+      padding: 1,
+      borderColor: 'green',
+      margin: 1
+    }));
   });
 
   // 我们监听了 node 信号，所以使用 cross-env-shell 而不是 cross-env

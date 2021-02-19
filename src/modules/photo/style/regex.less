@@ -1,0 +1,25 @@
+.take-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 30px 10px;
+
+  :global {
+    .video {
+      border: 1px dashed lightblue;
+    }
+
+    .center {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+    }
+
+    .input {
+      flex-shrink: 0;
+      margin-right: 20px;
+    }
+  }
+}
