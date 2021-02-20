@@ -7,11 +7,12 @@ import historyFallback from 'connect-history-api-fallback';
 import proxyMiddleware from './proxyMiddleware';
 import webpackMiddleware from './webpackMiddleware';
 import createErrorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
+import WebpackDevMiddleware from 'webpack-dev-middleware';
 
 /**
  * 配置中间件
  */
-export default function setupMiddlewares(server: Express, compiler: Compiler): void {
+export default function setupMiddlewares(server: Express, compiler: Compiler) {
     server.use(createErrorOverlayMiddleware());
     // 设置代理
     proxyMiddleware(server);
@@ -22,6 +23,9 @@ export default function setupMiddlewares(server: Express, compiler: Compiler): v
     // 开发 chrome 扩展的时候可能需要开启跨域，参考：https://juejin.im/post/5e2027096fb9a02fe971f6b8
     server.use(cors());
 
+    const webpackMiddlewareList = webpackMiddleware(compiler);
+
     // webpack 相关中间件
-    server.use(webpackMiddleware(compiler));
+    server.use(webpackMiddlewareList);
+    return { appServer: server, devServer: webpackMiddlewareList[0] as WebpackDevMiddleware.WebpackDevMiddleware };
 }

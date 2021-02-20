@@ -35,25 +35,21 @@ async function start() {
     devConfig.plugins!.push(new WebpackOpenBrowser({ url: openAddress as string }));
   }
 
-  const devServer = express();
   // 加载 webpack 配置，获取 compiler
-  const compiler = webpack(devConfig);
-  setupMiddlewares(devServer, compiler);
+  const webpackCompiler = webpack(devConfig);
+  const app = setupMiddlewares(express(), webpackCompiler);
 
-  let message = chalk.green('Serving!');
+  app.devServer.waitUntilValid(_stats => {
 
-  if (localAddress) {
-    // logSymbols.success 在 windows 平台渲染为 √ ，支持的平台会显示 ✔
-    message += `\n\n${chalk.bold(`- Local:`)}            ${localAddress} ${logSymbols.success}`;
-  }
+    let message = chalk.green('Serving!');
 
-  if (networkAddress) {
-    message += `\n${chalk.bold('- On Your Network:')}  ${networkAddress} ${logSymbols.success}`;
-  }
+    if (localAddress) {
+      // logSymbols.success 在 windows 平台渲染为 √ ，支持的平台会显示 ✔
+      message += `\n\n${chalk.bold(`- Local:`)}            ${localAddress} ${logSymbols.success}`;
+    }
 
-  const httpServer = devServer.listen(PORT, HOST, () => {
-    if (isInteractive) {
-      clearConsole();
+    if (networkAddress) {
+      message += `\n${chalk.bold('- On Your Network:')}  ${networkAddress} ${logSymbols.success}`;
     }
 
     console.log(boxen(message, {
@@ -61,6 +57,12 @@ async function start() {
       borderColor: 'green',
       margin: 1
     }));
+  });
+
+  const httpServer = app.appServer.listen(PORT, HOST, () => {
+    if (isInteractive) {
+      clearConsole();
+    }
   });
 
   // 我们监听了 node 信号，所以使用 cross-env-shell 而不是 cross-env
@@ -77,6 +79,15 @@ async function start() {
       process.exit();
     });
   });
+
+  // CI
+  if (process.env.CI !== 'true') {
+    // Gracefully exit when stdin ends
+    process.stdin.on('end', () => {
+      httpServer.close();
+      process.exit();
+    });
+  }
 }
 
 // 判断这个模块是不是被直接运行的
