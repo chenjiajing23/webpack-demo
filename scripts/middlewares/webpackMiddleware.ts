@@ -25,5 +25,5 @@ export default function webpackMiddleware(compiler: Compiler) {
     return [
         webpackDevMiddleware(compiler, devMiddlewareOptions),
         webpackHotMiddleware(compiler, hotMiddlewareOptions),
-    ];
+    ] as const;
 }

@@ -7,7 +7,6 @@ import historyFallback from 'connect-history-api-fallback';
 import proxyMiddleware from './proxyMiddleware';
 import webpackMiddleware from './webpackMiddleware';
 import createErrorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
-import WebpackDevMiddleware from 'webpack-dev-middleware';
 
 /**
  * 配置中间件
@@ -26,6 +25,6 @@ export default function setupMiddlewares(server: Express, compiler: Compiler) {
     const webpackMiddlewareList = webpackMiddleware(compiler);
 
     // webpack 相关中间件
-    server.use(webpackMiddlewareList);
-    return { appServer: server, devServer: webpackMiddlewareList[0] as WebpackDevMiddleware.WebpackDevMiddleware };
+    server.use(webpackMiddlewareList as unknown as any[]);
+    return { appServer: server, devServer: webpackMiddlewareList[0] };
 }
