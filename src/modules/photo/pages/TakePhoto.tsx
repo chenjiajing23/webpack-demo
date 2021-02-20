@@ -1,5 +1,5 @@
-import React, { PropsWithChildren, useRef, useState } from 'react';
 import { Button } from 'antd';
+import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
 import '../style/regex.less';
@@ -10,85 +10,94 @@ interface IProps {
 const Regex = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   const {} = props;
 
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [mediaStreamTrack, setMediaStreamTrack] = useState<MediaStream | null>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const [base64, setBase64] = useState('');
+  const [fileInfo, setFileInfo] = useState<{ name: string; size: string; url: string }>({
+    name: '',
+    size: '',
+    url: ''
+  });
 
-  // 开启摄像头
-  const onOpenCamera = () => {
-    /**
-     * todo 注意 新版Chrome可以通过本地地址访问摄像头，比如localhost/video.html。
-     * 但是不能通过IP地址访问，比如 192.168.1.99/video.html。
-     * 而其它低版本的chrome工作都是正常的，想要访问摄像头，麦克风等必须使用https
-     * 参考 https://juejin.cn/post/6844903672044847117
-     * 解决方案： https://sites.google.com/a/chromium.org/dev/Home/chromium-security/deprecating-powerful-features-on-insecure-origins
-     */
-    if (navigator.mediaDevices?.getUserMedia) {
-      // 默认使用前摄像头，强制使用后置摄像头如下设置
-      // let constraints = {video: { facingMode: { exact: "environment" } }};
-      const constraints = { video: true, audio: false };
-      void navigator.mediaDevices
-        .getUserMedia(constraints)
-        .then(stream => {
-          setMediaStreamTrack(stream);
-          const videoBox = videoRef.current;
-          if (videoBox) {
-            // 旧的浏览器可能没有srcObject
-            if ('srcObject' in videoBox) {
-              videoBox.srcObject = stream;
-            } else {
-              // 防止在新的浏览器里使用它，应为它已经不再支持了
-              (videoBox as any).src = window.URL.createObjectURL(stream);
-            }
-            videoBox.onloadedmetadata = () => {
-              void videoBox.play();
-            };
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    } else {
-      console.error('getUserMedia is not implemented in this browser');
-      window.alert('getUserMedia is not implemented in this browser');
+  useEffect(
+    () => () => {
+      window.URL.revokeObjectURL(fileInfo.url);
+    },
+    [fileInfo.url]
+  );
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      console.log(file);
+      const fileSize = Math.round(file.size / 1024).toFixed(2); // KB
+      const url = window.URL.createObjectURL(file);
+      setFileInfo({ name: file.name, size: fileSize, url });
+
+      // 转bold 方法一
+      // void fetch(url)
+      //   .then(res => res.blob())
+      //   .then(blod => {
+      //     console.log('blod= ', blod);
+      //   });
+
+      // 转bold 方法二
+      const reader2 = new FileReader();
+      reader2.readAsArrayBuffer(file);
+      reader2.onload = e => {
+        const result = e.target?.result;
+        if (result instanceof ArrayBuffer) {
+          const blob = new Blob([result]);
+          console.log('blob=', blob);
+        }
+      };
+
+      // 转 base64
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        const base64 = reader.result;
+        if (typeof base64 === 'string') {
+          setBase64(base64);
+          console.log(base64);
+        }
+      };
     }
   };
 
-  // 关闭摄像头
-  const onCloseCamera = () => {
-    if (mediaStreamTrack) {
-      mediaStreamTrack.getTracks().forEach(track => {
-        track.stop();
-      });
-    }
-  };
-
-  const onCapture = () => {
-    const context = canvasRef.current?.getContext('2d');
-    // 绘制画面
-    if (context && videoRef.current) {
-      context.drawImage(videoRef.current, 0, 0, 640, 480);
+  // 下载
+  const onDownLoadImg = () => {
+    try {
+      const a = document.createElement('a');
+      a.setAttribute('href', fileInfo.url);
+      a.setAttribute('download', fileInfo.name);
+      a.click();
+    } catch (error) {
+      console.error(error);
     }
   };
 
   return (
     <section styleName="take-photo">
-      <video ref={videoRef} className="video" id="video" width="640" height="480" autoPlay />
-      <div className="center">
-        {/* 移动端使用 */}
-        <input className="input" type="file" accept="image/*" capture="user" />
-        <Button type="primary" onClick={onOpenCamera}>
-          开启摄像头
-        </Button>
-        <Button type="primary" danger onClick={onCloseCamera} style={{ margin: '0 20px' }}>
-          关闭摄像头
-        </Button>
-        <Button type="primary" onClick={onCapture}>
-          拍照
-        </Button>
+      <div className="input-wrap">
+        <span className="input-inner">+</span>
+        <input className="input" type="file" accept="image/*" capture="user" onChange={onChange} />
       </div>
-      {/* 渲染图片 */}
-      <canvas ref={canvasRef} id="canvas" width="640" height="480" />
+      <div className="image">{fileInfo.url && <img ref={imageRef} src={fileInfo.url || base64} alt="" />}</div>
+      <div>
+        {/* <a
+          href="https://pic4.zhimg.com/v2-4bba972a094eb1bdc8cbbc55e2bd4ddf_r.jpg?source=172ae18b"
+          download="1.jpg"
+          rel="noopener"
+        >
+          下载图片
+        </a> */}
+        &nbsp;&nbsp;
+        {fileInfo.url && (
+          <Button type="primary" onClick={onDownLoadImg}>
+            下载图片
+          </Button>
+        )}
+      </div>
     </section>
   );
 };

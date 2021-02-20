@@ -362,5 +362,8 @@
       "iconColour": "#f06292"
     }
   },
-  "eslint.format.enable": true
+  "eslint.format.enable": true,
+  "cSpell.words": [
+    "blod"
+  ]
 }
