@@ -28,7 +28,7 @@ const Regex = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      console.log(file);
+      console.dir(file);
       const fileSize = Math.round(file.size / 1024).toFixed(2); // KB
       const url = window.URL.createObjectURL(file);
       setFileInfo({ name: file.name, size: fileSize, url });
@@ -64,15 +64,25 @@ const Regex = (props: PropsWithChildren<IProps & RouteComponentProps>) => {
     }
   };
 
+  // 下载文件方法
+  const funDownload = (url: string, filename: string) => {
+    const eleLink = document.createElement('a');
+    eleLink.download = filename;
+    eleLink.style.display = 'none';
+    eleLink.href = url;
+    // 触发点击
+    document.body.appendChild(eleLink);
+    eleLink.click();
+    // 然后移除
+    document.body.removeChild(eleLink);
+  };
+
   // 下载
   const onDownLoadImg = () => {
-    try {
-      const a = document.createElement('a');
-      a.setAttribute('href', fileInfo.url);
-      a.setAttribute('download', fileInfo.name);
-      a.click();
-    } catch (error) {
-      console.error(error);
+    if ('download' in document.createElement('a')) {
+      funDownload(fileInfo.url, fileInfo.name);
+    } else {
+      window.alert('浏览器不支持！');
     }
   };
 
