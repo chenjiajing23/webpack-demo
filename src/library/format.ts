@@ -10,7 +10,7 @@ export function getCurrentUrlLang() {
     arr = pathname.match(regex);
   }
   if (arr && arr.length >= 1) {
-    lang = arr[0].replaceAll(/\//g, '');
+    lang = arr[0].replace(/\//g, '');
   }
   return lang;
 }

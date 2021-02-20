@@ -13,7 +13,7 @@
     "./src/config/i18n.ts"
   ],
   "scripts": {
-    "start": "cross-env-shell NODE_ENV=development ts-node --files -P ./scripts/tsconfig.json ./scripts/start.ts --open",
+    "start": "cross-env-shell NODE_ENV=development ts-node --files -P ./scripts/tsconfig.json ./scripts/start.ts",
     "build": "cross-env-shell NODE_ENV=production ts-node --files -P scripts/tsconfig.json scripts/build",
     "build-analyze": "npm run build --analyze",
     "mock": "nodemon --watch mock ./node_modules/.bin/good-mock",
@@ -71,6 +71,7 @@
     "babel-loader": "^8.2.2",
     "babel-plugin-dev-expression": "^0.2.2",
     "babel-plugin-import": "^1.13.3",
+    "boxen": "^5.0.0",
     "chalk": "^4.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "commitizen": "^4.2.3",
@@ -93,7 +94,7 @@
     "fork-ts-checker-webpack-plugin": "^6.1.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "good-mock": "^1.2.5",
-    "html-webpack-plugin": "^5.1.0",
+    "html-webpack-plugin": "^5.2.0",
     "http-proxy-middleware": "^1.0.6",
     "husky": "^4.3.8",
     "less": "^4.1.1",
