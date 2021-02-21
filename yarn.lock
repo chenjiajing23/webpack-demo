@@ -3922,10 +3922,10 @@ eslint-config-airbnb@^18.2.1:
     object.assign "^4.1.2"
     object.entries "^1.1.2"
 
-eslint-config-prettier@^7.2.0:
-  version "7.2.0"
-  resolved "https://registry.npm.taobao.org/eslint-config-prettier/download/eslint-config-prettier-7.2.0.tgz#f4a4bd2832e810e8cc7c1411ec85b3e85c0c53f9"
-  integrity sha1-9KS9KDLoEOjMfBQR7IWz6FwMU/k=
+eslint-config-prettier@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.npm.taobao.org/eslint-config-prettier/download/eslint-config-prettier-8.0.0.tgz?cache=0&sync_timestamp=1613904861313&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint-config-prettier%2Fdownload%2Feslint-config-prettier-8.0.0.tgz#024d661444319686c588c8849c8da33815dbdb1c"
+  integrity sha1-Ak1mFEQxlobFiMiEnI2jOBXb2xw=
 
 eslint-config-react-app@^6.0.0:
   version "6.0.0"
@@ -10039,10 +10039,10 @@ stylelint-order@^4.1.0:
     postcss "^7.0.31"
     postcss-sorting "^5.0.1"
 
-stylelint@^13.10.0:
-  version "13.10.0"
-  resolved "https://registry.npm.taobao.org/stylelint/download/stylelint-13.10.0.tgz#67b0c6f378c3fa61aa569a55d38feb8570b0b587"
-  integrity sha1-Z7DG83jD+mGqVppV04/rhXCwtYc=
+stylelint@^13.11.0:
+  version "13.11.0"
+  resolved "https://registry.npm.taobao.org/stylelint/download/stylelint-13.11.0.tgz?cache=0&sync_timestamp=1613818184747&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fstylelint%2Fdownload%2Fstylelint-13.11.0.tgz#591981fbdd68c9d3d3e6147a0cd6a07539fc216d"
+  integrity sha1-WRmB+91oydPT5hR6DNagdTn8IW0=
   dependencies:
     "@stylelint/postcss-css-in-js" "^0.37.2"
     "@stylelint/postcss-markdown" "^0.36.2"
