@@ -51,8 +51,8 @@ class ErrorBoundary extends Component<IProps, IState> {
         </details>
       </section>
     ) : (
-        this.props.children
-      );
+      this.props.children
+    );
   }
 }
 

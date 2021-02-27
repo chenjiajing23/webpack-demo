@@ -6,14 +6,8 @@ interface TypeOptions {
 type StylesObject = any;
 
 interface CSSModules {
-  (defaultStyles: StylesObject, options?: TypeOptions): <C extends Function>(
-    Component: C
-  ) => C;
-  <C extends Function>(
-    Component: C,
-    defaultStyles: StylesObject,
-    options?: TypeOptions
-  ): C;
+  (defaultStyles: StylesObject, options?: TypeOptions): <C extends Function>(Component: C) => C;
+  <C extends Function>(Component: C, defaultStyles: StylesObject, options?: TypeOptions): C;
 }
 
 declare module CSSModules {
