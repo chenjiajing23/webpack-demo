@@ -1,12 +1,5 @@
 import React, { useEffect, PropsWithChildren } from 'react';
-import {
-  Router,
-  Redirect,
-  Route,
-  Switch,
-  withRouter,
-  RouteComponentProps
-} from 'react-router-dom';
+import { Router, Redirect, Route, Switch, withRouter, RouteComponentProps } from 'react-router-dom';
 
 import PageLoading from '@/components/page-loading';
 import { ILangState, ILangType } from '@/store/lang/type';
@@ -51,11 +44,7 @@ const SwitchRouterComponent = (props: PropsWithChildren<RouteComponentProps>) =>
     const LocalLang = localStorage.getItem('language') as ILangType | null;
 
     if (urlLang && LocalLang && LocalLang !== urlLang) {
-      console.log(
-        urlLang,
-        'URL上面的语言和本地语言不一致，需要重新加载语言资源',
-        lang.local
-      );
+      console.log(urlLang, 'URL上面的语言和本地语言不一致，需要重新加载语言资源', lang.local);
       localStorage.setItem('language', urlLang);
       window.location.reload();
     }
@@ -86,19 +75,9 @@ const SwitchRouterComponent = (props: PropsWithChildren<RouteComponentProps>) =>
       <Switch>
         {routes.map(route =>
           route.redirect ? (
-            <Redirect
-              exact={route.exact}
-              key={route.redirect}
-              from={route.path}
-              to={route.redirect}
-            />
+            <Redirect exact={route.exact} key={route.redirect} from={route.path} to={route.redirect} />
           ) : (
-            <Route
-              key={route.path}
-              path={route.path}
-              exact={route.exact}
-              render={route.component}
-            />
+            <Route key={route.path} path={route.path} exact={route.exact} render={route.component} />
           )
         )}
         <Redirect exact={false} from={'/'} to={`/${lang.local}/demo`} />

@@ -6,19 +6,13 @@ import * as types from './actionTypes';
 import { IDemoState } from './type';
 
 // 通用 action
-export const setCommon = createAction(
-  types.setCommon,
-  (payload: Partial<IDemoState>) => payload
-);
+export const setCommon = createAction(types.setCommon, (payload: Partial<IDemoState>) => payload);
 
 /**
  * @description 增加
  * @param {number} payload
  */
-export const incrementCount = (payload = 1) => (
-  dispatch: Dispatch<AnyAction>,
-  getState: () => IStoreState
-) => {
+export const incrementCount = (payload = 1) => (dispatch: Dispatch<AnyAction>, getState: () => IStoreState) => {
   const state = getState();
   const demo = clone(state.demo);
 
@@ -29,10 +23,7 @@ export const incrementCount = (payload = 1) => (
  * @description 增加
  * @param {number} payload
  */
-export const decrementCount = (payload = -1) => (
-  dispatch: Dispatch<AnyAction>,
-  getState: () => IStoreState
-) => {
+export const decrementCount = (payload = -1) => (dispatch: Dispatch<AnyAction>, getState: () => IStoreState) => {
   const state = getState();
   const demo = clone(state.demo);
 

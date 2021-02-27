@@ -6,12 +6,11 @@ module.exports = {
     node: true
   },
   extends: [
+    "plugin:prettier/recommended",
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:react/recommended',
     'prettier',
-    'prettier/@typescript-eslint',
-    'prettier/react'
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {

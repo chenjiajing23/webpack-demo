@@ -17,12 +17,7 @@ export function getCookie(key: string): string | null {
   return (
     decodeURIComponent(
       document.cookie.replace(
-        new RegExp(
-          `(?:(?:^|.*;)\\s*${encodeURIComponent(key).replace(
-            /[-.+*]/g,
-            '\\$&'
-          )}\\s*\\=\\s*([^;]*).*$)|^.*$`
-        ),
+        new RegExp(`(?:(?:^|.*;)\\s*${encodeURIComponent(key).replace(/[-.+*]/g, '\\$&')}\\s*\\=\\s*([^;]*).*$)|^.*$`),
         '$1'
       )
     ) || null
@@ -37,9 +32,7 @@ export function getCookie(key: string): string | null {
  * const flag=getCookie('token')
  */
 export function hasCookie(key: string): boolean {
-  return new RegExp(
-    `(?:^|;\\s*)${encodeURIComponent(key).replace(/[-.+*]/g, '\\$&')}\\s*\\=`
-  ).test(document.cookie);
+  return new RegExp(`(?:^|;\\s*)${encodeURIComponent(key).replace(/[-.+*]/g, '\\$&')}\\s*\\=`).test(document.cookie);
 }
 
 // 设置cookie需要的参数
@@ -94,11 +87,7 @@ export function setCookie(options: ISetCookieOptions): boolean {
  * import { unsetCookie } from 'library/utils';
  * unsetCookie('token')
  */
-export function unsetCookie(options: {
-  key: string;
-  path?: string;
-  domain?: string;
-}): boolean {
+export function unsetCookie(options: { key: string; path?: string; domain?: string }): boolean {
   const { key, path, domain } = options;
   if (!key || !hasCookie(key)) {
     return false;

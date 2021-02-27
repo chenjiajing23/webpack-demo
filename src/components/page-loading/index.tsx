@@ -6,9 +6,7 @@ interface IProps {
   text?: string;
 }
 
-const PageLoading = (props: PropsWithChildren<IProps>) => (
-  <div styleName="loader">{props.text}</div>
-);
+const PageLoading = (props: PropsWithChildren<IProps>) => <div styleName="loader">{props.text}</div>;
 
 PageLoading.defaultProps = { text: 'Loading...' } as Partial<IProps>;
 export default memo(PageLoading);

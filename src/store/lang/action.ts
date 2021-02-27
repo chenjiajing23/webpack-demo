@@ -5,10 +5,7 @@ import * as types from './actionTypes';
 import { ILangState, ILangType } from './type';
 
 // 通用 action
-export const setCommonLang = createAction(
-  types.setCommonLang,
-  (payload: Partial<ILangState>) => payload
-);
+export const setCommonLang = createAction(types.setCommonLang, (payload: Partial<ILangState>) => payload);
 
 /**
  * @description 切换语言
