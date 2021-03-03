@@ -1,9 +1,9 @@
 import { Compiler, Stats } from 'webpack';
-import open from 'open';
+import open, { App } from 'open';
 
 export interface WebpackOpenBrowserOptionItem {
   url: string;
-  browser?: string;
+  browser?: App | readonly App[];
   delay?: number;
   ignoreErrors?: boolean;
 }
