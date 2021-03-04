@@ -8,7 +8,7 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 // import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
-// import SizePlugin from 'size-plugin';
+import SizePlugin from 'size-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CompressionWebpackPlugin from 'compression-webpack-plugin';
 
@@ -124,15 +124,15 @@ let prodConfig = webpackConfig;
 // 使用 --analyze 参数构建时，会输出各个阶段的耗时和自动打开浏览器访问 bundle 分析页面
 if (config.prod.bundleAnalyzerReport) {
   prodConfig.plugins!.push(
-    // todo webpack5 不支持 https://github.com/euclid1990/write-assets-webpack-plugin/issues/4
-    // new SizePlugin({ writeFile: false, color: 'green' }),
+    // todo webpack5 v3.0.0不支持 v2.0.2支持
+    new SizePlugin({ writeFile: false }),
     new BundleAnalyzerPlugin({
       openAnalyzer: true,
       analyzerPort: 8888
     }));
-  // todo webpack5 还不支持 -> (https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/149)
+  // todo 和mini-css-extra 不兼容
   // const smp = new SpeedMeasurePlugin();
-  // prodConfig = smp.wrap(webpackConfig);
+  // prodConfig = smp.wrap(prodConfig);
 };
 
 export default prodConfig;
