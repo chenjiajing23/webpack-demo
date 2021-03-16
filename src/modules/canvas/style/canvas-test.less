@@ -1,0 +1,28 @@
+.canvas-test {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  padding: 24px 30px;
+
+  :global {
+    .content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+      z-index: -1;
+      visibility: hidden;
+      opacity: 0;
+    }
+
+    .canvas {
+      border: 1px solid #ccc;
+    }
+  }
+}

@@ -2,13 +2,13 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { IRouteInfo } from '@/main/router';
 
-const TakePhoto = withRouter(React.lazy(() => import('./pages/TakePhoto')));
+const CanvasTest = withRouter(React.lazy(() => import('./pages/CanvasTest')));
 
 const routeList: IRouteInfo[] = [
   {
-    path: '/:language/take-photo',
+    path: '/:language/CanvasTest',
     exact: false,
-    component: () => <TakePhoto />
+    component: () => <CanvasTest />
   }
 ];
 
