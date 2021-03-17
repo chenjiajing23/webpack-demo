@@ -212,6 +212,8 @@ const commonConfig: Configuration = {
   ],
 
   optimization: {
+    moduleIds: 'named',
+    chunkIds: 'named',
     runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',

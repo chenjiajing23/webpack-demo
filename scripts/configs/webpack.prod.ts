@@ -60,6 +60,8 @@ const webpackConfig = merge(commonConfig, {
   ],
 
   optimization: {
+    moduleIds: 'deterministic',
+    chunkIds: 'deterministic',
     minimize: true,
     minimizer: [
       new TerserPlugin({
