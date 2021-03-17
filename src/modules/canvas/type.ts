@@ -13,3 +13,18 @@ export interface IReactPointInfo {
   w: number;
   h: number;
 }
+
+// 拖曳坐标
+export interface IDragPointInfo {
+  index?: number; // 拖动的下标
+  x: number;
+  y: number;
+  startX: number;
+  startY: number;
+}
+
+// 矩形的
+export interface IRectOption {
+  lineWidth?: number;
+  color?: string;
+}
