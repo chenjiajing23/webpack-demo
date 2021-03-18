@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import '../style/canvas-test.less';
 import imgSrc from '../assets/test.png';
-import { IDragPointInfo, IDrawType, IOptList, IReactPointInfo, IRectOption } from '../type';
+import { IArcPointInfo, IDragPointInfo, IDrawType, IOptList, IPointInfo, IReactPointInfo, IRectOption } from '../type';
 
 // 操作列表
 const operateList: IOptList[] = [
@@ -15,7 +15,7 @@ const operateList: IOptList[] = [
     icon: <DragOutlined />
   },
   {
-    type: 'line',
+    type: 'rect',
     name: '画直线',
     icon: <BorderOutlined />
   },
@@ -31,7 +31,7 @@ const CanvasTest = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isMouseDown, setMouseDown] = useState(false); // 是否按下键盘
   const [optType, setOptType] = useState<IDrawType | null>(null); // 操作类型
-  const reactList = useRef<IReactPointInfo[]>([]); // 矩形坐标列表
+  const aLLPointList = useRef<IPointInfo[]>([]); // 坐标列表
   const curAddPoint = useRef<null | IReactPointInfo>(null); // 当前新增的坐标
   const dragPoint = useRef<IDragPointInfo | null>(null);
   const [isDragging, setDragging] = useState(false);
@@ -47,13 +47,19 @@ const CanvasTest = () => {
 
   // 画图
   const toBeCanvas = useCallback(
-    (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, pointList: IReactPointInfo[]) => {
+    (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, pointList: IPointInfo[]) => {
       // 清空画布
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       printImg(canvas, imgRef.current as HTMLImageElement, ctx);
 
       pointList.forEach(item => {
-        drawRect(ctx, item);
+        const point = item.point;
+
+        if (item.type === 'rect') {
+          drawRect(ctx, point as IReactPointInfo);
+        } else if (item.type === 'circle') {
+          drawArc(ctx, (point as unknown) as IArcPointInfo);
+        }
       });
     },
     []
@@ -71,7 +77,7 @@ const CanvasTest = () => {
     const canvas = canvasRef.current as HTMLCanvasElement;
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
-    toBeCanvas(canvas, ctx, reactList.current);
+    toBeCanvas(canvas, ctx, aLLPointList.current);
   };
 
   // 获取相对于画布的坐标
@@ -89,7 +95,10 @@ const CanvasTest = () => {
    * @param startPoint 开始坐标
    * @return {IReactPointInfo} 返回正确的坐标信息
    */
-  const getRectParam = (curPoint: { x: number; y: number }, startPoint: { x: number; y: number }): IReactPointInfo => {
+  const getRectParam = (
+    curPoint: { x: number; y: number },
+    startPoint: { x: number; y: number }
+  ): Omit<IReactPointInfo, 'type'> => {
     const w = curPoint.x - startPoint.x;
     const h = curPoint.y - startPoint.y;
 
@@ -111,8 +120,21 @@ const CanvasTest = () => {
     ctx.stroke();
   };
 
+  // 画圆形
+  const drawArc = (ctx: CanvasRenderingContext2D, point: IArcPointInfo, rectOption?: IRectOption) => {
+    ctx.beginPath();
+    ctx.lineWidth = rectOption?.lineWidth || 3;
+    ctx.strokeStyle = rectOption?.color || '#000';
+    ctx.arc(point.x, point.y, point.r, 0, 2 * Math.PI, false);
+    ctx.stroke();
+  };
+
   // 按下鼠标
   const onMouseDown = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
+    if (!optType) {
+      return;
+    }
+
     setMouseDown(true);
 
     const node = canvasRef.current as HTMLCanvasElement;
@@ -122,9 +144,9 @@ const CanvasTest = () => {
 
     curAddPoint.current = { ...startPoint, w: 0, h: 0 };
 
-    // 开始画图
-    reactList.current.forEach((item, index) => {
-      drawRect(ctx, item);
+    // 高亮选中的图形
+    aLLPointList.current.forEach((item, index) => {
+      drawRect(ctx, item.point as IReactPointInfo);
       // 选中高亮
       if (ctx.isPointInPath(startPoint.x, startPoint.y)) {
         dragPoint.current = { index, x: startPoint.x, y: startPoint.y };
@@ -142,36 +164,55 @@ const CanvasTest = () => {
       return;
     }
 
-    const canvas = canvasRef.current as HTMLCanvasElement;
-    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-    const endPoint = getCanvasPoint(canvas, e.pageX, e.pageY);
+    if (curAddPoint.current) {
+      const canvas = canvasRef.current as HTMLCanvasElement;
+      const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+      const endPoint = getCanvasPoint(canvas, e.pageX, e.pageY);
 
-    // 直线
-    if (optType === 'line') {
-      if (curAddPoint.current) {
-        curAddPoint.current = getRectParam(endPoint, { x: curAddPoint.current.x, y: curAddPoint.current.y });
-        toBeCanvas(canvas, ctx, reactList.current.concat(curAddPoint.current));
-      } else {
-        toBeCanvas(canvas, ctx, reactList.current);
+      // 直线
+      if (optType === 'rect') {
+        curAddPoint.current = {
+          ...getRectParam(endPoint, { x: curAddPoint.current.x, y: curAddPoint.current.y })
+        };
+        toBeCanvas(canvas, ctx, aLLPointList.current.concat({ type: optType, point: curAddPoint.current }));
+      } else if (optType === 'circle') {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        printImg(canvas, imgRef.current as HTMLImageElement, ctx);
+
+        curAddPoint.current = {
+          ...getRectParam(endPoint, { x: curAddPoint.current.x, y: curAddPoint.current.y })
+        };
+
+        // 取半径
+        const r = Math.sqrt(Math.pow(curAddPoint.current.w, 2) + Math.pow(curAddPoint.current.h, 2)) / 2;
+        const arcPoint: IArcPointInfo = {
+          x: curAddPoint.current.x + r,
+          y: curAddPoint.current.y + r,
+          r: Math.abs(r)
+        };
+
+        toBeCanvas(canvas, ctx, aLLPointList.current.concat({ type: optType, point: arcPoint }));
+      } else if (optType === 'drag') {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        printImg(canvas, imgRef.current as HTMLImageElement, ctx);
+
+        // 画图
+        aLLPointList.current.forEach((item, index) => {
+          let moveX = 0;
+          let moveY = 0;
+          let color;
+          if (index !== dragPoint.current?.index) {
+            color = '#000';
+          } else {
+            moveX = endPoint.x - dragPoint.current.x;
+            moveY = endPoint.y - dragPoint.current.y;
+            color = '#ff4444';
+          }
+          const point = item.point as IReactPointInfo;
+          const newPoint: IReactPointInfo = { ...point, x: point.x + moveX, y: point.y + moveY };
+          drawRect(ctx, newPoint, { color });
+        });
       }
-    } else if (optType === 'drag') {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      printImg(canvas, imgRef.current as HTMLImageElement, ctx);
-
-      // 画图
-      reactList.current.forEach((item, index) => {
-        let moveX = 0;
-        let moveY = 0;
-        let color;
-        if (index !== dragPoint.current?.index) {
-          color = '#000';
-        } else {
-          moveX = endPoint.x - dragPoint.current.x;
-          moveY = endPoint.y - dragPoint.current.y;
-          color = '#ff4444';
-        }
-        drawRect(ctx, { ...item, x: item.x + moveX, y: item.y + moveY }, { color });
-      });
     }
   };
 
@@ -182,18 +223,31 @@ const CanvasTest = () => {
     const node = canvasRef.current as HTMLCanvasElement;
     const endPoint = getCanvasPoint(node, e.pageX, e.pageY);
 
-    if (optType === 'line') {
-      if (curAddPoint.current) {
-        curAddPoint.current = getRectParam(endPoint, { x: curAddPoint.current?.x, y: curAddPoint.current?.y });
-        reactList.current.push(curAddPoint.current);
-        // 重置数据
-        curAddPoint.current = null;
+    if (curAddPoint.current) {
+      if (optType === 'rect') {
+        curAddPoint.current = {
+          ...getRectParam(endPoint, { x: curAddPoint.current?.x, y: curAddPoint.current?.y })
+        };
+        aLLPointList.current.push({ type: optType, point: curAddPoint.current });
+      } else if (optType === 'circle') {
+        // 取半径
+        const r = Math.sqrt(Math.pow(curAddPoint.current.w, 2) + Math.pow(curAddPoint.current.h, 2)) / 2;
+        const arcPoint: IArcPointInfo = {
+          x: curAddPoint.current.x + r,
+          y: curAddPoint.current.y + r,
+          r: Math.abs(r)
+        };
+
+        aLLPointList.current.push({ type: optType, point: arcPoint });
       }
-    } else if (optType === 'drag') {
-      reactList.current.forEach((_, index) => {
+      // 重置数据
+      curAddPoint.current = null;
+    }
+    if (optType === 'drag') {
+      aLLPointList.current.forEach((_, index) => {
         if (dragPoint.current && index === dragPoint.current.index) {
-          reactList.current[index].x += endPoint.x - dragPoint.current.x;
-          reactList.current[index].y += endPoint.y - dragPoint.current.y;
+          aLLPointList.current[index].point.x += endPoint.x - dragPoint.current.x;
+          aLLPointList.current[index].point.y += endPoint.y - dragPoint.current.y;
         }
       });
       // 重置数据

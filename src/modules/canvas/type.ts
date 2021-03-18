@@ -1,9 +1,15 @@
-export type IDrawType = 'drag' | 'line' | 'circle';
+export type IDrawType = 'drag' | 'rect' | 'circle';
 
 export interface IOptList {
   type: IDrawType;
   name: string;
   icon: JSX.Element;
+}
+
+// 所有点的坐标信息
+export interface IPointInfo {
+  type: Exclude<IDrawType, 'drag'>;
+  point: IReactPointInfo | IArcPointInfo;
 }
 
 // 矩形坐标信息
@@ -12,6 +18,13 @@ export interface IReactPointInfo {
   y: number;
   w: number;
   h: number;
+}
+
+// 圆形坐标信息
+export interface IArcPointInfo {
+  x: number; // x 圆点坐标
+  y: number; // y 圆点坐标
+  r: number; // 半径
 }
 
 // 拖曳坐标
