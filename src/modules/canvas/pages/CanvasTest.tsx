@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { Button } from 'antd';
 import { BorderOutlined, DragOutlined, Loading3QuartersOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
@@ -29,11 +29,21 @@ const operateList: IOptList[] = [
 const CanvasTest = () => {
   const imgRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isMoving, setMoving] = useState(false); // 是否在移动
+  const [isMouseDown, setMouseDown] = useState(false); // 是否按下键盘
   const [optType, setOptType] = useState<IDrawType | null>(null); // 操作类型
-  const [reactList, setRectList] = useState<IReactPointInfo[]>([{ x: 100, y: 100, w: 200, h: 120 }]); // 矩形坐标列表
+  const reactList = useRef<IReactPointInfo[]>([]); // 矩形坐标列表
   const curAddPoint = useRef<null | IReactPointInfo>(null); // 当前新增的坐标
   const dragPoint = useRef<IDragPointInfo | null>(null);
+  const [isDragging, setDragging] = useState(false);
+
+  useEffect(() => {
+    if (dragPoint.current && optType === 'drag') {
+      setDragging(true);
+    } else {
+      setDragging(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [optType, dragPoint.current]);
 
   // 画图
   const toBeCanvas = useCallback(
@@ -42,36 +52,11 @@ const CanvasTest = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       printImg(canvas, imgRef.current as HTMLImageElement, ctx);
 
-      pointList.forEach((item, index) => {
-        // 拖动
-        if (optType === 'drag') {
-          // debugger;
-          let moveX = 0;
-          let moveY = 0;
-          let color;
-          if (dragPoint.current && dragPoint.current?.index === index) {
-            moveX = dragPoint.current.x - dragPoint.current.startX;
-            moveY = dragPoint.current.y - dragPoint.current.startY;
-            color = '#ff4444';
-          } else {
-            color = '#000';
-          }
-          drawRect(ctx, { ...item, x: item.x + moveX, y: item.y + moveY }, { color });
-          ctx.stroke();
-        } else {
-          drawRect(ctx, item);
-          // 选中高亮
-          if (dragPoint.current && ctx.isPointInPath(dragPoint.current.x, dragPoint.current.y)) {
-            dragPoint.current = { ...dragPoint.current, index, startX: item.x, startY: item.y };
-            ctx.strokeStyle = '#ff4444';
-          } else {
-            ctx.strokeStyle = '#000';
-          }
-          ctx.stroke();
-        }
+      pointList.forEach(item => {
+        drawRect(ctx, item);
       });
     },
-    [optType]
+    []
   );
 
   // 画图
@@ -86,7 +71,7 @@ const CanvasTest = () => {
     const canvas = canvasRef.current as HTMLCanvasElement;
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
-    toBeCanvas(canvas, ctx, reactList);
+    toBeCanvas(canvas, ctx, reactList.current);
   };
 
   // 获取相对于画布的坐标
@@ -128,76 +113,91 @@ const CanvasTest = () => {
 
   // 按下鼠标
   const onMouseDown = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-    setMoving(true);
+    setMouseDown(true);
+
     const node = canvasRef.current as HTMLCanvasElement;
     const ctx = node.getContext('2d') as CanvasRenderingContext2D;
 
     const startPoint = getCanvasPoint(node, e.pageX, e.pageY);
-    dragPoint.current = {
-      startX: dragPoint.current?.startX || 0,
-      startY: dragPoint.current?.startY || 0,
-      ...startPoint
-    };
 
     curAddPoint.current = { ...startPoint, w: 0, h: 0 };
-    toBeCanvas(node, ctx, reactList);
 
-    switch (optType) {
-      case 'line':
-        console.log('line');
-        break;
-      case 'circle':
-        console.log('circle');
-        break;
-      case 'drag':
-        console.log('drag');
-        break;
-      default:
-        console.log('请选择操作类型');
-    }
+    // 开始画图
+    reactList.current.forEach((item, index) => {
+      drawRect(ctx, item);
+      // 选中高亮
+      if (ctx.isPointInPath(startPoint.x, startPoint.y)) {
+        dragPoint.current = { index, x: startPoint.x, y: startPoint.y };
+        ctx.strokeStyle = '#ff4444';
+      } else {
+        ctx.strokeStyle = '#000';
+      }
+      ctx.stroke();
+    });
   };
 
   // 移动鼠标
   const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-    if (!isMoving) {
+    if (!isMouseDown) {
       return;
     }
 
-    if (optType !== 'drag') {
-      dragPoint.current = null;
-    }
+    const canvas = canvasRef.current as HTMLCanvasElement;
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+    const endPoint = getCanvasPoint(canvas, e.pageX, e.pageY);
 
     // 直线
     if (optType === 'line') {
-      const node = canvasRef.current as HTMLCanvasElement;
-      const ctx = node.getContext('2d') as CanvasRenderingContext2D;
-
-      const endPoint = getCanvasPoint(node, e.pageX, e.pageY);
-
       if (curAddPoint.current) {
         curAddPoint.current = getRectParam(endPoint, { x: curAddPoint.current.x, y: curAddPoint.current.y });
-        toBeCanvas(node, ctx, reactList.concat(curAddPoint.current));
+        toBeCanvas(canvas, ctx, reactList.current.concat(curAddPoint.current));
       } else {
-        toBeCanvas(node, ctx, reactList);
+        toBeCanvas(canvas, ctx, reactList.current);
       }
     } else if (optType === 'drag') {
-      console.log(9999);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      printImg(canvas, imgRef.current as HTMLImageElement, ctx);
+
+      // 画图
+      reactList.current.forEach((item, index) => {
+        let moveX = 0;
+        let moveY = 0;
+        let color;
+        if (index !== dragPoint.current?.index) {
+          color = '#000';
+        } else {
+          moveX = endPoint.x - dragPoint.current.x;
+          moveY = endPoint.y - dragPoint.current.y;
+          color = '#ff4444';
+        }
+        drawRect(ctx, { ...item, x: item.x + moveX, y: item.y + moveY }, { color });
+      });
     }
   };
 
-  // 松开鼠标(保存坐标)
+  // 松开鼠标(保存数据)
   const onMouseUp = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-    setMoving(false);
-    dragPoint.current = null;
+    setMouseDown(false);
+
     const node = canvasRef.current as HTMLCanvasElement;
+    const endPoint = getCanvasPoint(node, e.pageX, e.pageY);
 
     if (optType === 'line') {
       if (curAddPoint.current) {
-        const endPoint = getCanvasPoint(node, e.pageX, e.pageY);
         curAddPoint.current = getRectParam(endPoint, { x: curAddPoint.current?.x, y: curAddPoint.current?.y });
-        setRectList(reactList.concat(curAddPoint.current));
+        reactList.current.push(curAddPoint.current);
+        // 重置数据
         curAddPoint.current = null;
       }
+    } else if (optType === 'drag') {
+      reactList.current.forEach((_, index) => {
+        if (dragPoint.current && index === dragPoint.current.index) {
+          reactList.current[index].x += endPoint.x - dragPoint.current.x;
+          reactList.current[index].y += endPoint.y - dragPoint.current.y;
+        }
+      });
+      // 重置数据
+      dragPoint.current = null;
     }
   };
 
@@ -229,12 +229,12 @@ const CanvasTest = () => {
           </li>
         ))}
       </ul>
-      <div className="content">
+      <div className={classNames('content', { 'content-drag': isDragging })}>
         <img ref={imgRef} className="image" src={imgSrc} alt="" onLoad={onLoad} />
         <canvas
           width={1200}
           height={700}
-          className="canvas"
+          className={classNames('canvas')}
           ref={canvasRef}
           onMouseMove={onMouseMove}
           onMouseDown={onMouseDown}

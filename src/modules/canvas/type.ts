@@ -19,8 +19,6 @@ export interface IDragPointInfo {
   index?: number; // 拖动的下标
   x: number;
   y: number;
-  startX: number;
-  startY: number;
 }
 
 // 矩形的
