@@ -146,7 +146,12 @@ const CanvasTest = () => {
 
     // 高亮选中的图形
     aLLPointList.current.forEach((item, index) => {
-      drawRect(ctx, item.point as IReactPointInfo);
+      if (item.type === 'rect') {
+        drawRect(ctx, item.point as IReactPointInfo);
+      } else if (item.type === 'circle') {
+        drawArc(ctx, item.point as IArcPointInfo);
+      }
+
       // 选中高亮
       if (ctx.isPointInPath(startPoint.x, startPoint.y)) {
         dragPoint.current = { index, x: startPoint.x, y: startPoint.y };
@@ -208,9 +213,13 @@ const CanvasTest = () => {
             moveY = endPoint.y - dragPoint.current.y;
             color = '#ff4444';
           }
-          const point = item.point as IReactPointInfo;
-          const newPoint: IReactPointInfo = { ...point, x: point.x + moveX, y: point.y + moveY };
-          drawRect(ctx, newPoint, { color });
+          const point = item.point;
+          const newPoint = { ...point, x: point.x + moveX, y: point.y + moveY };
+          if (item.type === 'rect') {
+            drawRect(ctx, newPoint as IReactPointInfo, { color });
+          } else if (item.type === 'circle') {
+            drawArc(ctx, newPoint as IArcPointInfo, { color });
+          }
         });
       }
     }
