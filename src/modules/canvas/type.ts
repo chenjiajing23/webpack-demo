@@ -1,4 +1,4 @@
-export type IDrawType = 'drag' | 'rect' | 'circle';
+export type IDrawType = 'drag' | 'rect' | 'circle' | 'polygon';
 
 export interface IOptList {
   type: IDrawType;
@@ -14,10 +14,10 @@ export interface IPointInfo {
 
 // 矩形坐标信息
 export interface IReactPointInfo {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
+  x: number; // 起点x坐标
+  y: number; // 起点y坐标
+  xMax: number; // 终点x坐标
+  yMax: number; // 终点y坐标
 }
 
 // 圆形坐标信息
@@ -38,4 +38,9 @@ export interface IDragPointInfo {
 export interface IRectOption {
   lineWidth?: number;
   color?: string;
+}
+
+export interface IBasePoint {
+  x: number;
+  y: number;
 }
