@@ -41,8 +41,10 @@ const operateList: IOptList[] = [
 ];
 
 const CanvasTest = () => {
+  const scale = useRef<number>(1); // 放大倍数
   const imgRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasWrapRef = useRef<HTMLDivElement>(null);
   const [isMouseDown, setMouseDown] = useState(false); // 是否按下键盘
   const [optType, setOptType] = useState<IDrawType | null>(null); // 操作类型
   const aLLPointList = useRef<IPointInfo[]>([]); // 坐标列表
@@ -58,6 +60,38 @@ const CanvasTest = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [optType, dragPoint.current]);
+
+  const calcImgWH = (img: HTMLImageElement, canvas: HTMLCanvasElement) => {
+    // 计算需要渲染的图片的宽高，因为有可能会超出canvas的范围
+    const imageW = img.naturalWidth;
+    const imageH = img.naturalHeight;
+    const canvasW = canvas.clientWidth;
+    const canvasH = canvas.clientHeight;
+
+    if (imageW > canvasW || imageH > canvasH) {
+      // 图片的宽或高超出了canvas的宽或高
+      const wRate = imageW / canvasW;
+      const hRate = imageH / canvasH;
+
+      if (wRate > hRate) {
+        // 宽超出的幅度大于高超出的幅度， 以宽进行压缩, 否则以高进行压缩
+        scale.current = wRate;
+        return [canvasW, imageH / wRate];
+      } else {
+        scale.current = hRate;
+        return [imageW / hRate, canvasH];
+      }
+    } else {
+      scale.current = 1;
+      return [imageW, imageH];
+    }
+  };
+
+  // 画图
+  const printImg = useCallback((canvas: HTMLCanvasElement, img: HTMLImageElement, ctx: CanvasRenderingContext2D) => {
+    const [w, h] = calcImgWH(img, canvas);
+    ctx.drawImage(img, 0, 0, w, h);
+  }, []);
 
   // 画图
   const toBeCanvas = useCallback(
@@ -76,20 +110,20 @@ const CanvasTest = () => {
         }
       });
     },
-    []
+    [printImg]
   );
-
-  // 画图
-  const printImg = (canvas: HTMLCanvasElement, img: HTMLImageElement, ctx: CanvasRenderingContext2D) => {
-    const xRate = canvas.width / img.width;
-    const yRate = canvas.height / img.height;
-    ctx.drawImage(img, 0, 0, img.width * xRate, img.height * yRate);
-  };
 
   // 图片加载成功
   const onLoad = () => {
     const canvas = canvasRef.current as HTMLCanvasElement;
+    const canvasWrap = canvasWrapRef.current as HTMLDivElement;
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+
+    if (canvasWrap && canvas) {
+      // const padding = parseFloat(window.getComputedStyle(canvasWrap).paddingLeft);
+      canvas.width = canvasWrap.clientWidth;
+      canvas.height = canvasWrap.clientHeight;
+    }
 
     toBeCanvas(canvas, ctx, aLLPointList.current);
   };
@@ -342,19 +376,11 @@ const CanvasTest = () => {
         ))}
       </ul>
       {/* canvas */}
-      <div className={classNames('content', { 'content-drag': isDragging })}>
+      <div ref={canvasWrapRef} className={classNames('content', { 'content-drag': isDragging })}>
         <img ref={imgRef} className="image" src={imgSrc} alt="" onLoad={onLoad} />
-        <canvas
-          width={1200}
-          height={700}
-          className={classNames('canvas')}
-          ref={canvasRef}
-          onMouseMove={onMouseMove}
-          onMouseDown={onMouseDown}
-          onMouseUp={onMouseUp}
-        />
+        <canvas ref={canvasRef} onMouseMove={onMouseMove} onMouseDown={onMouseDown} onMouseUp={onMouseUp} />
       </div>
-      <div style={{ textAlign: 'center' }}>
+      <div className="btns">
         <Button type="primary" onClick={exportImage}>
           导出图片
         </Button>
