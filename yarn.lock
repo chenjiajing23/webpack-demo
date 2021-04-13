@@ -4422,12 +4422,12 @@ filenamify@^1.0.0:
 
 filesize@6.0.1:
   version "6.0.1"
-  resolved "https://registry.npm.taobao.org/filesize/download/filesize-6.0.1.tgz?cache=0&sync_timestamp=1618313042794&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ffilesize%2Fdownload%2Ffilesize-6.0.1.tgz#f850b509909c7c86f7e450ea19006c31c2ed3d2f"
+  resolved "https://registry.npm.taobao.org/filesize/download/filesize-6.0.1.tgz?cache=0&sync_timestamp=1618318027603&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ffilesize%2Fdownload%2Ffilesize-6.0.1.tgz#f850b509909c7c86f7e450ea19006c31c2ed3d2f"
   integrity sha1-+FC1CZCcfIb35FDqGQBsMcLtPS8=
 
 filesize@6.1.0:
   version "6.1.0"
-  resolved "https://registry.npm.taobao.org/filesize/download/filesize-6.1.0.tgz?cache=0&sync_timestamp=1618313042794&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ffilesize%2Fdownload%2Ffilesize-6.1.0.tgz#e81bdaa780e2451d714d71c0d7a4f3238d37ad00"
+  resolved "https://registry.npm.taobao.org/filesize/download/filesize-6.1.0.tgz?cache=0&sync_timestamp=1618318027603&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ffilesize%2Fdownload%2Ffilesize-6.1.0.tgz#e81bdaa780e2451d714d71c0d7a4f3238d37ad00"
   integrity sha1-6Bvap4DiRR1xTXHA16TzI403rQA=
 
 fill-range@^4.0.0:
