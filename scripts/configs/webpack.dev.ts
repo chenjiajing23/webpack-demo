@@ -9,6 +9,8 @@ import commonConfig from './webpack.common';
 import { styleLoaders } from './styleLoaders';
 import config from '../variables';
 import { PROJECT_ROOT } from '../utils/constants';
+// 生成map
+const shouldUseSourceMap = config.dev.developmentSourceMap;
 
 const devConfig = merge(commonConfig, {
   mode: 'development',
@@ -28,7 +30,7 @@ const devConfig = merge(commonConfig, {
   },
 
   module: {
-    rules: [...styleLoaders(false, true)]
+    rules: [...styleLoaders(false, shouldUseSourceMap)]
   },
 
   plugins: [

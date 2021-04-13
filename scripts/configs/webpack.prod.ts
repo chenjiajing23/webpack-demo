@@ -1,6 +1,6 @@
 import os from 'os';
 import path from 'path';
-import { BannerPlugin, ids, DefinePlugin, NoEmitOnErrorsPlugin } from 'webpack';
+import { BannerPlugin, ids, DefinePlugin, NoEmitOnErrorsPlugin, WebpackPluginInstance } from 'webpack';
 import { merge } from 'webpack-merge';
 import TerserPlugin from 'terser-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -31,7 +31,7 @@ const webpackConfig = merge(commonConfig, {
 
   module: {
     rules: [
-      ...styleLoaders(true, false)
+      ...styleLoaders(true, shouldUseSourceMap)
     ]
   },
 
@@ -85,8 +85,7 @@ const webpackConfig = merge(commonConfig, {
       }),
       // webpack5 使用
       new CssMinimizerPlugin({
-        sourceMap: shouldUseSourceMap
-      }),
+      }) as unknown as WebpackPluginInstance,
     ],
     splitChunks: {
       cacheGroups: {
@@ -118,7 +117,7 @@ if (config.prod.productionGzip) {
       minRatio: 0.8,
       threshold: 10240,
     },
-  }));
+  }) as unknown as WebpackPluginInstance);
 };
 
 let prodConfig = webpackConfig;

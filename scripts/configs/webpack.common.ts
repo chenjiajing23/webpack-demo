@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 import WebpackBar from 'webpackbar';
-import webpack, { Configuration, ProvidePlugin, RuleSetUseItem } from 'webpack';
+import webpack, { Configuration, ProvidePlugin, RuleSetUseItem, WebpackPluginInstance } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
@@ -141,7 +141,7 @@ const commonConfig: Configuration = {
       process: 'process/browser',
     }),
     new WebpackBar({ name: 'react-template-pc' }),
-    new FriendlyErrorsPlugin(),
+    new FriendlyErrorsPlugin() as unknown as WebpackPluginInstance,
     new WebpackBuildNotifierPlugin({
       title: config.base.title,
       suppressSuccess: true, // 设置只在第一次编译成功时输出成功的通知, rebuild 成功的时候不通知
@@ -183,7 +183,7 @@ const commonConfig: Configuration = {
           },
         },
       ],
-    }),
+    }) as unknown as WebpackPluginInstance,
     /**
      * @desc 内置插件，也可以使用 `moment-locales-webpack-plugin` -> https://www.npmjs.com/package/moment-locales-webpack-plugin
      * @url https://www.webpackjs.com/plugins/context-replacement-plugin/

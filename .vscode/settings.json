@@ -1,8 +1,8 @@
 {
   "window.zoomLevel": 1,
   "editor.tabSize": 2,
-  "breadcrumbs.enabled": false,
-  "editor.minimap.enabled": false,
+  "breadcrumbs.enabled": true,
+  "editor.minimap.enabled": true,
   "diffEditor.ignoreTrimWhitespace": false,
   "explorer.confirmDragAndDrop": false,
   "editor.fontFamily": "Consolas,Menlo, Monaco, 'Courier New', monospace",

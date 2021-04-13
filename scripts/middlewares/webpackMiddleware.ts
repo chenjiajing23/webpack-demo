@@ -1,11 +1,11 @@
-import { Compiler } from 'webpack';
+import { Compiler, MultiCompiler } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import devConfig from '../configs/webpack.dev';
 import { HMR_PATH } from '../utils/constants';
 
-export default function webpackMiddleware(compiler: Compiler) {
+export default function webpackMiddleware(compiler: Compiler | MultiCompiler) {
     const publicPath = devConfig.output!.publicPath! as string;
 
     const devMiddlewareOptions: webpackDevMiddleware.Options = {
@@ -23,7 +23,7 @@ export default function webpackMiddleware(compiler: Compiler) {
     };
 
     return [
-        webpackDevMiddleware(compiler, devMiddlewareOptions),
-        webpackHotMiddleware(compiler, hotMiddlewareOptions),
+        webpackDevMiddleware(compiler as any, devMiddlewareOptions),
+        webpackHotMiddleware(compiler as any, hotMiddlewareOptions),
     ] as const;
 }
