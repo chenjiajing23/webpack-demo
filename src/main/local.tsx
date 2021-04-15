@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, StrictMode } from 'react';
 import { useSelector } from 'react-redux';
 import { ConfigProvider } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -53,7 +53,9 @@ const Local = () => {
 
   return (
     <ConfigProvider locale={local}>
-      <RouterComponent />
+      <StrictMode>
+        <RouterComponent />
+      </StrictMode>
     </ConfigProvider>
   );
 };
