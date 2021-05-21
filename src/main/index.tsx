@@ -5,7 +5,7 @@ import { createBrowserHistory } from 'history';
 import '@/config/i18n';
 import apis from '../library/apis';
 
-window.apis = (apis as unknown) as IAPIs;
+window.apis = apis as unknown as IAPIs;
 window.router = createBrowserHistory();
 
 import App from './app';

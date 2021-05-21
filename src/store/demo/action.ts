@@ -12,20 +12,24 @@ export const setCommon = createAction(types.setCommon, (payload: Partial<IDemoSt
  * @description 增加
  * @param {number} payload
  */
-export const incrementCount = (payload = 1) => (dispatch: Dispatch<AnyAction>, getState: () => IStoreState) => {
-  const state = getState();
-  const demo = clone(state.demo);
+export const incrementCount =
+  (payload = 1) =>
+  (dispatch: Dispatch<AnyAction>, getState: () => IStoreState) => {
+    const state = getState();
+    const demo = clone(state.demo);
 
-  dispatch(setCommon({ count: demo.count + payload }));
-};
+    dispatch(setCommon({ count: demo.count + payload }));
+  };
 
 /**
  * @description 增加
  * @param {number} payload
  */
-export const decrementCount = (payload = -1) => (dispatch: Dispatch<AnyAction>, getState: () => IStoreState) => {
-  const state = getState();
-  const demo = clone(state.demo);
+export const decrementCount =
+  (payload = -1) =>
+  (dispatch: Dispatch<AnyAction>, getState: () => IStoreState) => {
+    const state = getState();
+    const demo = clone(state.demo);
 
-  dispatch(setCommon({ count: demo.count + payload }));
-};
+    dispatch(setCommon({ count: demo.count + payload }));
+  };
